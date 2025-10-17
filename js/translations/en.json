@@ -1,0 +1,184 @@
+{
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "story": "Our Story",
+    "contact": "Contact"
+  },
+  "common": {
+    "search": "Search products...",
+    "filter": "Filter",
+    "addToCart": "Add to Cart",
+    "viewDetails": "View Details",
+    "price": "Price",
+    "weight": "Weight",
+    "category": "Category",
+    "rating": "Rating",
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock",
+    "loading": "Loading...",
+    "noProducts": "No products found",
+    "showMore": "Show More",
+    "showLess": "Show Less",
+    "shoppingCart": "Shopping Cart",
+    "language": "Language"
+  },
+  "home": {
+    "hero": {
+      "title": "Mounifull",
+      "subtitle": "Share the Tradition",
+      "description": "Experience the authentic taste of Lebanese mouneh - traditional food preservation that brings families together across generations.",
+      "cta": "Discover Our Products",
+      "watchStory": "Watch Our Story"
+    },
+    "featured": {
+      "title": "Featured Bundles",
+      "subtitle": "Discover our carefully curated bundles of authentic Lebanese mouneh products"
+    },
+    "breakfast": {
+      "title": "Breakfast Bundle",
+      "description": "Curated Lebanese breakfast set—za'atar, labneh, olives, and more."
+    },
+    "village": {
+      "title": "Village Bundle", 
+      "description": "A countryside favorites selection—perfect as a gift hamper."
+    },
+    "pantry": {
+      "title": "Dry Pantry Assortment",
+      "description": "Mixed dry pantry items in convenient 250g packs for daily cooking."
+    },
+    "viewAllProducts": "View All Products"
+  },
+  "products": {
+    "title": "Products",
+    "subtitle": "Discover our range of authentic Lebanese mouneh",
+    "sortBy": "Sort by:",
+    "tip": "Tip: Click a product to view details.",
+    "sort": {
+      "nameAsc": "Name A–Z",
+      "nameDesc": "Name Z–A",
+      "priceAsc": "Price Low → High",
+      "priceDesc": "Price High → Low",
+      "newest": "Newest",
+      "oldest": "Oldest"
+    },
+    "filters": {
+      "title": "Filters",
+      "priceRange": "Price Range",
+      "min": "Min",
+      "max": "Max",
+      "to": "to",
+      "category": "Category",
+      "categories": {
+        "oils": "Oils & Sauces",
+        "spices": "Spices & Herbs",
+        "nuts": "Nuts & Dried Fruits",
+        "preserves": "Preserves",
+        "bundles": "Gift Bundles",
+        "honey": "Honey & Sweets"
+      },
+      "availability": "Availability",
+      "all": "All Products",
+      "inStock": "In Stock Only",
+      "newArrivals": "New Arrivals",
+      "reset": "Reset All",
+      "apply": "Apply Filters"
+    }
+  },
+  "story": {
+    "title": "About Us",
+    "subtitle": "Welcome to MOUNIFULL, a home for authentic Lebanese mouneh",
+    "mission": {
+      "title": "Our Mission",
+      "description": "Our mission is simple: to connect the heart of Lebanese villages to every home across Lebanon. We help women market the delicious foods they prepare in their kitchens, made with love, care, and the finest natural ingredients."
+    },
+    "products": {
+      "title": "Our Products",
+      "subtitle": "All our products are:",
+      "natural": {
+        "title": "Natural & Pure",
+        "description": "Natural and free from preservatives"
+      },
+      "handmade": {
+        "title": "Handmade with Love", 
+        "description": "Handmade by talented Lebanese women"
+      },
+      "traditional": {
+        "title": "Traditional & Sustainable",
+        "description": "Rooted in tradition, inspired by health and sustainability"
+      }
+    },
+    "impact": {
+      "title": "Our Impact",
+      "description": "By choosing our mouneh, you're not only enjoying authentic Lebanese flavors, but also supporting women's economic empowerment and helping preserve a beautiful culinary heritage.",
+      "empowerment": {
+        "title": "Women's Empowerment",
+        "description": "Supporting women's economic independence through traditional skills"
+      },
+      "preservation": {
+        "title": "Cultural Preservation", 
+        "description": "Keeping Lebanese culinary traditions alive for future generations"
+      }
+    },
+    "philosophy": {
+      "title": "Our Philosophy",
+      "description": "At MOUNIFULL, we believe food is more than just nourishment – it is a story of family, culture, and community. That's why, alongside our products, we share:",
+      "nutritional": {
+        "title": "Nutritional Advice",
+        "description": "Help you eat well with expert guidance"
+      },
+      "guides": {
+        "title": "Traditional Guides",
+        "description": "Mouneh-making guides to keep traditions alive"
+      },
+      "stories": {
+        "title": "Success Stories",
+        "description": "Stories from women producers across Lebanon"
+      }
+    },
+    "cta": {
+      "title": "Join Our Journey",
+      "description": "Together, we make healthy, authentic food accessible, trustworthy, and filled with meaning.",
+      "promise": "Our Promise",
+      "tagline": "Taste tradition. Support women. Share Lebanon."
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We'd love to hear from you. Fill the form and we'll get back soon.",
+    "phone": "Phone:",
+    "email": "Email:",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "submit": "Send Message"
+    }
+  },
+  "footer": {
+    "quickLinks": "Quick Links",
+    "support": "Support",
+    "contactInfo": "Contact Info",
+    "rights": "© 2025 Mounifull. All rights reserved."
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Content to be provided by client following the brand story."
+  },
+  "payment": {
+    "title": "Payment Policy",
+    "subtitle": "Content to be provided by client."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "subtitle": "Content to be provided by client."
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "subtitle": "Content to be provided by client."
+  },
+  "checkout": {
+    "title": "Checkout"
+  }
+}

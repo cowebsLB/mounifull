@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mounifull – Product</title>
+    <meta name="description" content="View details of authentic Lebanese mouneh products.">
+    <meta name="theme-color" content="#c96a3d">
+    <link rel="manifest" href="../site.webmanifest">
+    <link rel="icon" href="../favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="../assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Mounifull">
+    <meta property="og:title" content="Mounifull – Product">
+    <meta property="og:description" content="View details of authentic Lebanese mouneh products.">
+    <meta property="og:image" content="../assets/logos/logo full.png">
+    <meta property="og:url" content="https://mounifull.com/pages/product.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mounifull – Product">
+    <meta name="twitter:description" content="View details of authentic Lebanese mouneh products.">
+    <meta name="twitter:image" content="../assets/logos/logo full.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/tailwind.css">
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --olive:#556b2f; --terracotta:#c96a3d; --beige:#f5f1e6; }
+        .font-cormorant{font-family:'Cormorant Garamond',serif}
+        .font-lato{font-family:'Lato',sans-serif}
+        
+        /* Mobile Menu Fixes */
+        #mobileMenu {
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+        }
+        
+        #mobileMenuPanel {
+            background-color: white !important;
+            border-right: 1px solid #e5e7eb;
+        }
+        
+        #mobileMenuPanel > div {
+            background-color: white !important;
+        }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 6rem;
+            right: 1.5rem;
+            background-color: var(--olive);
+            color: white;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            z-index: 40;
+            cursor: pointer;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--terracotta);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="font-lato bg-beige min-h-screen flex flex-col">
+<header class="bg-white/95 backdrop-blur-sm shadow-lg sticky top-0 z-50">
+    <nav class="container mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
+        <a href="../index.html" class="flex items-center gap-3">
+            <img src="../assets/logos/logo-removebg-preview.png" class="h-10 md:h-12" alt="logo">
+            <span class="font-cormorant text-xl md:text-2xl text-terracotta">Mounifull</span>
+        </a>
+        
+        <!-- Desktop Navigation -->
+        <div class="hidden lg:flex items-center gap-6">
+            <a href="products.html" class="text-[#556b2f] hover:text-[#c96a3d] flex items-center">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Products
+            </a>
+            
+            <!-- Language Switcher -->
+            <div id="languageSwitcher" class="flex gap-1">
+                <button id="langEn" class="px-2 py-1 text-xs rounded transition-colors bg-terracotta text-white">
+                    EN
+                </button>
+                <button id="langAr" class="px-2 py-1 text-xs rounded transition-colors text-gray-600 hover:bg-gray-100">
+                    AR
+                </button>
+            </div>
+            
+            <button class="relative cart-icon" id="cartIcon">
+                <i class="fas fa-shopping-cart text-xl"></i>
+                <span id="cartBadge" class="absolute -top-2 -right-2 bg-[#c96a3d] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+            </button>
+        </div>
+        
+        <!-- Mobile Controls -->
+        <div class="lg:hidden flex items-center gap-3">
+            <!-- Language Switcher -->
+            <!-- <div id="languageSwitcher" class="flex gap-1">
+                <button id="langEn" class="px-2 py-1 text-xs rounded transition-colors bg-terracotta text-white">
+                    EN
+                </button>
+                <button id="langAr" class="px-2 py-1 text-xs rounded transition-colors text-gray-600 hover:bg-gray-100">
+                    AR
+                </button>
+            </div> -->
+            
+            <button class="relative cart-icon" id="cartIconMobile">
+                <i class="fas fa-shopping-cart text-xl"></i>
+                <span id="cartBadgeMobile" class="absolute -top-2 -right-2 bg-[#c96a3d] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+            </button>
+            <button id="mobileMenuBtn" class="text-[#556b2f] hover:text-terracotta transition-colors" title="Open mobile menu" aria-label="Open mobile menu">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </nav>
+</header>
+
+<!-- Mobile Menu (Outside Header) -->
+<div id="mobileMenu" class="lg:hidden fixed inset-0 bg-black/50 z-[60] hidden">
+    <div class="bg-white w-80 h-full shadow-2xl transform -translate-x-full transition-transform duration-500 ease-out relative z-[61]" id="mobileMenuPanel">
+        <div class="p-6 bg-white h-full overflow-y-auto">
+            <div class="flex justify-between items-center mb-8">
+                <div class="flex items-center gap-3">
+                    <img src="../assets/logos/logo-removebg-preview.png" class="h-10" alt="logo">
+                    <span class="font-cormorant text-xl text-terracotta">Mounifull</span>
+                </div>
+                <button id="closeMobileMenu" class="text-gray-600 hover:text-gray-800" title="Close menu" aria-label="Close menu">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            
+            <nav class="space-y-6">
+                <a href="../index.html" class="block text-lg text-[#556b2f] hover:text-terracotta transition-colors py-2 border-b border-gray-100" data-i18n="nav.home">
+                    <i class="fas fa-home mr-3"></i>Home
+                </a>
+                <a href="products.html" class="block text-lg text-gray-700 hover:text-terracotta transition-colors py-2 border-b border-gray-100" data-i18n="nav.products">
+                    <i class="fas fa-shopping-bag mr-3"></i>Products
+                </a>
+                <a href="story.html" class="block text-lg text-gray-700 hover:text-terracotta transition-colors py-2 border-b border-gray-100" data-i18n="nav.story">
+                    <i class="fas fa-book mr-3"></i>Our Story
+                </a>
+                <a href="contact.html" class="block text-lg text-gray-700 hover:text-terracotta transition-colors py-2 border-b border-gray-100" data-i18n="nav.contact">
+                    <i class="fas fa-envelope mr-3"></i>Contact
+                </a>
+            </nav>
+            
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-gray-600">Shopping Cart</span>
+                    <button class="relative cart-icon" id="cartIconMobileMenu">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span id="cartBadgeMobileMenu" class="absolute -top-2 -right-2 bg-terracotta text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                </div>
+                
+                <!-- Language Switcher -->
+                <div class="pt-4 border-t border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">Language</span>
+                        <div class="flex gap-1">
+                            <button id="langEnMobile" class="px-2 py-1 text-xs rounded transition-colors bg-terracotta text-white">
+                                EN
+                            </button>
+                            <button id="langArMobile" class="px-2 py-1 text-xs rounded transition-colors text-gray-600 hover:bg-gray-100">
+                                AR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Back to Top Button -->
+<button id="backToTop" class="back-to-top" aria-label="Back to top">
+    <i class="fas fa-chevron-up text-lg"></i>
+</button>
+
+<main class="container mx-auto px-6 py-10 flex-1">
+    <div id="content" class="grid lg:grid-cols-2 gap-10 items-start"></div>
+</main>
+
+<script src="../js/i18n.js"></script>
+<script type="module" src="../js/product.js"></script>
+<script type="module" src="../js/cart.js"></script>
+</body>
+</html>

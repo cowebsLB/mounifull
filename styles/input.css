@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Component classes compiled by Tailwind build */
+@layer components {
+  .btn-primary { @apply bg-terracotta text-white px-8 py-4 rounded-full font-lato font-semibold transition-all duration-300 hover:bg-opacity-90 hover:scale-105 hover:shadow-lg; }
+  .btn-secondary { @apply bg-olive text-white px-8 py-4 rounded-full font-lato font-semibold transition-all duration-300 hover:bg-opacity-90 hover:scale-105 hover:shadow-lg; }
+  .btn-outline { @apply border-2 border-white text-white px-8 py-4 rounded-full font-lato font-semibold transition-all duration-300 hover:bg-white hover:text-gray-900 hover:scale-105; }
+  .card-modern { @apply bg-white rounded-2xl shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-2; }
+}
+

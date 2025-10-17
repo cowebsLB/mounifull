@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mounifull – Products</title>
+    <meta name="description" content="Browse authentic Lebanese mouneh: preserves, spices, nuts, honey, and gift bundles.">
+    <meta name="theme-color" content="#c96a3d">
+    <link rel="manifest" href="../site.webmanifest">
+    <link rel="icon" href="../favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="../assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Mounifull">
+    <meta property="og:title" content="Mounifull – Products">
+    <meta property="og:description" content="Discover authentic Lebanese mouneh products.">
+    <meta property="og:image" content="../assets/logos/logo full.png">
+    <meta property="og:url" content="https://mounifull.com/pages/products.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mounifull – Products">
+    <meta name="twitter:description" content="Discover authentic Lebanese mouneh products.">
+    <meta name="twitter:image" content="../assets/logos/logo full.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/tailwind.css">
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --olive:#556b2f; --terracotta:#c96a3d; --beige:#f5f1e6; }
+        .font-cormorant{font-family:'Cormorant Garamond',serif}
+        .font-lato{font-family:'Lato',sans-serif}
+        
+        .text-olive { color: var(--olive); }
+        .text-terracotta { color: var(--terracotta); }
+        .bg-olive { background-color: var(--olive); }
+        .bg-terracotta { background-color: var(--terracotta); }
+        .bg-beige { background-color: var(--beige); }
+        
+        /* Mobile Menu Fixes */
+        #mobileMenu {
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+        }
+        
+        #mobileMenuPanel {
+            background-color: white !important;
+            border-right: 1px solid #e5e7eb;
+            /* Default LTR positioning */
+            left: 0;
+            right: auto;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        /* RTL positioning for Arabic */
+        [dir="rtl"] #mobileMenuPanel {
+            left: auto;
+            right: 0;
+            border-right: none;
+            border-left: 1px solid #e5e7eb;
+            transform: translateX(100%);
+        }
+        
+        /* Open states */
+        #mobileMenuPanel.open {
+            transform: translateX(0);
+        }
+        
+        [dir="rtl"] #mobileMenuPanel.open {
+            transform: translateX(0);
+        }
+        
+        #mobileMenuPanel > div {
+            background-color: white !important;
+        }
+        
+        /* Header Minimization */
+        .header-minimized {
+            transform: translateY(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .header-compact {
+            padding: 0.5rem 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Smooth collapsing animation for header elements */
+        .header-compact .logo-text {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Make logo non-clickable when minimized */
+        .header-compact .logo-link {
+            pointer-events: none;
+            cursor: default;
+        }
+        
+        /* Desktop controls - only hide on mobile/tablet */
+        @media (max-width: 1023px) {
+            .header-compact .desktop-controls {
+                opacity: 0;
+                transform: translateY(-10px);
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+        }
+        
+        /* Compact controls - only show on mobile/tablet */
+        @media (max-width: 1023px) {
+            .header-compact .compact-controls {
+                opacity: 1;
+                transform: translateY(0);
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+        }
+        
+        /* Initial states for smooth animation */
+        .compact-controls {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .header-compact .logo-img {
+            height: 2.5rem !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .header-compact .search-input {
+            width: 10rem !important;
+            padding: 0.4rem 0.8rem !important;
+            font-size: 0.875rem !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .header-compact .filter-btn {
+            padding: 0.4rem !important;
+            width: 2.5rem !important;
+            height: 2.5rem !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .header-compact .filter-btn span {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .header-compact .filter-btn i {
+            margin: 0 !important;
+            margin-left: 2px !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Compact layout - inline next to logo (mobile only) */
+        @media (max-width: 1023px) {
+            /* Hide old block placement when compact */
+            .header-compact .compact-controls { display: none !important; }
+            /* Show new inline compact controls in the top row */
+            .header-compact .compact-controls-inline {
+                display: flex !important;
+                align-items: center;
+                gap: 0.75rem;
+                margin-left: 1rem;
+                height: 100%;
+            }
+            .header-compact .compact-controls-inline .relative { display: flex; align-items: center; }
+            .header-compact .compact-controls-inline .search-input { height: 2rem; display: flex; align-items: center; width: 10rem; }
+            .header-compact .compact-controls-inline .filter-btn { height: 2rem; display: flex; align-items: center; justify-content: center; padding: 0.4rem; width: 2.5rem; border-radius: 9999px; }
+            .header-compact .compact-controls-inline .filter-btn span { display: none; }
+        }
+        
+        /* Desktop: disable header minimization completely */
+        @media (min-width: 1024px) {
+            .header-compact {
+                padding: 1rem 0 !important; /* Keep original padding */
+            }
+            
+            .header-compact .logo-text {
+                opacity: 1 !important; /* Keep logo text visible */
+                transform: translateY(0) !important;
+            }
+            
+            .header-compact .logo-link {
+                pointer-events: auto !important; /* Keep logo clickable */
+                cursor: pointer !important;
+            }
+            
+            .header-compact .desktop-controls {
+                opacity: 1 !important; /* Keep desktop controls visible */
+                transform: translateY(0) !important;
+            }
+            
+            .header-compact .compact-controls {
+                display: none !important; /* Hide compact controls */
+            }
+        }
+        
+        /* Smooth animation for mobile search section */
+        .mobile-search-section {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 200px;
+            overflow: hidden;
+        }
+        
+        .header-compact ~ .mobile-search-section {
+            opacity: 0;
+            transform: translateY(-20px);
+            max-height: 0;
+            padding: 0;
+            margin: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 6rem;
+            right: 1.5rem;
+            background-color: var(--olive);
+            color: white;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            z-index: 40;
+            cursor: pointer;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--terracotta);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* RTL adjustments: move mobile controls (cart + hamburger) to the left
+           for both normal and minimized headers */
+        [dir="rtl"] header#mainHeader #mobileRightControls {
+            margin-left: 0 !important;
+            margin-right: auto !important; /* push group to the left in RTL */
+        }
+
+        /* RTL Desktop header ordering and spacing */
+        @media (min-width: 1024px) {
+            [dir="rtl"] header#mainHeader nav {
+                display: flex;
+                align-items: center;
+            }
+            /* Place controls on the far left, nav in middle, logo on right */
+            [dir="rtl"] header#mainHeader .desktop-controls { order: 1; }
+            [dir="rtl"] header#mainHeader .desktop-nav { order: 2; flex-direction: row-reverse; }
+            [dir="rtl"] header#mainHeader .logo-link { order: 3; }
+            /* Push controls group to left instead of right */
+            [dir="rtl"] header#mainHeader .desktop-controls .ml-auto { margin-left: 0 !important; margin-right: auto !important; }
+            /* Right-align text inside search in RTL */
+            [dir="rtl"] header#mainHeader .search-input { text-align: right; }
+        }
+
+        /* Prevent overlap: set flexible areas and no shrink on logo */
+        @media (min-width: 1024px) {
+            header#mainHeader .logo-link { flex-shrink: 0; }
+            header#mainHeader .desktop-nav { flex: 1 1 auto; justify-content: center; }
+            header#mainHeader .desktop-controls { flex: 1 1 auto; }
+            header#mainHeader .desktop-nav a { white-space: nowrap; }
+        }
+    </style>
+</head>
+<body class="font-lato bg-beige">
+<header id="mainHeader" class="bg-white/95 backdrop-blur-sm shadow-lg sticky top-0 z-50">
+    <nav class="container mx-auto px-4 md:px-6 py-4">
+        <div class="flex justify-between items-center">
+            <!-- Logo -->
+            <a href="../index.html" class="logo-link flex items-center gap-3">
+                <img src="../assets/logos/logo-removebg-preview.png" class="logo-img h-10 md:h-12" alt="logo">
+                <span class="logo-text font-cormorant text-xl md:text-2xl text-terracotta">Mounifull</span>
+            </a>
+            
+            <!-- Inline compact controls (shown when minimized on mobile) -->
+            <div class="compact-controls-inline hidden lg:hidden items-center">
+                <div class="relative">
+                    <input id="searchCompactInline" class="search-input border rounded-full px-4 py-2 w-40" placeholder="Search products..." aria-label="Search products">
+                    <i class="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" aria-hidden="true"></i>
+                </div>
+                <button id="openFilterCompactInline" class="filter-btn text-white bg-[#c96a3d] px-4 py-2 rounded-full flex items-center justify-center" title="Open filters" aria-label="Open filters">
+                    <i class="fas fa-filter" aria-hidden="true"></i><span class="ml-1">Filter</span>
+                </button>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden lg:flex items-center gap-6 desktop-nav ml-12">
+                <a href="../index.html" class="text-gray-700 hover:text-terracotta transition-colors" data-i18n="nav.home">Home</a>
+                <a href="products.html" class="text-terracotta font-semibold" data-i18n="nav.products">Products</a>
+                <a href="story.html" class="text-gray-700 hover:text-terracotta transition-colors" data-i18n="nav.story">Our Story</a>
+                <a href="contact.html" class="text-gray-700 hover:text-terracotta transition-colors" data-i18n="nav.contact">Contact</a>
+            </div>
+            
+            <!-- Desktop Search and Controls -->
+            <div class="hidden lg:flex items-center gap-6 w-full desktop-controls ml-12">
+                <!-- Left: Search + Filter -->
+                <div class="flex items-center gap-6">
+                    <div class="relative">
+                        <input id="search" class="search-input border rounded-full px-4 py-2 w-64" placeholder="Search products...">
+                        <i class="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                    </div>
+                    <button id="openFilter" class="filter-btn text-white bg-[#c96a3d] px-4 py-2 rounded-full flex items-center">
+                        <i class="fas fa-filter mr-1"></i><span>Filter</span>
+                    </button>
+                </div>
+                
+                <!-- Right: Language next to Cart -->
+                <div class="ml-auto flex items-center gap-4">
+                    <!-- Language Switcher -->
+                    <div id="languageSwitcher" class="flex gap-1">
+                        <button id="langEn" class="px-2 py-1 text-xs rounded transition-colors bg-terracotta text-white">
+                            EN
+                        </button>
+                        <button id="langAr" class="px-2 py-1 text-xs rounded transition-colors text-gray-600 hover:bg-gray-100">
+                            AR
+                        </button>
+                    </div>
+                    
+                    <button class="relative cart-icon" id="cartIcon">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span id="cartBadge" class="absolute -top-2 -right-2 bg-[#c96a3d] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile-right controls in same row as logo -->
+            <div id="mobileRightControls" class="lg:hidden flex items-center gap-4 ml-auto">
+                <button class="relative cart-icon" id="cartIconMobile" aria-label="Open cart" title="Open cart">
+                    <i class="fas fa-shopping-cart text-xl"></i>
+                    <span id="cartBadgeMobile" class="absolute -top-2 -right-2 bg-[#c96a3d] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                </button>
+                <button id="mobileMenuBtn" class="text-[#556b2f] hover:text-terracotta transition-colors" aria-label="Open menu" title="Open menu">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Compact Controls (shown when minimized) -->
+        <div class="compact-controls hidden lg:flex items-center">
+            <div class="relative">
+                <input id="searchCompact" class="search-input border rounded-full px-4 py-2 w-64" placeholder="Search products..." data-i18n="common.search">
+                <i class="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" aria-hidden="true"></i>
+            </div>
+            <button id="openFilterCompact" class="filter-btn text-white bg-[#c96a3d] px-4 py-2 rounded-full flex items-center justify-center" title="Open filters" aria-label="Open filters">
+                <i class="fas fa-filter" aria-hidden="true"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Controls (hidden – replaced by inline controls above) -->
+        <div class="hidden"></div>
+    </nav>
+    
+    <!-- Mobile Search Bar -->
+    <div class="mobile-search-section lg:hidden px-4 pb-4">
+        <div class="relative">
+            <input id="searchMobile" class="border rounded-full px-4 py-2 w-full" placeholder="Search products...">
+            <i class="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
+        </div>
+        <div class="flex gap-2 mt-3">
+            <button id="openFilterMobile" class="text-white bg-[#c96a3d] px-6 py-3 rounded-full flex items-center flex-1 justify-center font-semibold hover:bg-[#b55a2d] transition-colors duration-300 shadow-md hover:shadow-lg">
+                <i class="fas fa-filter mr-1"></i>Filter
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Mobile Menu (Outside Header) -->
+<div id="mobileMenu" class="lg:hidden fixed inset-0 bg-black/50 z-[60] hidden">
+            <div class="bg-white w-80 h-full shadow-2xl relative z-[61]" id="mobileMenuPanel">
+        <div class="p-6 bg-white h-full overflow-y-auto">
+            <div class="flex justify-between items-center mb-8">
+                <div class="flex items-center gap-3">
+                    <img src="../assets/logos/logo-removebg-preview.png" class="h-10" alt="logo">
+                    <span class="font-cormorant text-xl text-[#556b2f]">Mounifull</span>
+                </div>
+                <button id="closeMobileMenu" class="text-gray-600 hover:text-gray-800" title="Close mobile menu" aria-label="Close mobile menu">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            
+            <nav class="space-y-6">
+                <a href="../index.html" class="block text-lg text-[#556b2f] hover:text-terracotta transition-colors py-2 border-b border-gray-100" data-i18n="nav.home">
+                    <i class="fas fa-home mr-3"></i>Home
+                </a>
+                <a href="products.html" class="block text-lg text-gray-700 hover:text-terracotta transition-colors py-2 border-b border-gray-100" data-i18n="nav.products">
+                    <i class="fas fa-shopping-bag mr-3"></i>Products
+                </a>
+                <a href="story.html" class="block text-lg text-gray-700 hover:text-terracotta transition-colors py-2 border-b border-gray-100" data-i18n="nav.story">
+                    <i class="fas fa-book mr-3"></i>Our Story
+                </a>
+                <a href="contact.html" class="block text-lg text-gray-700 hover:text-terracotta transition-colors py-2 border-b border-gray-100" data-i18n="nav.contact">
+                    <i class="fas fa-envelope mr-3"></i>Contact
+                </a>
+            </nav>
+            
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-gray-600" data-i18n="common.shoppingCart">Shopping Cart</span>
+                    <button class="relative cart-icon" id="cartIconMobileMenu">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span id="cartBadgeMobileMenu" class="absolute -top-2 -right-2 bg-terracotta text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                </div>
+                
+                <!-- Language Switcher -->
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600" data-i18n="common.language">Language</span>
+                    <div class="flex gap-1">
+                        <button id="langEnMobile" class="px-2 py-1 text-xs rounded transition-colors bg-terracotta text-white">
+                            EN
+                        </button>
+                        <button id="langArMobile" class="px-2 py-1 text-xs rounded transition-colors text-gray-600 hover:bg-gray-100">
+                            AR
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<main class="container mx-auto px-4 md:px-6 py-6 md:py-10">
+    <h1 class="font-cormorant text-4xl md:text-5xl text-terracotta mb-4 md:mb-6" data-i18n="products.title">Products</h1>
+    <div class="flex flex-wrap gap-3 md:gap-4 items-center mb-4 md:mb-6">
+        <label class="text-sm w-full xs:w-auto" data-i18n="products.sortBy">Sort by:</label>
+        <select id="sort" class="border rounded px-3 py-2 w-full sm:w-auto" aria-label="Sort products">
+            <option value="name-asc" data-i18n="products.sort.nameAsc">Name A–Z</option>
+            <option value="name-desc" data-i18n="products.sort.nameDesc">Name Z–A</option>
+            <option value="price-asc" data-i18n="products.sort.priceAsc">Price Low → High</option>
+            <option value="price-desc" data-i18n="products.sort.priceDesc">Price High → Low</option>
+            <option value="date-desc" data-i18n="products.sort.newest">Newest</option>
+            <option value="date-asc" data-i18n="products.sort.oldest">Oldest</option>
+        </select>
+        <div class="ml-auto text-sm text-gray-500 w-full sm:w-auto text-right" id="count"></div>
+    </div>
+
+    <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8"></div>
+    <div class="mt-10 text-sm text-gray-600" data-i18n="products.tip">Tip: Click a product to view details.</div>
+</main>
+
+<!-- Filter Modal -->
+<div id="filterModal" class="fixed inset-0 bg-black/40 hidden flex items-center justify-center z-[70]">
+    <div class="bg-white rounded-xl p-4 md:p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto mx-4">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="font-cormorant text-3xl text-terracotta" data-i18n="products.filters.title">Filters</h2>
+            <button id="closeFilter" class="text-gray-600 hover:text-gray-800" aria-label="Close filter dialog" title="Close"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        
+        <div class="space-y-6">
+            <!-- Price Range -->
+            <div>
+                <label class="block text-sm font-medium mb-3 text-gray-700" data-i18n="products.filters.priceRange">Price Range</label>
+                <div class="flex gap-2 md:gap-3 items-center">
+                    <input id="priceMin" type="number" placeholder="Min" class="border rounded px-3 py-2 w-full" min="0" step="0.01" data-i18n-placeholder="products.filters.min">
+                    <span class="text-gray-500" data-i18n="products.filters.to">to</span>
+                    <input id="priceMax" type="number" placeholder="Max" class="border rounded px-3 py-2 w-full" min="0" step="0.01" data-i18n-placeholder="products.filters.max">
+                </div>
+            </div>
+
+            <!-- Category -->
+            <div>
+                <label class="block text-sm font-medium mb-3 text-gray-700" data-i18n="products.filters.category">Category</label>
+                <div class="grid grid-cols-2 gap-2">
+                    <label class="flex items-center">
+                        <input type="checkbox" value="oils" class="category-filter mr-2">
+                        <span class="text-sm" data-i18n="products.filters.categories.oils">Oils & Sauces</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" value="spices" class="category-filter mr-2">
+                        <span class="text-sm" data-i18n="products.filters.categories.spices">Spices & Herbs</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" value="nuts" class="category-filter mr-2">
+                        <span class="text-sm" data-i18n="products.filters.categories.nuts">Nuts & Dried Fruits</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" value="preserves" class="category-filter mr-2">
+                        <span class="text-sm" data-i18n="products.filters.categories.preserves">Preserves</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" value="bundles" class="category-filter mr-2">
+                        <span class="text-sm" data-i18n="products.filters.categories.bundles">Gift Bundles</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" value="honey" class="category-filter mr-2">
+                        <span class="text-sm" data-i18n="products.filters.categories.honey">Honey & Sweets</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Availability -->
+            <div>
+                <label class="block text-sm font-medium mb-3 text-gray-700" data-i18n="products.filters.availability">Availability</label>
+                <div class="space-y-2">
+                    <label class="flex items-center">
+                        <input type="radio" name="availability" value="all" class="availability-filter mr-2" checked>
+                        <span class="text-sm" data-i18n="products.filters.all">All Products</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="availability" value="in-stock" class="availability-filter mr-2">
+                        <span class="text-sm" data-i18n="products.filters.inStock">In Stock Only</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="availability" value="new" class="availability-filter mr-2">
+                        <span class="text-sm" data-i18n="products.filters.newArrivals">New Arrivals</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Date Range -->
+            <div>
+                <label class="block text-sm font-medium mb-3 text-gray-700">Date Added</label>
+                <div class="flex gap-3">
+                    <div class="w-full">
+                        <label for="dateFrom" class="sr-only">Date From</label>
+                        <input id="dateFrom" type="date" class="border rounded px-3 py-2 w-full" title="Date From" placeholder="From">
+                    </div>
+                    <div class="w-full">
+                        <label for="dateTo" class="sr-only">Date To</label>
+                        <input id="dateTo" type="date" class="border rounded px-3 py-2 w-full" title="Date To" placeholder="To">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rating -->
+            <div>
+                <label class="block text-sm font-medium mb-3 text-gray-700">Minimum Rating</label>
+                <div class="flex gap-2">
+                    <button class="rating-btn px-3 py-2 border rounded text-sm" data-rating="0">All</button>
+                    <button class="rating-btn px-3 py-2 border rounded text-sm" data-rating="4">4+ Stars</button>
+                    <button class="rating-btn px-3 py-2 border rounded text-sm" data-rating="3">3+ Stars</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-between items-center mt-8 pt-4 border-t">
+            <button id="resetFilters" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors" data-i18n="products.filters.reset">
+                <i class="fas fa-undo mr-2"></i>Reset All
+            </button>
+            <button id="applyFilters" class="px-6 py-2 bg-[#556b2f] text-white rounded-lg hover:bg-[#4a5a2a] transition-colors" data-i18n="products.filters.apply">
+                <i class="fas fa-check mr-2"></i>Apply Filters
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Back to Top Button -->
+<button id="backToTop" class="back-to-top" aria-label="Back to top">
+    <i class="fas fa-chevron-up text-lg"></i>
+</button>
+
+<!-- Footer -->
+<footer class="bg-olive text-white py-12 mt-20">
+    <div class="container mx-auto px-6">
+        <div class="grid md:grid-cols-4 gap-8">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="../assets/logos/logo-removebg-preview.png" class="h-10" alt="logo">
+                    <span class="font-cormorant text-xl">Mounifull</span>
+                </div>
+                <p class="font-lato text-white/80 mb-4">Authentic Lebanese mouneh, made with love and tradition.</p>
+                <div class="flex gap-4">
+                    <a href="https://www.facebook.com/mounifull" target="_blank" rel="noopener" aria-label="Facebook" class="text-white/80 hover:text-white transition-colors">
+                        <i class="fab fa-facebook text-xl"></i>
+                    </a>
+                    <a href="https://www.instagram.com/mounifull" target="_blank" rel="noopener" aria-label="Instagram" class="text-white/80 hover:text-white transition-colors">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="https://twitter.com/mounifull" target="_blank" rel="noopener" aria-label="Twitter" class="text-white/80 hover:text-white transition-colors">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-cormorant text-xl font-semibold mb-4 text-terracotta">Quick Links</h4>
+                <ul class="space-y-2">
+                    <li><a href="../index.html" class="font-lato text-white/80 hover:text-white transition-colors">Home</a></li>
+                    <li><a href="products.html" class="font-lato text-white/80 hover:text-white transition-colors">Products</a></li>
+                    <li><a href="story.html" class="font-lato text-white/80 hover:text-white transition-colors">Our Story</a></li>
+                    <li><a href="contact.html" class="font-lato text-white/80 hover:text-white transition-colors">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-cormorant text-xl font-semibold mb-4 text-terracotta">Support</h4>
+                <ul class="space-y-2">
+                    <li><a href="legal/faq.html" class="font-lato text-white/80 hover:text-white transition-colors">FAQ</a></li>
+                    <li><a href="legal/terms.html" class="font-lato text-white/80 hover:text-white transition-colors">Terms</a></li>
+                    <li><a href="legal/privacy.html" class="font-lato text-white/80 hover:text-white transition-colors">Privacy</a></li>
+                    <li><a href="legal/payment.html" class="font-lato text-white/80 hover:text-white transition-colors">Payment</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-cormorant text-xl font-semibold mb-4 text-terracotta">Contact Info</h4>
+                <div class="space-y-2 font-lato text-white/80">
+                    <p><i class="fas fa-phone mr-2 text-terracotta"></i>+961 81 997 805</p>
+                    <p><i class="fas fa-envelope mr-2 text-terracotta"></i>mounifull81@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt mr-2 text-terracotta"></i>Lebanon</p>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-white/20 mt-8 pt-8 text-center font-lato text-white/80">
+            <p>&copy; 2025 Mounifull. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="../js/i18n.js"></script>
+<script type="module" src="../js/products.js"></script>
+<script type="module" src="../js/cart.js"></script>
+</body>
+</html>
