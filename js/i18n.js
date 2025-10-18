@@ -35,6 +35,8 @@ class I18n {
                 this.applyTranslations();
                 // Sync button styles (desktop and mobile) to current language
                 this.updateLanguageButtons();
+                // Dispatch event that i18n has finished loading
+                document.dispatchEvent(new CustomEvent('i18nLoaded'));
             }, 100);
             
         } catch (error) {
@@ -73,6 +75,9 @@ class I18n {
             // Update document direction
             document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
             document.documentElement.lang = lang;
+            
+            // Dispatch language change event
+            document.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: lang } }));
         }
     }
 
@@ -80,6 +85,11 @@ class I18n {
         // Update all elements with data-i18n attribute
         const elements = document.querySelectorAll('[data-i18n]');
         elements.forEach(element => {
+            // Skip option elements - they are handled by custom translation function
+            if (element.tagName === 'OPTION') {
+                return;
+            }
+            
             const key = element.getAttribute('data-i18n');
             const translation = this.t(key);
             

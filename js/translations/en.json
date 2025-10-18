@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "Home",
-    "products": "Products",
+    "shop": "Shop",
     "story": "Our Story",
     "contact": "Contact"
   },
@@ -28,7 +28,7 @@
       "title": "Mounifull",
       "subtitle": "Share the Tradition",
       "description": "Experience the authentic taste of Lebanese mouneh - traditional food preservation that brings families together across generations.",
-      "cta": "Discover Our Products",
+      "cta": "Shop Now",
       "watchStory": "Watch Our Story"
     },
     "featured": {
@@ -47,12 +47,29 @@
       "title": "Dry Pantry Assortment",
       "description": "Mixed dry pantry items in convenient 250g packs for daily cooking."
     },
-    "viewAllProducts": "View All Products"
+    "viewAllProducts": "View All Products",
+    "values": {
+      "title": "Why Choose Mounifull",
+      "subtitle": "Discover what makes our products special and authentic",
+      "natural": {
+        "title": "Natural & Pure",
+        "description": "Natural and free from preservatives"
+      },
+      "handmade": {
+        "title": "Handmade with Love",
+        "description": "Handmade by talented Lebanese women"
+      },
+      "traditional": {
+        "title": "Traditional & Sustainable",
+        "description": "Rooted in tradition, inspired by health and sustainability"
+      }
+    }
   },
   "products": {
-    "title": "Products",
+    "title": "Shop",
     "subtitle": "Discover our range of authentic Lebanese mouneh",
     "sortBy": "Sort by:",
+    "filterBy": "Filter by:",
     "tip": "Tip: Click a product to view details.",
     "sort": {
       "nameAsc": "Name A–Z",
@@ -70,6 +87,7 @@
       "to": "to",
       "category": "Category",
       "categories": {
+        "all": "All Categories",
         "oils": "Oils & Sauces",
         "spices": "Spices & Herbs",
         "nuts": "Nuts & Dried Fruits",
@@ -83,8 +101,37 @@
       "newArrivals": "New Arrivals",
       "reset": "Reset All",
       "apply": "Apply Filters"
+    },
+  "orderingHelp": {
+    "title": "How to Order",
+    "step1": {
+      "title": "Add to Cart",
+      "description": "Browse our products and click \"Add to Cart\" on items you want to purchase. You can adjust quantities as needed.",
+      "tip": "The cart icon shows your total items"
+    },
+    "step2": {
+      "title": "View Cart",
+      "description": "Click the cart icon in the top navigation to review your selected items, quantities, and total price.",
+      "tip": "You can modify or remove items here"
+    },
+    "step3": {
+      "title": "Check Out",
+      "description": "Click \"Checkout\" to proceed with your order. You'll be taken to a secure checkout page.",
+      "tip": "Review your order details before proceeding"
+    },
+    "step4": {
+      "title": "WhatsApp Message",
+      "description": "After checkout, you'll be redirected to WhatsApp to send your order details directly to us for confirmation and delivery arrangements.",
+      "tip": "We'll confirm your order and arrange delivery"
+    },
+    "needHelp": {
+      "title": "Need More Help?",
+      "description": "If you have any questions about our products or ordering process, feel free to contact us:",
+      "whatsapp": "WhatsApp Us",
+      "email": "Email Us"
     }
-  },
+  }
+},
   "story": {
     "title": "About Us",
     "subtitle": "Welcome to MOUNIFULL, a home for authentic Lebanese mouneh",

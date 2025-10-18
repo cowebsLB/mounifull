@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mounifull – Products</title>
+    <title>Mounifull – Shop</title>
     <meta name="description" content="Browse authentic Lebanese mouneh: preserves, spices, nuts, honey, and gift bundles.">
     <meta name="theme-color" content="#c96a3d">
     <link rel="manifest" href="../site.webmanifest">
@@ -13,12 +13,12 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Mounifull">
-    <meta property="og:title" content="Mounifull – Products">
+    <meta property="og:title" content="Mounifull – Shop">
     <meta property="og:description" content="Discover authentic Lebanese mouneh products.">
     <meta property="og:image" content="../assets/logos/logo full.png">
     <meta property="og:url" content="https://mounifull.com/pages/products.html">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Mounifull – Products">
+    <meta name="twitter:title" content="Mounifull – Shop">
     <meta name="twitter:description" content="Discover authentic Lebanese mouneh products.">
     <meta name="twitter:image" content="../assets/logos/logo full.png">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -312,7 +312,7 @@
             <!-- Desktop Navigation -->
             <div class="hidden lg:flex items-center gap-6 desktop-nav ml-12">
                 <a href="../index.html" class="text-gray-700 hover:text-terracotta transition-colors" data-i18n="nav.home">Home</a>
-                <a href="products.html" class="text-terracotta font-semibold" data-i18n="nav.products">Products</a>
+                <a href="products.html" class="text-terracotta font-semibold" data-i18n="nav.shop">Shop</a>
                 <a href="story.html" class="text-gray-700 hover:text-terracotta transition-colors" data-i18n="nav.story">Our Story</a>
                 <a href="contact.html" class="text-gray-700 hover:text-terracotta transition-colors" data-i18n="nav.contact">Contact</a>
             </div>
@@ -408,8 +408,8 @@
                 <a href="../index.html" class="block text-lg text-[#556b2f] hover:text-terracotta transition-colors py-2 border-b border-gray-100" data-i18n="nav.home">
                     <i class="fas fa-home mr-3"></i>Home
                 </a>
-                <a href="products.html" class="block text-lg text-gray-700 hover:text-terracotta transition-colors py-2 border-b border-gray-100" data-i18n="nav.products">
-                    <i class="fas fa-shopping-bag mr-3"></i>Products
+                <a href="products.html" class="block text-lg text-gray-700 hover:text-terracotta transition-colors py-2 border-b border-gray-100" data-i18n="nav.shop">
+                    <i class="fas fa-shopping-bag mr-3"></i>Shop
                 </a>
                 <a href="story.html" class="block text-lg text-gray-700 hover:text-terracotta transition-colors py-2 border-b border-gray-100" data-i18n="nav.story">
                     <i class="fas fa-book mr-3"></i>Our Story
@@ -446,18 +446,32 @@
 </div>
 
 <main class="container mx-auto px-4 md:px-6 py-6 md:py-10">
-    <h1 class="font-cormorant text-4xl md:text-5xl text-terracotta mb-4 md:mb-6" data-i18n="products.title">Products</h1>
+    <h1 class="font-cormorant text-4xl md:text-5xl text-terracotta mb-4 md:mb-6" data-i18n="products.title">Shop</h1>
     <div class="flex flex-wrap gap-3 md:gap-4 items-center mb-4 md:mb-6">
-        <label class="text-sm w-full xs:w-auto" data-i18n="products.sortBy">Sort by:</label>
-        <select id="sort" class="border rounded px-3 py-2 w-full sm:w-auto" aria-label="Sort products">
-            <option value="name-asc" data-i18n="products.sort.nameAsc">Name A–Z</option>
-            <option value="name-desc" data-i18n="products.sort.nameDesc">Name Z–A</option>
-            <option value="price-asc" data-i18n="products.sort.priceAsc">Price Low → High</option>
-            <option value="price-desc" data-i18n="products.sort.priceDesc">Price High → Low</option>
-            <option value="date-desc" data-i18n="products.sort.newest">Newest</option>
-            <option value="date-asc" data-i18n="products.sort.oldest">Oldest</option>
-        </select>
-        <div class="ml-auto text-sm text-gray-500 w-full sm:w-auto text-right" id="count"></div>
+        <div class="flex items-center gap-2">
+            <label class="text-sm" data-i18n="products.sortBy">Sort by:</label>
+            <select id="sort" class="border rounded px-3 py-2 w-auto" aria-label="Sort products">
+                <option value="name-asc" data-i18n="products.sort.nameAsc">Name A–Z</option>
+                <option value="name-desc" data-i18n="products.sort.nameDesc">Name Z–A</option>
+                <option value="price-asc" data-i18n="products.sort.priceAsc">Price Low → High</option>
+                <option value="price-desc" data-i18n="products.sort.priceDesc">Price High → Low</option>
+                <option value="date-desc" data-i18n="products.sort.newest">Newest</option>
+                <option value="date-asc" data-i18n="products.sort.oldest">Oldest</option>
+            </select>
+        </div>
+        <div class="flex items-center gap-2">
+            <label class="text-sm" data-i18n="products.filterBy">Filter by:</label>
+            <select id="categoryFilter" class="border rounded px-3 py-2 w-auto" aria-label="Filter products by category">
+                <option value="all" data-i18n="products.categories.all">All Categories</option>
+                <option value="oils" data-i18n="products.categories.oils">Oils & Sauces</option>
+                <option value="spices" data-i18n="products.categories.spices">Spices & Herbs</option>
+                <option value="nuts" data-i18n="products.categories.nuts">Nuts & Dried Fruits</option>
+                <option value="preserves" data-i18n="products.categories.preserves">Preserves</option>
+                <option value="bundles" data-i18n="products.categories.bundles">Gift Bundles</option>
+                <option value="honey" data-i18n="products.categories.honey">Honey & Sweets</option>
+            </select>
+        </div>
+        <div class="ml-auto text-sm text-gray-500" id="count"></div>
     </div>
 
     <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8"></div>
@@ -575,6 +589,94 @@
     <i class="fas fa-chevron-up text-lg"></i>
 </button>
 
+<!-- Ordering Help Button -->
+<button id="orderingHelpBtn" class="fixed bottom-24 right-6 bg-terracotta hover:bg-[#b55a2d] text-white w-14 h-14 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 z-50 group" aria-label="How to order" title="How to order">
+    <i class="fas fa-question text-xl group-hover:rotate-12 transition-transform duration-300"></i>
+</button>
+
+<!-- Ordering Help Modal -->
+<div id="orderingHelpModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-[70]">
+    <div class="bg-white rounded-2xl p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto mx-4">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="font-cormorant text-4xl text-terracotta" data-i18n="orderingHelp.title">How to Order</h2>
+            <button id="closeOrderingHelp" class="text-gray-600 hover:text-gray-800" aria-label="Close ordering help" title="Close">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+        </div>
+        
+        <div class="space-y-8">
+            <!-- Step 1 -->
+            <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-terracotta rounded-full flex items-center justify-center text-white font-bold text-xl">1</div>
+                <div class="flex-1">
+                    <h3 class="font-cormorant text-2xl text-terracotta mb-2" data-i18n="orderingHelp.step1.title">Add to Cart</h3>
+                    <p class="text-gray-700 leading-relaxed" data-i18n="orderingHelp.step1.description">Browse our products and click "Add to Cart" on items you want to purchase. You can adjust quantities as needed.</p>
+                    <div class="mt-3 flex items-center text-sm text-gray-600">
+                        <i class="fas fa-shopping-cart mr-2 text-terracotta"></i>
+                        <span data-i18n="orderingHelp.step1.tip">The cart icon shows your total items</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-terracotta rounded-full flex items-center justify-center text-white font-bold text-xl">2</div>
+                <div class="flex-1">
+                    <h3 class="font-cormorant text-2xl text-terracotta mb-2" data-i18n="orderingHelp.step2.title">View Cart</h3>
+                    <p class="text-gray-700 leading-relaxed" data-i18n="orderingHelp.step2.description">Click the cart icon in the top navigation to review your selected items, quantities, and total price.</p>
+                    <div class="mt-3 flex items-center text-sm text-gray-600">
+                        <i class="fas fa-list mr-2 text-terracotta"></i>
+                        <span data-i18n="orderingHelp.step2.tip">You can modify or remove items here</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-terracotta rounded-full flex items-center justify-center text-white font-bold text-xl">3</div>
+                <div class="flex-1">
+                    <h3 class="font-cormorant text-2xl text-terracotta mb-2" data-i18n="orderingHelp.step3.title">Check Out</h3>
+                    <p class="text-gray-700 leading-relaxed" data-i18n="orderingHelp.step3.description">Click "Checkout" to proceed with your order. You'll be taken to a secure checkout page.</p>
+                    <div class="mt-3 flex items-center text-sm text-gray-600">
+                        <i class="fas fa-credit-card mr-2 text-terracotta"></i>
+                        <span data-i18n="orderingHelp.step3.tip">Review your order details before proceeding</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-xl">4</div>
+                <div class="flex-1">
+                    <h3 class="font-cormorant text-2xl text-terracotta mb-2" data-i18n="orderingHelp.step4.title">WhatsApp Message</h3>
+                    <p class="text-gray-700 leading-relaxed" data-i18n="orderingHelp.step4.description">After checkout, you'll be redirected to WhatsApp to send your order details directly to us for confirmation and delivery arrangements.</p>
+                    <div class="mt-3 flex items-center text-sm text-gray-600">
+                        <i class="fab fa-whatsapp mr-2 text-green-500"></i>
+                        <span data-i18n="orderingHelp.step4.tip">We'll confirm your order and arrange delivery</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-gray-200">
+            <div class="bg-beige rounded-lg p-4">
+                <h4 class="font-cormorant text-xl text-terracotta mb-2" data-i18n="orderingHelp.needHelp.title">Need More Help?</h4>
+                <p class="text-gray-700 text-sm mb-3" data-i18n="orderingHelp.needHelp.description">If you have any questions about our products or ordering process, feel free to contact us:</p>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <a href="https://wa.me/96181997805" target="_blank" rel="noopener" class="inline-flex items-center justify-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                        <i class="fab fa-whatsapp mr-2"></i>
+                        <span data-i18n="orderingHelp.needHelp.whatsapp">WhatsApp Us</span>
+                    </a>
+                    <a href="mailto:mounifull81@gmail.com" class="inline-flex items-center justify-center px-4 py-2 bg-terracotta text-white rounded-lg hover:bg-[#b55a2d] transition-colors">
+                        <i class="fas fa-envelope mr-2"></i>
+                        <span data-i18n="orderingHelp.needHelp.email">Email Us</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Footer -->
 <footer class="bg-olive text-white py-12 mt-20">
     <div class="container mx-auto px-6">
@@ -601,7 +703,7 @@
                 <h4 class="font-cormorant text-xl font-semibold mb-4 text-terracotta">Quick Links</h4>
                 <ul class="space-y-2">
                     <li><a href="../index.html" class="font-lato text-white/80 hover:text-white transition-colors">Home</a></li>
-                    <li><a href="products.html" class="font-lato text-white/80 hover:text-white transition-colors">Products</a></li>
+                    <li><a href="products.html" class="font-lato text-white/80 hover:text-white transition-colors">Shop</a></li>
                     <li><a href="story.html" class="font-lato text-white/80 hover:text-white transition-colors">Our Story</a></li>
                     <li><a href="contact.html" class="font-lato text-white/80 hover:text-white transition-colors">Contact</a></li>
                 </ul>

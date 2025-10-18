@@ -74,6 +74,24 @@ function createProductTemplate(product) {
       <div class="prose max-w-none">
         <p class="text-gray-700 text-lg leading-relaxed mb-6">${product.description}</p>
         
+        ${product.bundleContents ? `
+        <!-- Bundle Contents -->
+        <div class="border-t border-gray-200 pt-6 mb-6">
+          <h3 class="font-cormorant text-2xl text-[#556b2f] mb-4">Bundle Contents</h3>
+          <div class="bg-beige rounded-lg p-4">
+            <ul class="space-y-2">
+              ${product.bundleContents.map(item => `
+                <li class="flex items-center text-gray-700">
+                  <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                  <span class="font-medium">${item.name}</span>
+                  <span class="text-gray-500 ml-2">(${item.weight})</span>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+        </div>
+        ` : ''}
+        
         <!-- Expandable Description -->
         <div class="border-t border-gray-200 pt-6">
           <h3 class="font-cormorant text-2xl text-[#556b2f] mb-4">Product Details</h3>

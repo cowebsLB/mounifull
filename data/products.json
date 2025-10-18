@@ -509,7 +509,13 @@
     "category": "bundles",
     "rating": 4.8,
     "inStock": true,
-    "packaging": "bundle"
+    "packaging": "bundle",
+    "bundleContents": [
+      {"name": "Labneh in Jar", "weight": "330g"},
+      {"name": "Kishik 500g Jar", "weight": "500g"},
+      {"name": "Macdous 500g", "weight": "500g"},
+      {"name": "Olive Oil", "weight": "500ml"}
+    ]
   },
   {
     "id": 33,
@@ -525,7 +531,14 @@
     "category": "bundles",
     "rating": 4.9,
     "inStock": true,
-    "packaging": "bundle"
+    "packaging": "bundle",
+    "bundleContents": [
+      {"name": "Macdous 500g", "weight": "500g"},
+      {"name": "Kishik 500g Jar", "weight": "500g"},
+      {"name": "Sumac 500g Jar", "weight": "500g"},
+      {"name": "Dried Tomatoes 250g", "weight": "250g"},
+      {"name": "Grape Leaves 500g", "weight": "500g"}
+    ]
   },
   {
     "id": 34,
@@ -541,6 +554,15 @@
     "category": "bundles",
     "rating": 4.6,
     "inStock": true,
-    "packaging": "bundle"
+    "packaging": "bundle",
+    "bundleContents": [
+      {"name": "Pure Thymes 250g", "weight": "250g"},
+      {"name": "Sumac 250g", "weight": "250g"},
+      {"name": "Almonds 250g", "weight": "250g"},
+      {"name": "Walnuts 250g", "weight": "250g"},
+      {"name": "Raisins 250g", "weight": "250g"},
+      {"name": "Dried Figs 250g", "weight": "250g"},
+      {"name": "Kishik 250g", "weight": "250g"}
+    ]
   }
 ]

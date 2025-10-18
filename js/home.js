@@ -1,5 +1,5 @@
 // Home page interactions
-import { updateCartBadge } from './common.js';
+import { updateCartBadge, getCart, setCart, fetchProducts } from './common.js';
 import { setupMobileMenu } from './mobile-menu.js';
 
 (function(){
@@ -59,6 +59,16 @@ import { setupMobileMenu } from './mobile-menu.js';
   const goToProducts = document.querySelector('.go-to-products');
   if (goToProducts) goToProducts.addEventListener('click', ()=> { window.location.href = 'pages/products.html'; });
 
+  // Add to cart functionality for featured products
+  document.addEventListener('click', (e) => {
+    if (e.target.matches('[data-product-id]')) {
+      e.preventDefault();
+      e.stopPropagation();
+      const productId = parseInt(e.target.dataset.productId);
+      addToCart(productId);
+    }
+  });
+
   // Initialize cart badge
   updateCartBadge();
   
@@ -68,6 +78,64 @@ import { setupMobileMenu } from './mobile-menu.js';
   // Mobile menu functionality
   setupMobileMenu();
 })();
+
+// Add to cart function for featured products
+async function addToCart(productId) {
+  try {
+    const products = await fetchProducts();
+    const product = products.find(p => p.id === productId);
+    if (!product || !product.inStock) return;
+
+    const cart = getCart();
+    const existingItem = cart.find(item => item.id === productId);
+    
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      cart.push({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        quantity: 1
+      });
+    }
+    
+    setCart(cart);
+    updateCartBadge();
+    
+    // Show success message
+    showNotification(`${product.name} added to cart!`, 'success');
+  } catch (error) {
+    console.error('Error adding to cart:', error);
+    showNotification('Error adding product to cart', 'error');
+  }
+}
+
+function showNotification(message, type = 'info') {
+  const notification = document.createElement('div');
+  notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg text-white font-medium transform transition-all duration-300 ${
+    type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+  }`;
+  notification.textContent = message;
+  
+  document.body.appendChild(notification);
+  
+  // Animate in
+  setTimeout(() => {
+    notification.style.transform = 'translateX(0)';
+  }, 100);
+  
+  // Remove after 3 seconds
+  setTimeout(() => {
+    notification.style.transform = 'translateX(100%)';
+    setTimeout(() => {
+      if (document.body.contains(notification)) {
+        document.body.removeChild(notification);
+      }
+    }, 300);
+  }, 3000);
+}
 
 function setupBackToTop() {
   const backToTopBtn = document.getElementById('backToTop');

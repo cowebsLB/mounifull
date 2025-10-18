@@ -6,6 +6,7 @@ let filteredProducts = [];
 let currentFilters = {
     search: '',
     sort: 'name-asc',
+    category: 'all',
     priceMin: '',
     priceMax: '',
     categories: [],
@@ -19,6 +20,7 @@ let currentFilters = {
 const searchInput = document.getElementById('search');
 const searchMobile = document.getElementById('searchMobile');
 const sortSelect = document.getElementById('sort');
+const categoryFilter = document.getElementById('categoryFilter');
 const grid = document.getElementById('grid');
 const count = document.getElementById('count');
 const filterModal = document.getElementById('filterModal');
@@ -126,6 +128,14 @@ function setupEventListeners() {
         applyFilters();
     });
 
+    // Category filter
+    if (categoryFilter) {
+        categoryFilter.addEventListener('change', (e) => {
+            currentFilters.category = e.target.value;
+            applyFilters();
+        });
+    }
+
     // Filter modal (desktop, compact, and mobile)
     if (openFilterBtn) {
         openFilterBtn.addEventListener('click', () => {
@@ -194,6 +204,38 @@ function setupEventListeners() {
             currentFilters.minRating = parseInt(e.target.dataset.rating);
         });
     });
+
+    // Ordering help modal
+    const orderingHelpBtn = document.getElementById('orderingHelpBtn');
+    const orderingHelpModal = document.getElementById('orderingHelpModal');
+    const closeOrderingHelp = document.getElementById('closeOrderingHelp');
+
+    if (orderingHelpBtn && orderingHelpModal) {
+        orderingHelpBtn.addEventListener('click', () => {
+            orderingHelpModal.classList.remove('hidden');
+            orderingHelpModal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+
+    if (closeOrderingHelp && orderingHelpModal) {
+        closeOrderingHelp.addEventListener('click', () => {
+            orderingHelpModal.classList.add('hidden');
+            orderingHelpModal.classList.remove('flex');
+            document.body.style.overflow = '';
+        });
+    }
+
+    // Close modal on backdrop click
+    if (orderingHelpModal) {
+        orderingHelpModal.addEventListener('click', (e) => {
+            if (e.target === orderingHelpModal) {
+                orderingHelpModal.classList.add('hidden');
+                orderingHelpModal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }
+        });
+    }
 }
 
 function applyFilters() {
@@ -219,7 +261,12 @@ function applyFilters() {
             return false;
         }
 
-        // Category filter
+        // Category filter (dropdown)
+        if (currentFilters.category !== 'all' && product.category !== currentFilters.category) {
+            return false;
+        }
+
+        // Category filter (modal checkboxes)
         if (currentFilters.categories.length > 0 && !currentFilters.categories.includes(product.category)) {
             return false;
         }
@@ -605,5 +652,149 @@ function setupBackToTop() {
             top: 0,
             behavior: 'smooth'
         });
+    });
+    
+    // Translate dropdown options after i18n system has run
+    setTimeout(() => {
+        translateDropdownOptions();
+    }, 500);
+    
+    // Also run after a longer delay to catch any late language changes
+    setTimeout(() => {
+        translateDropdownOptions();
+    }, 1000);
+    
+    // Listen for language changes
+    document.addEventListener('languageChanged', () => {
+        // Run immediately and also after a delay to ensure it works
+        translateDropdownOptions();
+        setTimeout(() => {
+            translateDropdownOptions();
+        }, 200);
+    });
+    
+    // Also run when i18n system finishes loading
+    document.addEventListener('i18nLoaded', () => {
+        translateDropdownOptions();
+    });
+    
+    // Run immediately when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            translateDropdownOptions();
+        });
+    } else {
+        translateDropdownOptions();
+    }
+    
+    // Make function available globally for debugging
+    window.translateDropdowns = translateDropdownOptions;
+}
+
+// Function to translate dropdown options
+function translateDropdownOptions() {
+    // Get current language
+    const currentLang = (window.i18n && window.i18n.currentLanguage) || 'en';
+    console.log('🔧 Translating dropdowns for language:', currentLang);
+    
+    // Define translations directly
+    const translations = {
+        en: {
+            'products.categories.all': 'All Categories',
+            'products.categories.oils': 'Oils & Sauces',
+            'products.categories.spices': 'Spices & Herbs',
+            'products.categories.nuts': 'Nuts & Dried Fruits',
+            'products.categories.preserves': 'Preserves',
+            'products.categories.bundles': 'Gift Bundles',
+            'products.categories.honey': 'Honey & Sweets',
+            'products.sort.nameAsc': 'Name A–Z',
+            'products.sort.nameDesc': 'Name Z–A',
+            'products.sort.priceAsc': 'Price Low → High',
+            'products.sort.priceDesc': 'Price High → Low',
+            'products.sort.newest': 'Newest',
+            'products.sort.oldest': 'Oldest',
+            'orderingHelp.title': 'How to Order',
+            'orderingHelp.step1.title': 'Add to Cart',
+            'orderingHelp.step1.description': 'Browse our products and click "Add to Cart" on items you want to purchase. You can adjust quantities as needed.',
+            'orderingHelp.step1.tip': 'The cart icon shows your total items',
+            'orderingHelp.step2.title': 'View Cart',
+            'orderingHelp.step2.description': 'Click the cart icon in the top navigation to review your selected items, quantities, and total price.',
+            'orderingHelp.step2.tip': 'You can modify or remove items here',
+            'orderingHelp.step3.title': 'Check Out',
+            'orderingHelp.step3.description': 'Click "Checkout" to proceed with your order. You\'ll be taken to a secure checkout page.',
+            'orderingHelp.step3.tip': 'Review your order details before proceeding',
+            'orderingHelp.step4.title': 'WhatsApp Message',
+            'orderingHelp.step4.description': 'After checkout, you\'ll be redirected to WhatsApp to send your order details directly to us for confirmation and delivery arrangements.',
+            'orderingHelp.step4.tip': 'We\'ll confirm your order and arrange delivery',
+            'orderingHelp.needHelp.title': 'Need More Help?',
+            'orderingHelp.needHelp.description': 'If you have any questions about our products or ordering process, feel free to contact us:',
+            'orderingHelp.needHelp.whatsapp': 'WhatsApp Us',
+            'orderingHelp.needHelp.email': 'Email Us'
+        },
+        ar: {
+            'products.categories.all': 'جميع الفئات',
+            'products.categories.oils': 'الزيوت والصلصات',
+            'products.categories.spices': 'التوابل والأعشاب',
+            'products.categories.nuts': 'المكسرات والفواكه المجففة',
+            'products.categories.preserves': 'المحفوظات',
+            'products.categories.bundles': 'مجموعات الهدايا',
+            'products.categories.honey': 'العسل والحلويات',
+            'products.sort.nameAsc': 'الاسم أ-ي',
+            'products.sort.nameDesc': 'الاسم ي-أ',
+            'products.sort.priceAsc': 'السعر من الأقل للأعلى',
+            'products.sort.priceDesc': 'السعر من الأعلى للأقل',
+            'products.sort.newest': 'الأحدث',
+            'products.sort.oldest': 'الأقدم',
+            'orderingHelp.title': 'كيفية الطلب',
+            'orderingHelp.step1.title': 'أضف للسلة',
+            'orderingHelp.step1.description': 'تصفح منتجاتنا واضغط على "أضف للسلة" للعناصر التي تريد شراءها. يمكنك تعديل الكميات حسب الحاجة.',
+            'orderingHelp.step1.tip': 'أيقونة السلة تُظهر إجمالي العناصر',
+            'orderingHelp.step2.title': 'عرض السلة',
+            'orderingHelp.step2.description': 'اضغط على أيقونة السلة في التنقل العلوي لمراجعة العناصر المحددة والكميات والسعر الإجمالي.',
+            'orderingHelp.step2.tip': 'يمكنك تعديل أو إزالة العناصر هنا',
+            'orderingHelp.step3.title': 'الدفع',
+            'orderingHelp.step3.description': 'اضغط على "الدفع" للمتابعة مع طلبك. ستُؤخذ إلى صفحة دفع آمنة.',
+            'orderingHelp.step3.tip': 'راجع تفاصيل طلبك قبل المتابعة',
+            'orderingHelp.step4.title': 'رسالة واتساب',
+            'orderingHelp.step4.description': 'بعد الدفع، ستُؤخذ إلى واتساب لإرسال تفاصيل طلبك مباشرة إلينا للتأكيد وترتيب التوصيل.',
+            'orderingHelp.step4.tip': 'سنؤكد طلبك ونرتب التوصيل',
+            'orderingHelp.needHelp.title': 'تحتاج مساعدة أكثر؟',
+            'orderingHelp.needHelp.description': 'إذا كان لديك أي أسئلة حول منتجاتنا أو عملية الطلب، لا تتردد في الاتصال بنا:',
+            'orderingHelp.needHelp.whatsapp': 'راسلنا على واتساب',
+            'orderingHelp.needHelp.email': 'راسلنا بالبريد'
+        }
+    };
+    
+    const langTranslations = translations[currentLang] || translations.en;
+    
+    // Translate category filter options
+    const categoryOptions = categoryFilter.querySelectorAll('option');
+    console.log('🔧 Found category options:', categoryOptions.length);
+    categoryOptions.forEach(option => {
+        const key = option.getAttribute('data-i18n');
+        if (key && langTranslations[key]) {
+            console.log('🔧 Translating:', key, '→', langTranslations[key]);
+            option.textContent = langTranslations[key];
+        } else if (key) {
+            console.log('❌ Missing translation for:', key);
+        }
+    });
+    
+    // Translate sort options
+    const sortOptions = sortSelect.querySelectorAll('option');
+    sortOptions.forEach(option => {
+        const key = option.getAttribute('data-i18n');
+        if (key && langTranslations[key]) {
+            option.textContent = langTranslations[key];
+        }
+    });
+    
+    // Translate ordering help modal elements
+    const modalElements = document.querySelectorAll('#orderingHelpModal [data-i18n]');
+    modalElements.forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (key && langTranslations[key]) {
+            element.textContent = langTranslations[key];
+        }
     });
 }
