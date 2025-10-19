@@ -1,6 +1,6 @@
 @echo off
 echo ========================================
-echo    MOUNIFULL QUICK COMMIT & PUSH
+echo    MOUNIFULL QUICK COMMIT AND PUSH
 echo ========================================
 echo.
 
