@@ -10,7 +10,7 @@
     "weight": "1000g",
     "image": "assets/product images/مكدوس 500 غرام.png",
     "date": "2025-01-01",
-    "category": "preserves",
+    "category": "main-mouni",
     "rating": 4.8,
     "inStock": true,
     "packaging": "jar"
@@ -26,7 +26,7 @@
     "weight": "500g",
     "image": "assets/product images/مكدوس 500 غرام.png",
     "date": "2025-01-02",
-    "category": "preserves",
+    "category": "main-mouni",
     "rating": 4.8,
     "inStock": true,
     "packaging": "jar"
@@ -42,7 +42,7 @@
     "weight": "250g",
     "image": "assets/product images/مكدوس 500 غرام.png",
     "date": "2025-01-03",
-    "category": "preserves",
+    "category": "main-mouni",
     "rating": 4.8,
     "inStock": true,
     "packaging": "jar"
@@ -58,7 +58,7 @@
     "weight": "1000g",
     "image": "assets/product images/كشك 250 غرام.png",
     "date": "2025-01-04",
-    "category": "spices",
+    "category": "main-mouni",
     "rating": 4.4,
     "inStock": true,
     "packaging": "jar"
@@ -74,7 +74,7 @@
     "weight": "500g",
     "image": "assets/product images/كشك 250 غرام.png",
     "date": "2025-01-05",
-    "category": "spices",
+    "category": "main-mouni",
     "rating": 4.4,
     "inStock": true,
     "packaging": "jar"
@@ -90,7 +90,7 @@
     "weight": "250g",
     "image": "assets/product images/كشك 250 غرام.png",
     "date": "2025-01-06",
-    "category": "spices",
+    "category": "main-mouni",
     "rating": 4.4,
     "inStock": true,
     "packaging": "jar"
@@ -106,7 +106,7 @@
     "weight": "500g",
     "image": "assets/product images/صلصة بندورة.png",
     "date": "2025-01-07",
-    "category": "preserves",
+    "category": "main-mouni",
     "rating": 4.3,
     "inStock": true,
     "packaging": "jar"
@@ -122,7 +122,7 @@
     "weight": "250g",
     "image": "assets/product images/صلصة بندورة.png",
     "date": "2025-01-08",
-    "category": "preserves",
+    "category": "main-mouni",
     "rating": 4.3,
     "inStock": true,
     "packaging": "jar"
@@ -138,7 +138,7 @@
     "weight": "500g",
     "image": "assets/product images/ورق عنب 500 غرام.png",
     "date": "2025-01-09",
-    "category": "preserves",
+    "category": "main-mouni",
     "rating": 4.6,
     "inStock": true,
     "packaging": "jar"
@@ -154,7 +154,7 @@
     "weight": "1000g",
     "image": "assets/product images/زعتر خام 250 غرام.png",
     "date": "2025-01-10",
-    "category": "spices",
+    "category": "main-mouni",
     "rating": 4.6,
     "inStock": true,
     "packaging": "jar"
@@ -170,7 +170,7 @@
     "weight": "500g",
     "image": "assets/product images/زعتر خام 250 غرام.png",
     "date": "2025-01-11",
-    "category": "spices",
+    "category": "main-mouni",
     "rating": 4.6,
     "inStock": true,
     "packaging": "jar"
@@ -186,7 +186,7 @@
     "weight": "250g",
     "image": "assets/product images/زعتر خام 250 غرام.png",
     "date": "2025-01-12",
-    "category": "spices",
+    "category": "main-mouni",
     "rating": 4.6,
     "inStock": true,
     "packaging": "jar"
@@ -202,7 +202,7 @@
     "weight": "500g",
     "image": "assets/product images/سماق 250 غرام.png",
     "date": "2025-01-13",
-    "category": "spices",
+    "category": "main-mouni",
     "rating": 4.5,
     "inStock": true,
     "packaging": "jar"
@@ -218,7 +218,7 @@
     "weight": "250g",
     "image": "assets/product images/سماق 250 غرام.png",
     "date": "2025-01-14",
-    "category": "spices",
+    "category": "main-mouni",
     "rating": 4.5,
     "inStock": true,
     "packaging": "jar"
@@ -234,7 +234,7 @@
     "weight": "330g",
     "image": "assets/product images/لبنة جرة بالزيت.png",
     "date": "2025-01-15",
-    "category": "preserves",
+    "category": "main-mouni",
     "rating": 4.9,
     "inStock": true,
     "packaging": "jar"
@@ -250,7 +250,7 @@
     "weight": "500g",
     "image": "assets/product images/عسل بشهده.png",
     "date": "2025-01-16",
-    "category": "honey",
+    "category": "sweet-mouni",
     "rating": 4.9,
     "inStock": true,
     "packaging": "jar"
@@ -266,7 +266,7 @@
     "weight": "250g",
     "image": "assets/product images/عسل بشهده.png",
     "date": "2025-01-17",
-    "category": "honey",
+    "category": "sweet-mouni",
     "rating": 4.9,
     "inStock": true,
     "packaging": "jar"
@@ -282,7 +282,7 @@
     "weight": "1000g",
     "image": "assets/product images/كشك 250 غرام.png",
     "date": "2025-01-18",
-    "category": "spices",
+    "category": "main-mouni",
     "rating": 4.4,
     "inStock": true,
     "packaging": "pouch"
@@ -298,7 +298,7 @@
     "weight": "500g",
     "image": "assets/product images/كشك 250 غرام.png",
     "date": "2025-01-19",
-    "category": "spices",
+    "category": "main-mouni",
     "rating": 4.4,
     "inStock": true,
     "packaging": "pouch"
@@ -314,7 +314,7 @@
     "weight": "250g",
     "image": "assets/product images/كشك 250 غرام.png",
     "date": "2025-01-20",
-    "category": "spices",
+    "category": "main-mouni",
     "rating": 4.4,
     "inStock": true,
     "packaging": "pouch"
@@ -330,7 +330,7 @@
     "weight": "500g",
     "image": "assets/product images/زعتر خام 250 غرام.png",
     "date": "2025-01-21",
-    "category": "spices",
+    "category": "main-mouni",
     "rating": 4.6,
     "inStock": true,
     "packaging": "pouch"
@@ -346,7 +346,7 @@
     "weight": "250g",
     "image": "assets/product images/زعتر خام 250 غرام.png",
     "date": "2025-01-22",
-    "category": "spices",
+    "category": "main-mouni",
     "rating": 4.6,
     "inStock": true,
     "packaging": "pouch"
@@ -362,7 +362,7 @@
     "weight": "500g",
     "image": "assets/product images/سماق 250 غرام.png",
     "date": "2025-01-23",
-    "category": "spices",
+    "category": "main-mouni",
     "rating": 4.5,
     "inStock": true,
     "packaging": "pouch"
@@ -378,7 +378,7 @@
     "weight": "250g",
     "image": "assets/product images/سماق 250 غرام.png",
     "date": "2025-01-24",
-    "category": "spices",
+    "category": "main-mouni",
     "rating": 4.5,
     "inStock": true,
     "packaging": "pouch"
@@ -394,7 +394,7 @@
     "weight": "250g",
     "image": "assets/product images/لوز 250 غرام.png",
     "date": "2025-01-25",
-    "category": "nuts",
+    "category": "sweet-mouni",
     "rating": 4.7,
     "inStock": true,
     "packaging": "pouch"
@@ -410,7 +410,7 @@
     "weight": "250g",
     "image": "assets/product images/جوز 250 غرام.png",
     "date": "2025-01-26",
-    "category": "nuts",
+    "category": "sweet-mouni",
     "rating": 4.5,
     "inStock": true,
     "packaging": "pouch"
@@ -426,7 +426,7 @@
     "weight": "500g",
     "image": "assets/product images/ملوخية 250 غرام.png",
     "date": "2025-01-27",
-    "category": "spices",
+    "category": "main-mouni",
     "rating": 4.2,
     "inStock": true,
     "packaging": "pouch"
@@ -442,7 +442,7 @@
     "weight": "250g",
     "image": "assets/product images/ملوخية 250 غرام.png",
     "date": "2025-01-28",
-    "category": "spices",
+    "category": "main-mouni",
     "rating": 4.2,
     "inStock": true,
     "packaging": "pouch"
@@ -458,7 +458,7 @@
     "weight": "250g",
     "image": "assets/product images/بندورة مجففة 250 غرام.png",
     "date": "2025-01-29",
-    "category": "preserves",
+    "category": "main-mouni",
     "rating": 4.4,
     "inStock": true,
     "packaging": "pouch"
@@ -474,7 +474,7 @@
     "weight": "250g",
     "image": "assets/product images/زبيب 250 غرام.png",
     "date": "2025-01-30",
-    "category": "nuts",
+    "category": "sweet-mouni",
     "rating": 4.3,
     "inStock": true,
     "packaging": "pouch"
@@ -490,79 +490,101 @@
     "weight": "251g",
     "image": "assets/product images/زبيب 250 غرام.png",
     "date": "2025-01-31",
-    "category": "nuts",
+    "category": "sweet-mouni",
     "rating": 4.5,
     "inStock": true,
     "packaging": "pouch"
   },
   {
     "id": 32,
-    "name": "Breakfast Bundle",
-    "nameEn": "Breakfast Bundle",
-    "nameAr": "مجموعة الإفطار",
-    "description": "Curated Lebanese breakfast set—za'atar, labneh, olives, and more.",
-    "descriptionAr": "مجموعة إفطار لبنانية مختارة - زعتر، لبنة، زيتون والمزيد",
-    "price": 29.00,
+    "name": "Family Breakfast Bundle",
+    "nameEn": "Family Breakfast Bundle",
+    "nameAr": "مجموعة إفطار العائلة",
+    "description": "Perfect breakfast collection with traditional Lebanese morning essentials.",
+    "descriptionAr": "مجموعة إفطار مثالية مع أساسيات الصباح اللبنانية التقليدية",
+    "price": 45.00,
     "weight": "Bundle",
     "image": "assets/product images/مجموعة (الترويقة).png",
     "date": "2025-02-01",
-    "category": "bundles",
+    "category": "mounifull-box",
     "rating": 4.8,
     "inStock": true,
     "packaging": "bundle",
     "bundleContents": [
-      {"name": "Labneh in Jar", "weight": "330g"},
-      {"name": "Kishik 500g Jar", "weight": "500g"},
       {"name": "Macdous 500g", "weight": "500g"},
-      {"name": "Olive Oil", "weight": "500ml"}
+      {"name": "Labneh 150g", "weight": "150g"},
+      {"name": "Olive Oil", "weight": "500ml"},
+      {"name": "Kishik 250g", "weight": "250g"},
+      {"name": "Zaatar 200g", "weight": "200g"}
     ]
   },
   {
     "id": 33,
-    "name": "Village Bundle",
-    "nameEn": "Village Bundle",
-    "nameAr": "مجموعة الضيعة",
-    "description": "A countryside favorites selection—perfect as a gift hamper.",
-    "descriptionAr": "اختيار من المفضلات الريفية - مثالي كسلة هدايا",
-    "price": 34.00,
+    "name": "Tradition & Taste Bundle",
+    "nameEn": "Tradition & Taste Bundle",
+    "nameAr": "مجموعة التقاليد والطعم",
+    "description": "A comprehensive collection showcasing the best of Lebanese mouneh traditions.",
+    "descriptionAr": "مجموعة شاملة تعرض أفضل تقاليد المونة اللبنانية",
+    "price": 50.00,
     "weight": "Bundle",
     "image": "assets/product images/مجموعة (ع الضيعة).png",
     "date": "2025-02-02",
-    "category": "bundles",
+    "category": "mounifull-box",
     "rating": 4.9,
     "inStock": true,
     "packaging": "bundle",
     "bundleContents": [
-      {"name": "Macdous 500g", "weight": "500g"},
-      {"name": "Kishik 500g Jar", "weight": "500g"},
-      {"name": "Sumac 500g Jar", "weight": "500g"},
-      {"name": "Dried Tomatoes 250g", "weight": "250g"},
-      {"name": "Grape Leaves 500g", "weight": "500g"}
+      {"name": "Kishik 170g", "weight": "170g"},
+      {"name": "Zaatar 170g", "weight": "170g"},
+      {"name": "Labneh 200g", "weight": "200g"},
+      {"name": "Macdous 250g", "weight": "250g"},
+      {"name": "Honeycomb 200g", "weight": "200g"},
+      {"name": "Dried Fig 200g", "weight": "200g"},
+      {"name": "Almond 200g", "weight": "200g"}
     ]
   },
   {
     "id": 34,
-    "name": "Dry Pantry Assortment 250g",
-    "nameEn": "Dry Pantry Assortment 250g",
-    "nameAr": "عرض المونة الجافة 250g",
-    "description": "Mixed dry pantry items in convenient 250g packs for daily cooking.",
-    "descriptionAr": "مزيج من المونة الجافة في عبوات 250g مريحة للطبخ اليومي",
-    "price": 21.00,
+    "name": "Dried Mouni Bundle",
+    "nameEn": "Dried Mouni Bundle",
+    "nameAr": "مجموعة المونة الجافة",
+    "description": "Complete dried pantry essentials in convenient 250g portions.",
+    "descriptionAr": "أساسيات المونة الجافة الكاملة في حصص مريحة 250g",
+    "price": 52.00,
     "weight": "Bundle",
     "image": "assets/product images/عرض المونة الجافة  بوزن 250 غرام.png",
     "date": "2025-02-03",
-    "category": "bundles",
+    "category": "mounifull-box",
     "rating": 4.6,
     "inStock": true,
     "packaging": "bundle",
     "bundleContents": [
-      {"name": "Pure Thymes 250g", "weight": "250g"},
+      {"name": "Kishik 250g", "weight": "250g"},
+      {"name": "Zaatar 250g", "weight": "250g"},
       {"name": "Sumac 250g", "weight": "250g"},
-      {"name": "Almonds 250g", "weight": "250g"},
+      {"name": "Almond 250g", "weight": "250g"},
       {"name": "Walnuts 250g", "weight": "250g"},
-      {"name": "Raisins 250g", "weight": "250g"},
-      {"name": "Dried Figs 250g", "weight": "250g"},
-      {"name": "Kishik 250g", "weight": "250g"}
+      {"name": "Mloukhiyi 250g", "weight": "250g"},
+      {"name": "Zbib 250g", "weight": "250g"},
+      {"name": "Dried Tomato 250g", "weight": "250g"},
+      {"name": "Dried Mint 250g", "weight": "250g"}
     ]
+  },
+  {
+    "id": 35,
+    "name": "Seasonal Bundle",
+    "nameEn": "Seasonal Bundle",
+    "nameAr": "مجموعة موسمية",
+    "description": "Seasonal collection featuring the best products for the current time of year.",
+    "descriptionAr": "مجموعة موسمية تعرض أفضل المنتجات لوقت السنة الحالي",
+    "price": 0.00,
+    "weight": "Bundle",
+    "image": "assets/product images/مجموعة (الترويقة).png",
+    "date": "2025-02-04",
+    "category": "mounifull-box",
+    "rating": 4.5,
+    "inStock": false,
+    "packaging": "bundle",
+    "bundleContents": []
   }
 ]

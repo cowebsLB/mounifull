@@ -463,12 +463,9 @@
             <label class="text-sm" data-i18n="products.filterBy">Filter by:</label>
             <select id="categoryFilter" class="border rounded px-3 py-2 w-auto" aria-label="Filter products by category">
                 <option value="all" data-i18n="products.categories.all">All Categories</option>
-                <option value="oils" data-i18n="products.categories.oils">Oils & Sauces</option>
-                <option value="spices" data-i18n="products.categories.spices">Spices & Herbs</option>
-                <option value="nuts" data-i18n="products.categories.nuts">Nuts & Dried Fruits</option>
-                <option value="preserves" data-i18n="products.categories.preserves">Preserves</option>
-                <option value="bundles" data-i18n="products.categories.bundles">Gift Bundles</option>
-                <option value="honey" data-i18n="products.categories.honey">Honey & Sweets</option>
+                <option value="main-mouni" data-i18n="products.categories.mainMouni">Main mouni</option>
+                <option value="sweet-mouni" data-i18n="products.categories.sweetMouni">Sweet mouni</option>
+                <option value="mounifull-box" data-i18n="products.categories.mounifullBox">Mounifull box</option>
             </select>
         </div>
         <div class="ml-auto text-sm text-gray-500" id="count"></div>
@@ -500,30 +497,18 @@
             <!-- Category -->
             <div>
                 <label class="block text-sm font-medium mb-3 text-gray-700" data-i18n="products.filters.category">Category</label>
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-1 gap-2">
                     <label class="flex items-center">
-                        <input type="checkbox" value="oils" class="category-filter mr-2">
-                        <span class="text-sm" data-i18n="products.filters.categories.oils">Oils & Sauces</span>
+                        <input type="checkbox" value="main-mouni" class="category-filter mr-2">
+                        <span class="text-sm" data-i18n="products.filters.categories.mainMouni">Main mouni</span>
                     </label>
                     <label class="flex items-center">
-                        <input type="checkbox" value="spices" class="category-filter mr-2">
-                        <span class="text-sm" data-i18n="products.filters.categories.spices">Spices & Herbs</span>
+                        <input type="checkbox" value="sweet-mouni" class="category-filter mr-2">
+                        <span class="text-sm" data-i18n="products.filters.categories.sweetMouni">Sweet mouni</span>
                     </label>
                     <label class="flex items-center">
-                        <input type="checkbox" value="nuts" class="category-filter mr-2">
-                        <span class="text-sm" data-i18n="products.filters.categories.nuts">Nuts & Dried Fruits</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input type="checkbox" value="preserves" class="category-filter mr-2">
-                        <span class="text-sm" data-i18n="products.filters.categories.preserves">Preserves</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input type="checkbox" value="bundles" class="category-filter mr-2">
-                        <span class="text-sm" data-i18n="products.filters.categories.bundles">Gift Bundles</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input type="checkbox" value="honey" class="category-filter mr-2">
-                        <span class="text-sm" data-i18n="products.filters.categories.honey">Honey & Sweets</span>
+                        <input type="checkbox" value="mounifull-box" class="category-filter mr-2">
+                        <span class="text-sm" data-i18n="products.filters.categories.mounifullBox">Mounifull box</span>
                     </label>
                 </div>
             </div>

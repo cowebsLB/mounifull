@@ -26,14 +26,14 @@
   "home": {
     "hero": {
       "title": "Mounifull",
-      "subtitle": "Share the Tradition",
-      "description": "Experience the authentic taste of Lebanese mouneh - traditional food preservation that brings families together across generations.",
+      "subtitle": "Taste tradition. Share Lebanon. Support women",
+      "description": "Experience the authentic taste of Lebanese mouneh - traditional that brings families together across generations.",
       "cta": "Shop Now",
       "watchStory": "Watch Our Story"
     },
     "featured": {
-      "title": "Featured Bundles",
-      "subtitle": "Discover our carefully curated bundles of authentic Lebanese mouneh products"
+      "title": "Featured Products",
+      "subtitle": "Discover our carefully selected authentic Lebanese mouneh products"
     },
     "breakfast": {
       "title": "Breakfast Bundle",
@@ -87,13 +87,9 @@
       "to": "to",
       "category": "Category",
       "categories": {
-        "all": "All Categories",
-        "oils": "Oils & Sauces",
-        "spices": "Spices & Herbs",
-        "nuts": "Nuts & Dried Fruits",
-        "preserves": "Preserves",
-        "bundles": "Gift Bundles",
-        "honey": "Honey & Sweets"
+        "mainMouni": "Main mouni",
+        "sweetMouni": "Sweet mouni",
+        "mounifullBox": "Mounifull box"
       },
       "availability": "Availability",
       "all": "All Products",
