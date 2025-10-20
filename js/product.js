@@ -29,9 +29,11 @@ function setOrUpdateName(name, content) {
   return setOrUpdateMeta(name, content);
 }
 
-function createProductTemplate(product) {
+function createProductTemplate(product, groupVariants) {
   const ratingStars = '★'.repeat(Math.floor(product.rating)) + '☆'.repeat(5 - Math.floor(product.rating));
   const isInStock = product.inStock !== false;
+  const weights = Array.from(new Set(groupVariants.map(v => v.weight).filter(Boolean)));
+  const packagings = Array.from(new Set(groupVariants.map(v => v.packaging).filter(Boolean)));
   
   return `
     <div class="space-y-6">
@@ -117,10 +119,42 @@ function createProductTemplate(product) {
       </div>
       
       <div class="bg-gray-50 rounded-xl p-6">
+        ${weights.length > 1 || packagings.length > 1 ? `
+        <div class="mb-6 space-y-4">
+          ${weights.length > 1 ? `
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              <i class="fas fa-weight mr-2 text-[#556b2f]"></i>Select Weight
+            </label>
+            <div class="grid grid-cols-3 gap-2">
+              ${weights.map((w, idx) => `
+                <button class="weight-option px-4 py-2 border-2 rounded-lg transition-all ${idx === 0 ? 'border-[#556b2f] bg-[#556b2f] text-white' : 'border-gray-300 hover:border-[#556b2f]'}" data-weight="${w}">
+                  ${w}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+          ` : ''}
+          ${packagings.length > 1 ? `
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              <i class="fas fa-box mr-2 text-[#556b2f]"></i>Select Packaging
+            </label>
+            <div class="grid grid-cols-2 gap-2">
+              ${packagings.map((pkg, idx) => `
+                <button class="packaging-option px-4 py-2 border-2 rounded-lg transition-all capitalize ${idx === 0 ? 'border-[#556b2f] bg-[#556b2f] text-white' : 'border-gray-300 hover:border-[#556b2f]'}" data-packaging="${pkg}">
+                  ${pkg}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+          ` : ''}
+        </div>
+        ` : ''}
         <div class="flex items-center justify-between mb-6">
           <div>
-            <span class="text-3xl text-[#c96a3d] font-bold">${formatPrice(product.price)}</span>
-            <p class="text-sm text-gray-600 mt-1">Free shipping on orders over $50</p>
+            <span id="productPrice" class="text-3xl text-[#c96a3d] font-bold">${formatPrice(product.price)}</span>
+            <p class="text-sm text-gray-600 mt-1">Free shipping for orders over $50</p>
           </div>
           <div class="text-right">
             <p class="text-sm text-gray-600">Quantity</p>
@@ -164,7 +198,7 @@ function createProductTemplate(product) {
   `;
 }
 
-function bindProductInteractions(product) {
+function bindProductInteractions(product, groupVariants) {
   // Setup quantity controls
   let quantity = 1;
   const quantitySpan = document.getElementById('quantity');
@@ -184,16 +218,79 @@ function bindProductInteractions(product) {
     });
   }
 
+  // Variant selectors
+  let selectedWeight = (groupVariants.map(v => v.weight).find(Boolean)) || null;
+  let selectedPackaging = (groupVariants.map(v => v.packaging).find(Boolean)) || null;
+  const priceEl = document.getElementById('productPrice');
+  const weightButtons = document.querySelectorAll('.weight-option');
+  const packagingButtons = document.querySelectorAll('.packaging-option');
+
+  function findVariant() {
+    const byWeight = selectedWeight ? groupVariants.filter(v => v.weight === selectedWeight) : groupVariants;
+    const byPkg = selectedPackaging ? byWeight.filter(v => v.packaging === selectedPackaging) : byWeight;
+    // Prefer exact match; fallback to any
+    return byPkg[0] || byWeight[0] || groupVariants[0] || product;
+  }
+
+  function updatePriceFromSelection() {
+    const v = findVariant();
+    if (priceEl && v && typeof v.price === 'number') {
+      priceEl.textContent = formatPrice(v.price);
+    }
+  }
+
+  if (weightButtons.length) {
+    weightButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        weightButtons.forEach(b => {
+          b.classList.remove('border-[#556b2f]', 'bg-[#556b2f]', 'text-white');
+          b.classList.add('border-gray-300');
+        });
+        btn.classList.add('border-[#556b2f]', 'bg-[#556b2f]', 'text-white');
+        btn.classList.remove('border-gray-300');
+        selectedWeight = btn.dataset.weight;
+        updatePriceFromSelection();
+      });
+    });
+  }
+
+  if (packagingButtons.length) {
+    packagingButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        packagingButtons.forEach(b => {
+          b.classList.remove('border-[#556b2f]', 'bg-[#556b2f]', 'text-white');
+          b.classList.add('border-gray-300');
+        });
+        btn.classList.add('border-[#556b2f]', 'bg-[#556b2f]', 'text-white');
+        btn.classList.remove('border-gray-300');
+        selectedPackaging = btn.dataset.packaging;
+        updatePriceFromSelection();
+      });
+    });
+  }
+
+  // Initialize price for default selection
+  updatePriceFromSelection();
+
   const addBtn = document.getElementById('addToCart');
   if (addBtn) {
     addBtn.addEventListener('click', () => {
       if (!product.inStock) return;
+      const selectedVariant = findVariant();
       const cart = getCart();
-      const existing = cart.find(it => it.id === product.id);
+      const uniqueId = `${selectedVariant.id}-${selectedVariant.weight || 'default'}-${selectedVariant.packaging || 'default'}`;
+      const existing = cart.find(it => it.uniqueId === uniqueId);
       if (existing) {
         existing.quantity += quantity;
       } else {
-        cart.push({ id: product.id, name: product.name, price: product.price, image: product.image, quantity });
+        cart.push({ 
+          id: selectedVariant.id,
+          uniqueId,
+          name: `${product.name}${selectedVariant.weight ? ' ' + selectedVariant.weight : ''}${selectedVariant.packaging ? ' (' + selectedVariant.packaging + ')' : ''}`,
+          price: selectedVariant.price || product.price,
+          image: selectedVariant.image || product.image,
+          quantity
+        });
       }
       setCart(cart);
       showNotification(`${product.name} (${quantity}x) added to cart!`, 'success');
@@ -298,7 +395,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        document.getElementById('content').innerHTML = createProductTemplate(product);
+        // Build group variants from products that share the same base name (ignoring trailing weight tokens)
+        const groupKey = new URLSearchParams(location.search).get('group');
+        const weightRegex = /(\s|^)(250g|500g|1000g)\s*$/i;
+        const baseEn = (product.nameEn || product.name || '').replace(weightRegex, '').trim();
+        const baseAr = (product.nameAr || '').replace(weightRegex, '').trim();
+        const derivedGroupKey = (groupKey || baseEn || product.name).toLowerCase();
+        const groupVariants = products.filter(p => {
+          const bEn = (p.nameEn || p.name || '').replace(weightRegex, '').trim().toLowerCase();
+          const bAr = (p.nameAr || '').replace(weightRegex, '').trim().toLowerCase();
+          return bEn === derivedGroupKey || (baseAr && bAr === baseAr.toLowerCase());
+        });
+
+        document.getElementById('content').innerHTML = createProductTemplate(product, groupVariants);
         // Basic dynamic SEO for product page
         try {
             document.title = `Mounifull – ${product.name}`;
@@ -311,7 +420,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             setOrUpdateName('twitter:description', desc);
             setOrUpdateName('twitter:image', resolveAsset(product.image));
         } catch {}
-        bindProductInteractions(product);
+        bindProductInteractions(product, groupVariants);
         setupBackToTop();
     } catch (error) {
         console.error('Error loading product:', error);

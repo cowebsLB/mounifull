@@ -3,6 +3,7 @@ import { setupMobileMenu } from './mobile-menu.js';
 
 let allProducts = [];
 let filteredProducts = [];
+let groupedProducts = [];
 let currentFilters = {
     search: '',
     sort: 'name-asc',
@@ -81,7 +82,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         allProducts = await fetchProducts();
-        filteredProducts = [...allProducts];
+        // Build grouped view by base name to reduce duplicates across weights/packaging
+        groupedProducts = buildGroupedProducts(allProducts);
+        filteredProducts = [...groupedProducts];
         renderProducts();
         updateCartBadge();
         setupEventListeners();
@@ -240,7 +243,7 @@ function setupEventListeners() {
 
 function applyFilters() {
     const lang = (window.i18n && window.i18n.currentLanguage) || 'en';
-    filteredProducts = allProducts.filter(product => {
+    filteredProducts = groupedProducts.filter(product => {
         // Language-aware fields
         const nameField = lang === 'ar' ? (product.nameAr || product.name) : (product.nameEn || product.name);
         const descField = lang === 'ar' ? (product.descriptionAr || product.description) : (product.description || product.descriptionAr || '');
@@ -318,11 +321,11 @@ function sortProducts() {
     filteredProducts.sort((a, b) => {
         switch (currentFilters.sort) {
             case 'name-asc':
-                return (lang === 'ar' ? (a.nameAr || a.name) : (a.nameEn || a.name))
-                    .localeCompare(lang === 'ar' ? (b.nameAr || b.name) : (b.nameEn || b.name));
+                return (lang === 'ar' ? (a.baseNameAr || a.baseName) : (a.baseName || a.baseNameAr))
+                    .localeCompare(lang === 'ar' ? (b.baseNameAr || b.baseName) : (b.baseName || b.baseNameAr));
             case 'name-desc':
-                return (lang === 'ar' ? (b.nameAr || b.name) : (b.nameEn || b.name))
-                    .localeCompare(lang === 'ar' ? (a.nameAr || a.name) : (a.nameEn || a.name));
+                return (lang === 'ar' ? (b.baseNameAr || b.baseName) : (b.baseName || b.baseNameAr))
+                    .localeCompare(lang === 'ar' ? (a.baseNameAr || a.baseName) : (a.baseName || a.baseNameAr));
             case 'price-asc':
                 return a.price - b.price;
             case 'price-desc':
@@ -351,35 +354,82 @@ function renderProducts() {
     }
 
     const currentLanguage = window.i18n ? window.i18n.currentLanguage : 'en';
-    
-    grid.innerHTML = filteredProducts.map(product => `
-        <div class="product-card bg-white rounded-2xl shadow hover:shadow-lg transition-all overflow-hidden group" data-product-id="${product.id}">
-            <a href="product.html?id=${product.id}" class="block">
+
+    grid.innerHTML = filteredProducts.map(group => {
+        const displayName = currentLanguage === 'ar' ? (group.baseNameAr || group.baseName) : group.baseName;
+        const displayDesc = currentLanguage === 'ar' ? (group.descriptionAr || group.description || '') : (group.description || group.descriptionAr || '');
+        const primary = group.primaryItem || group.items[0];
+        const minPrice = Math.min(...group.items.map(p => p.price));
+        const maxPrice = Math.max(...group.items.map(p => p.price));
+        const priceText = minPrice === maxPrice ? `$${minPrice.toFixed(2)}` : `$${minPrice.toFixed(2)} – $${maxPrice.toFixed(2)}`;
+        const anyOut = group.items.some(p => !p.inStock);
+
+        return `
+        <div class="product-card bg-white rounded-2xl shadow hover:shadow-lg transition-all overflow-hidden group" data-product-id="${primary.id}" data-group-key="${group.key}">
+            <a href="product.html?id=${primary.id}&group=${encodeURIComponent(group.key)}" class="block">
                 <div class="h-48 sm:h-56 bg-gray-50 flex items-center justify-center relative overflow-hidden">
-                    <img loading="lazy" src="${resolveAsset(product.image)}" alt="${currentLanguage === 'ar' ? product.nameAr : product.nameEn}" class="max-h-48 sm:max-h-56 object-contain group-hover:scale-105 transition-transform duration-300">
-                    ${!product.inStock ? '<div class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-xs">Out of Stock</div>' : ''}
+                    <img loading="lazy" src="${resolveAsset(primary.image)}" alt="${displayName}" class="max-h-48 sm:max-h-56 object-contain group-hover:scale-105 transition-transform duration-300">
+                    ${anyOut ? '<div class="absolute top-2 right-2 bg-yellow-500 text-white px-2 py-1 rounded text-xs">Some variants out</div>' : ''}
                 </div>
                 <div class="p-6">
                     <div class="flex items-center justify-between mb-2">
-                        <h3 class="product-name font-cormorant text-2xl text-terracotta">${currentLanguage === 'ar' ? product.nameAr : product.nameEn}</h3>
+                        <h3 class="product-name font-cormorant text-2xl text-terracotta">${displayName}</h3>
                         <div class="flex items-center">
-                            <span class="text-yellow-400 mr-1">${'★'.repeat(Math.floor(product.rating))}</span>
-                            <span class="text-gray-500 text-sm">${product.rating}</span>
+                            <span class="text-yellow-400 mr-1">${'★'.repeat(Math.floor(primary.rating))}</span>
+                            <span class="text-gray-500 text-sm">${primary.rating}</span>
                         </div>
                     </div>
-                    <p class="product-description text-gray-600 text-sm mb-4 line-clamp-2">${currentLanguage === 'ar' ? product.descriptionAr : product.description}</p>
+                    <p class="product-description text-gray-600 text-sm mb-4 line-clamp-2">${displayDesc}</p>
                     <div class="flex justify-between items-center">
-                        <span class="text-2xl text-terracotta font-semibold">$${product.price.toFixed(2)}</span>
-                        <button data-id="${product.id}" class="add btn bg-terracotta text-white px-4 py-2 rounded-full hover:bg-[#b55a2d] transition-colors ${!product.inStock ? 'opacity-50 cursor-not-allowed' : ''}" ${!product.inStock ? 'disabled' : ''}>
-                            <i class="fas fa-cart-plus mr-2"></i>Add to Cart
-                        </button>
+                        <span class="text-2xl text-terracotta font-semibold">${priceText}</span>
+                        <a href="product.html?id=${primary.id}&group=${encodeURIComponent(group.key)}" class="btn bg-terracotta text-white px-4 py-2 rounded-full hover:bg-[#b55a2d] transition-colors">
+                            View options
+                        </a>
                     </div>
                 </div>
             </a>
-        </div>
-    `).join('');
+        </div>`;
+    }).join('');
 
     count.textContent = `${filteredProducts.length} item${filteredProducts.length !== 1 ? 's' : ''}`;
+}
+
+// Build grouped product entries by base name (e.g., "Kishik" with 250/500/1000 and jar/pouch)
+function buildGroupedProducts(products) {
+    // Heuristic: base name is everything before the weight token at the end (e.g., " 250g", " 500g", " 1000g").
+    const weightRegex = /(\s|^)(250g|500g|1000g)\s*$/i;
+    const normalize = (name) => (name || '').trim();
+    const groups = new Map();
+
+    products.forEach(p => {
+        const match = normalize(p.nameEn || p.name).match(weightRegex);
+        const baseEn = match ? normalize((p.nameEn || p.name).replace(weightRegex, '')) : normalize(p.nameEn || p.name);
+        const matchAr = normalize(p.nameAr || '').match(weightRegex);
+        const baseAr = matchAr ? normalize((p.nameAr || '').replace(weightRegex, '')) : normalize(p.nameAr || '');
+        const key = (baseEn || baseAr || (p.nameEn || p.name)).toLowerCase();
+
+        if (!groups.has(key)) {
+            groups.set(key, {
+                key,
+                baseName: baseEn || (p.nameEn || p.name),
+                baseNameAr: baseAr || (p.nameAr || ''),
+                description: p.description,
+                descriptionAr: p.descriptionAr,
+                items: [],
+                primaryItem: null,
+                price: p.price
+            });
+        }
+        const g = groups.get(key);
+        g.items.push(p);
+        if (!g.primaryItem || (p.weight === '500g')) {
+            g.primaryItem = p; // prefer mid weight if present
+        }
+        // Keep lowest price for sorting by price
+        if (p.price < g.price) g.price = p.price;
+    });
+
+    return Array.from(groups.values());
 }
 
 function applyFilterModal() {
