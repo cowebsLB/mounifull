@@ -5,6 +5,11 @@
     "story": "قصتنا",
     "contact": "اتصل بنا"
   },
+  "categories": {
+    "main-mouni": "المونة الرئيسية",
+    "sweet-mouni": "المونة الحلوة", 
+    "mounifull-box": "صندوق مونيفول"
+  },
   "common": {
     "search": "البحث في المنتجات...",
     "filter": "تصفية",
@@ -21,15 +26,34 @@
     "showMore": "عرض المزيد",
     "showLess": "عرض أقل",
     "shoppingCart": "سلة التسوق",
-    "language": "اللغة"
+    "language": "اللغة",
+    "backToProducts": "العودة للمنتجات",
+    "reviews": "تقييمات",
+    "bundleContents": "محتويات المجموعة",
+    "productDetails": "تفاصيل المنتج",
+    "dateAdded": "تاريخ الإضافة",
+    "availability": "التوفر",
+    "quantity": "الكمية",
+    "packaging": "اختر التغليف",
+    "freeShipping": "شحن مجاني للطلبات أكثر من 50$",
+    "wishlist": "قائمة الأمنيات",
+    "share": "مشاركة",
+    "home": "الرئيسية",
+    "yourCartEmpty": "سلتك فارغة",
+    "addProductsStart": "أضف بعض المنتجات للبدء!",
+    "browseProducts": "تصفح المنتجات",
+    "total": "المجموع:",
+    "viewCart": "عرض السلة",
+    "checkout": "الدفع",
+    "viewOptions": "عرض الخيارات"
   },
   "home": {
     "hero": {
       "title": "Mounifull",
-      "subtitle": "تذوق التقاليد. شارك لبنان. ادعم النساء",
-      "description": "اختبر الطعم الأصيل للمونة اللبنانية - التقليدية التي تجمع العائلات عبر الأجيال.",
-      "cta": "تسوق الآن",
-      "watchStory": "شاهد قصتنا"
+      "subtitle": "Taste tradition. Share Lebanon. Support women",
+      "description": "Experience the authentic taste of Lebanese mouneh - traditional that brings families together across generations.",
+      "cta": "Shop Now",
+      "watchStory": "Watch Our Story"
     },
     "featured": {
       "title": "المنتجات المميزة",
@@ -95,6 +119,14 @@
       "all": "جميع المنتجات",
       "inStock": "المتوفرة فقط",
       "newArrivals": "الوافدات الجديدة",
+      "dateAdded": "تاريخ الإضافة",
+      "dateFrom": "التاريخ من",
+      "dateTo": "التاريخ إلى",
+      "dateFormat": "مم/دد/سسسس",
+      "minimumRating": "الحد الأدنى للتقييم",
+      "allRatings": "الكل",
+      "fourStars": "4+ نجوم",
+      "threeStars": "3+ نجوم",
       "reset": "إعادة تعيين الكل",
       "apply": "تطبيق الفلاتر"
     }
@@ -218,10 +250,335 @@
     "subtitle": "المحتوى سيتم توفيره من قبل العميل."
   },
   "terms": {
-    "title": "شروط الخدمة",
-    "subtitle": "المحتوى سيتم توفيره من قبل العميل."
+    "title": "الشروط والأحكام",
+    "lastUpdated": "آخر تحديث: أكتوبر 2025",
+    "welcome": "مرحبًا بكم في MOUNIFULL.",
+    "welcomeSubtext": "بالوصول إلى موقعنا أو شراء منتجاتنا، فإنك توافق على الشروط والأحكام التالية. الرجاء قراءتها بعناية قبل استخدام خدماتنا.",
+    "aboutUs": "من نحن",
+    "aboutUsText1": "MOUNIFULL هي علامة تجارية لبنانية مخصصة للحفاظ على تقاليد المونة اللبنانية، تُصنع بواسطة نساء محليات باستخدام مكونات عضوية وطرق تقليدية.",
+    "aboutUsText2": "هدفنا هو جعل الطعام اللبناني الصحي والأصيل متاحًا بسهولة في جميع أنحاء لبنان وخارجه.",
+    "definitions": "التعريفات",
+    "definitionsText1": "\"نحن\"، \"لنا\"، \"خاصتنا\" تشير إلى MOUNIFULL.",
+    "definitionsText2": "\"أنت\" تشير إلى أي مستخدم، زائر، أو عميل لموقعنا.",
+    "products": "المنتجات",
+    "productsText1": "جميع منتجات MOUNIFULL مصنوعة يدويًا، خالية من المواد الحافظة، ومنتجة محليًا.",
+    "productsText2": "نظرًا للطبيعة الحرفية لمنتجاتنا، قد تحدث اختلافات طفيفة في الطعم أو اللون أو القوام. هذه الاختلافات جزء من أصالة المنتج ولا تُعتبر عيوبًا.",
+    "ordersPayments": "الطلبات والدفع",
+    "ordersPaymentsText1": "يتم تأكيد الطلبات بمجرد إتمام الدفع.",
+    "ordersPaymentsText2": "تُعرض الأسعار بالدولار الأمريكي أو الليرة اللبنانية، حسب طريقة الدفع المختارة.",
+    "ordersPaymentsText3": "نقبل الدفع عند الاستلام والدفع الإلكتروني (حيثما توفر).",
+    "ordersPaymentsText4": "تحتفظ MOUNIFULL بالحق في تحديث أسعار المنتجات أو إيقاف المنتجات في أي وقت.",
+    "shippingDelivery": "الشحن والتوصيل",
+    "shippingDeliveryText1": "نقوم بالتوصيل في جميع أنحاء لبنان خلال 2 إلى 5 أيام عمل.",
+    "shippingDeliveryText2": "تختلف رسوم التوصيل حسب الموقع وستظهر عند الخروج من عملية الدفع.",
+    "shippingDeliveryText3": "يجب عليك فحص الطرد عند الاستلام. إذا كان المنتج تالفًا أو غير صحيح، يرجى إعلامنا خلال 24 ساعة عبر البريد الإلكتروني أو الواتساب مع صورة.",
+    "returnsRefunds": "الاسترجاع والاسترداد",
+    "returnsRefundsText1": "نظرًا لطبيعة المنتجات الغذائية، لا يمكننا قبول الاسترجاع أو التبديل بعد فتح التغليف.",
+    "returnsRefundsText2": "إذا وصل المنتج تالفًا أو معيبًا، يرجى الاتصال بنا خلال 24 ساعة من التسليم، وسنقوم بتقديم استبدال أو استرداد.",
+    "returnsRefundsText3": "يتم إصدار المبالغ المستردة فقط في حالة وجود مشكلة مؤكدة في المنتج.",
+    "intellectualProperty": "الملكية الفكرية",
+    "intellectualPropertyText1": "جميع المحتويات على هذا الموقع — بما في ذلك الشعار، التغليف، الصور، وصف المنتجات، والتصميم — ملكية لـ MOUNIFULL.",
+    "intellectualPropertyText2": "لا يجوز نسخ أو إعادة إنتاج أو توزيع أي جزء من هذا الموقع بدون إذن كتابي.",
+    "privacyPolicy": "سياسة الخصوصية",
+    "privacyPolicyText1": "تُستخدم معلوماتك الشخصية (مثل الاسم، العنوان، الهاتف، والبريد الإلكتروني) فقط لمعالجة الطلبات وتحسين خدماتنا.",
+    "privacyPolicyText2": "لا نقوم أبدًا ببيع أو مشاركة بياناتك مع أطراف ثالثة.",
+    "privacyPolicyText3": "يمكنك طلب حذف أو تصحيح بياناتك الشخصية في أي وقت عن طريق الاتصال بنا.",
+    "liabilityDisclaimer": "إخلاء المسؤولية",
+    "liabilityDisclaimerText1": "MOUNIFULL غير مسؤولة عن التأخيرات أو الأضرار الناتجة عن خدمات التوصيل أو القوة القاهرة (مثل إغلاق الطرق، الأحوال الجوية، الإضرابات، أو الأحداث السياسية).",
+    "updatesToTerms": "تحديث الشروط",
+    "updatesToTermsText1": "قد نقوم بتحديث هذه الشروط والأحكام من وقت لآخر. ستكون النسخة الأحدث دائمًا متاحة على موقعنا.",
+    "updatesToTermsText2": "استمرارك في استخدام الموقع يعني قبولك لأحدث نسخة من الشروط.",
+    "contactUs": "اتصل بنا",
+    "contactUsText1": "لأي استفسارات أو ملاحظات، يرجى الاتصال بنا:",
+    "email": "البريد الإلكتروني:",
+    "phone": "الهاتف:",
+    "location": "الموقع:"
+  },
+  "cart": {
+    "title": "سلة التسوق",
+    "itemsTitle": "عناصر السلة",
+    "orderSummary": "ملخص الطلب",
+    "subtotal": "المجموع الفرعي:",
+    "delivery": "التوصيل:",
+    "total": "المجموع:",
+    "continueShopping": "متابعة التسوق",
+    "proceedToCheckout": "المتابعة للدفع",
+    "remove": "إزالة",
+    "emptyTitle": "سلتك فارغة",
+    "emptyMessage": "أضف بعض المنتجات للبدء!",
+    "backToCart": "العودة للسلة"
   },
   "checkout": {
-    "title": "الدفع"
+    "title": "الدفع",
+    "orderSummary": "ملخص الطلب",
+    "shippingInfo": "معلومات الشحن",
+    "fullName": "الاسم الكامل *",
+    "phone": "رقم الهاتف *",
+    "whatsapp": "رقم الواتساب",
+    "email": "البريد الإلكتروني",
+    "address": "عنوان التوصيل *",
+    "saveAddress": "حفظ هذا العنوان للطلبات المستقبلية",
+    "orderOptions": "خيارات الطلب",
+    "deliveryMethod": "طريقة التوصيل",
+    "standardDelivery": "التوصيل العادي (2-3 أيام عمل)",
+    "expressDelivery": "التوصيل السريع (يوم عمل واحد) - +$5.00",
+    "specialInstructions": "تعليمات خاصة",
+    "orderProcess": "عملية الطلب",
+    "howToComplete": "كيفية إكمال طلبك",
+    "step1": "1. املأ معلومات التوصيل",
+    "step2": "2. راجع ملخص طلبك",
+    "step3": "3. أرسل الطلب عبر الواتساب",
+    "step4": "4. سنتواصل معك للتأكيد",
+    "step5": "5. الدفع عند التوصيل (نقداً أو تحويل بنكي)",
+    "placeOrder": "تأكيد الطلب",
+    "browseProducts": "تصفح المنتجات"
+  },
+  "products": {
+    "macdous": {
+      "name": "مكدوس",
+      "description": "باذنجان، جوز، فلفل، ثوم، ملح، زيت"
+    },
+    "kishik": {
+      "name": "كشك",
+      "description": "قمح، حليب (لبن)، ملح"
+    },
+    "tomatoSauce": {
+      "name": "صلصة الطماطم",
+      "description": "طماطم، ملح"
+    },
+    "grapeLeaves": {
+      "name": "أوراق العنب",
+      "description": "أوراق العنب"
+    },
+    "pureThymes": {
+      "name": "زعتر خام",
+      "description": "زعتر"
+    },
+    "sumac": {
+      "name": "سماق",
+      "description": "سماق"
+    },
+    "labnehOliveOil": {
+      "name": "لبنة بزيت الزيتون",
+      "description": "حليب، ملح"
+    },
+    "waxHoneycomb": {
+      "name": "شمع بالعسل",
+      "description": "شمع"
+    },
+    "almonds": {
+      "name": "لوز",
+      "description": "لوز"
+    },
+    "walnuts": {
+      "name": "جوز",
+      "description": "جوز"
+    },
+    "molokhia": {
+      "name": "ملوخية",
+      "description": "ملوخية مجففة"
+    },
+    "driedTomatoes": {
+      "name": "طماطم مجففة",
+      "description": "طماطم، ملح"
+    },
+    "raisins": {
+      "name": "زبيب",
+      "description": "عنب"
+    },
+    "driedFigs": {
+      "name": "تين مجفف",
+      "description": "تين"
+    },
+    "familyBreakfastBundle": {
+      "name": "مجموعة إفطار العائلة",
+      "description": "مجموعة إفطار مثالية مع أساسيات الصباح اللبنانية التقليدية."
+    },
+    "traditionTasteBundle": {
+      "name": "مجموعة التقاليد والطعم",
+      "description": "مجموعة شاملة تعرض أفضل تقاليد المونة اللبنانية."
+    },
+    "driedMouniBundle": {
+      "name": "مجموعة المونة المجففة",
+      "description": "أساسيات المونة المجففة الكاملة في أجزاء مريحة 250g."
+    },
+    "pureHoney": {
+      "name": "عسل خالص",
+      "description": "عسل طبيعي خالص"
+    },
+    "strawberryJam": {
+      "name": "مربى الفراولة",
+      "description": "مربى فراولة تقليدي"
+    },
+    "pumpkinJam": {
+      "name": "مربى اليقطين",
+      "description": "مربى يقطين تقليدي"
+    },
+    "darkSyrup": {
+      "name": "دبس أسود",
+      "description": "دبس أسود تقليدي"
+    },
+    "apricotJam": {
+      "name": "مربى المشمش",
+      "description": "مربى مشمش تقليدي"
+    },
+    "driedHerbs": {
+      "name": "أعشاب مجففة",
+      "description": "أعشاب مجففة مختلطة"
+    },
+    "dakkaKibbeh": {
+      "name": "دقة كبة",
+      "description": "خليط دقة كبة لبناني تقليدي في جرة"
+    },
+    "roseJam": {
+      "name": "مربى الورد",
+      "description": "مربى ورد تقليدي"
+    },
+    "figJam": {
+      "name": "مربى التين",
+      "description": "مربى تين تقليدي"
+    },
+    "appleVinegar": {
+      "name": "خل التفاح",
+      "description": "خل تفاح طبيعي"
+    },
+    "driedMolokhiaLeaves": {
+      "name": "أوراق ملوخية مجففة",
+      "description": "أوراق ملوخية مجففة"
+    },
+    "driedMint": {
+      "name": "نعناع مجفف",
+      "description": "أوراق نعناع مجففة"
+    },
+    "grapeMolasses": {
+      "name": "دبس العنب",
+      "description": "دبس عنب تقليدي"
+    }
+  },
+  "productDetails": {
+    "macdous": {
+      "name": "مكدوس",
+      "description": "باذنجان، جوز، فليفلة، ثوم، ملح، زيت"
+    },
+    "kishik": {
+      "name": "كشك",
+      "description": "قمح، لبن، ملح"
+    },
+    "tomatoSauce": {
+      "name": "صلصة البندورة",
+      "description": "بندورة، ملح"
+    },
+    "grapeLeaves": {
+      "name": "ورق العنب",
+      "description": "أوراق عنب"
+    },
+    "pureThymes": {
+      "name": "زعتر خام",
+      "description": "زعتر"
+    },
+    "sumac": {
+      "name": "سماق",
+      "description": "سماق"
+    },
+    "labnehOliveOil": {
+      "name": "لبنة بالزيت",
+      "description": "لبن، ملح"
+    },
+    "waxHoneycomb": {
+      "name": "شمع بالعسل",
+      "description": "شمع"
+    },
+    "almonds": {
+      "name": "لوز",
+      "description": "لوز"
+    },
+    "walnuts": {
+      "name": "جوز",
+      "description": "جوز"
+    },
+    "molokhia": {
+      "name": "ملوخية",
+      "description": "ملوخية مجففة"
+    },
+    "driedTomatoes": {
+      "name": "بندورة مجففة",
+      "description": "بندورة، ملح"
+    },
+    "raisins": {
+      "name": "زبيب",
+      "description": "عنب"
+    },
+    "driedFigs": {
+      "name": "تين مجفف",
+      "description": "تين"
+    },
+    "familyBreakfastBundle": {
+      "name": "مجموعة الفطور العائلي",
+      "description": "مجموعة فطور مثالية مع أساسيات الصباح اللبنانية التقليدية."
+    },
+    "traditionTasteBundle": {
+      "name": "مجموعة التقليد والطعم",
+      "description": "مجموعة شاملة تعرض أفضل تقاليد المونة اللبنانية."
+    },
+    "driedMouniBundle": {
+      "name": "مجموعة المونة المجففة",
+      "description": "أساسيات المخزن المجففة الكاملة في حصص مريحة 250غ."
+    },
+    "pureHoney": {
+      "name": "عسل طبيعي",
+      "description": "عسل طبيعي خالص"
+    },
+    "strawberryJam": {
+      "name": "مربى الفريز",
+      "description": "مربى فريز تقليدي"
+    },
+    "pumpkinJam": {
+      "name": "مربى اليقطين",
+      "description": "مربى يقطين تقليدي"
+    },
+    "darkSyrup": {
+      "name": "شراب داكن",
+      "description": "شراب داكن تقليدي"
+    },
+    "apricotJam": {
+      "name": "مربى المشمش",
+      "description": "مربى مشمش تقليدي"
+    },
+    "driedHerbs": {
+      "name": "أعشاب مجففة",
+      "description": "أعشاب مجففة مختلطة"
+    },
+    "dakkaKibbeh": {
+      "name": "دقة كبة",
+      "description": "خليط دقة كبة لبناني تقليدي في جرة"
+    },
+    "roseJam": {
+      "name": "مربى الورد",
+      "description": "مربى ورد تقليدي"
+    },
+    "figJam": {
+      "name": "مربى التين",
+      "description": "مربى تين تقليدي"
+    },
+    "appleVinegar": {
+      "name": "خل التفاح",
+      "description": "خل تفاح طبيعي"
+    },
+    "driedMolokhiaLeaves": {
+      "name": "أوراق ملوخية مجففة",
+      "description": "أوراق ملوخية مجففة"
+    },
+    "driedMint": {
+      "name": "نعناع مجفف",
+      "description": "أوراق نعناع مجففة"
+    },
+    "grapeMolasses": {
+      "name": "دبس العنب",
+      "description": "دبس عنب تقليدي"
+    },
+    "lebaneseDakkaKibbeh": {
+      "name": "دقة كبة لبنانية",
+      "description": "خليط دقة كبة لبناني تقليدي"
+    }
   }
 }

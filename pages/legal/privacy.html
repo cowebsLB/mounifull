@@ -22,7 +22,6 @@
     <meta name="twitter:description" content="Privacy policy for Mounifull.">
     <meta name="twitter:image" content="../../assets/logos/logo full.png">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../../assets/tailwind.css">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -134,10 +133,6 @@
             
             <!-- Mobile Controls -->
             <div class="lg:hidden flex items-center gap-3">
-                <button class="relative cart-icon" id="cartIconMobile">
-                    <i class="fas fa-shopping-cart text-xl"></i>
-                    <span id="cartBadgeMobile" class="absolute -top-2 -right-2 bg-[#c96a3d] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
-                </button>
                 
                 <button id="mobileMenuBtn" class="text-[#556b2f] hover:text-terracotta transition-colors" title="Open menu" aria-label="Open menu">
                     <i class="fas fa-bars text-xl"></i>
@@ -177,16 +172,16 @@
             
             <div class="mt-8 pt-6 border-t border-gray-200">
                 <div class="flex items-center justify-between mb-4">
-                    <span class="text-gray-600">Shopping Cart</span>
-                    <button class="relative cart-icon" id="cartIconMobileMenu">
+                    <span class="text-gray-600" data-i18n="common.shoppingCart">Shopping Cart</span>
+                    <a href="../cart.html" class="relative cart-icon" id="cartIconMobileMenu">
                         <i class="fas fa-shopping-cart text-xl"></i>
                         <span id="cartBadgeMobileMenu" class="absolute -top-2 -right-2 bg-terracotta text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
-                    </button>
+                    </a>
                 </div>
                 
                 <!-- Language Switcher -->
                 <div class="flex items-center justify-between">
-                    <span class="text-sm text-gray-600">Language</span>
+                    <span class="text-sm text-gray-600" data-i18n="common.language">Language</span>
                     <div class="flex gap-1">
                         <button id="langEnMobile" class="px-2 py-1 text-xs rounded transition-colors bg-terracotta text-white">
                             EN
@@ -234,7 +229,7 @@
         </div>
     </main>
 
-    <footer class="bg-olive text-white py-12 mt-20">
+    <footer class="text-white py-12 mt-20" style="background-color: #556b2f;">
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-4 gap-8">
                 <div>
@@ -272,7 +267,9 @@
                 </div>
             </div>
             <div class="border-t border-white/20 mt-8 pt-8 text-center font-lato text-white/80">
-                <p data-i18n="footer.rights">&copy; 2025 Mounifull. All rights reserved.</p>
+                <p data-i18n="footer.rights">&copy; 2025 Mounifull. All rights reserved. 
+                    <a href="https://cowebslb.com" target="_blank" rel="noopener" class="underline hover:text-white">Made by COWebs.lb</a>
+                </p>
             </div>
         </div>
     </footer>

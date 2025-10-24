@@ -1,5 +1,8 @@
 import { fetchProducts, getCart, setCart, updateCartBadge, formatPrice, formatDate, showNotification, resolveAsset } from './common.js';
 
+// Global i18n instance
+let i18n = null;
+
 function getId() {
   const p = new URLSearchParams(location.search).get('id');
   return p ? Number(p) : NaN;
@@ -29,25 +32,149 @@ function setOrUpdateName(name, content) {
   return setOrUpdateMeta(name, content);
 }
 
+async function loadProduct(productId) {
+    try {
+        const products = await fetchProducts();
+        const product = products.find(p => p.id === productId);
+        
+        if (!product) {
+            console.error('Product not found:', productId);
+            document.body.innerHTML = '<div class="container mx-auto px-4 py-8 text-center"><h1 class="text-2xl font-bold text-red-600">Product not found</h1><a href="products.html" class="text-blue-600 hover:underline">Back to products</a></div>';
+            return;
+        }
+
+        // Get all variants of the same product
+        const groupVariants = products.filter(p => {
+            const baseName1 = (p.nameEn || p.name || '').replace(/\s+(250g|500g|1000g|200g|250ml|330g|500ml)\s*$/i, '').trim();
+            const baseName2 = (product.nameEn || product.name || '').replace(/\s+(250g|500g|1000g|200g|250ml|330g|500ml)\s*$/i, '').trim();
+            return baseName1 === baseName2;
+        });
+
+        // Render the product
+        const productContainer = document.getElementById('productContainer');
+        if (productContainer) {
+            productContainer.innerHTML = createProductTemplate(product, groupVariants);
+            bindProductInteractions(product, groupVariants);
+        }
+
+        // Update SEO meta tags
+        updateProductSEO(product);
+        
+    } catch (error) {
+        console.error('Error loading product:', error);
+        document.body.innerHTML = '<div class="container mx-auto px-4 py-8 text-center"><h1 class="text-2xl font-bold text-red-600">Error loading product</h1><a href="products.html" class="text-blue-600 hover:underline">Back to products</a></div>';
+    }
+}
+
+function updateProductSEO(product) {
+    try {
+        // Update page title
+        document.title = `Mounifull – ${product.name}`;
+        
+        // Get product description
+        const desc = product.description || product.descriptionAr || 'Authentic Lebanese mouneh product';
+        
+        // Update meta tags
+        setOrUpdateMeta('description', desc);
+        setOrUpdateProperty('og:title', `Mounifull – ${product.name}`);
+        setOrUpdateProperty('og:description', desc);
+        setOrUpdateProperty('og:image', resolveAsset(product.image));
+        setOrUpdateName('twitter:title', `Mounifull – ${product.name}`);
+        setOrUpdateName('twitter:description', desc);
+        setOrUpdateName('twitter:image', resolveAsset(product.image));
+    } catch (error) {
+        console.error('Error updating SEO:', error);
+    }
+}
+
+function getProductKey(product) {
+  // Map product names to translation keys
+  const name = product.nameEn || product.name || '';
+  
+  // Remove weight/quantity info to get base product name
+  const baseName = name.replace(/\s+(250g|500g|1000g|200g|250ml|330g|500ml)\s*$/i, '').trim();
+  
+  // Map to translation keys
+  const keyMap = {
+    'Macdous': 'macdous',
+    'Kishik': 'kishik',
+    'Tomato Sauce': 'tomatoSauce',
+    'Grape Leaves': 'grapeLeaves',
+    'Pure Thymes': 'pureThymes',
+    'Sumac': 'sumac',
+    'Labneh with Olive Oil': 'labnehOliveOil',
+    'Wax with Honeycomb': 'waxHoneycomb',
+    'Almonds': 'almonds',
+    'Walnuts': 'walnuts',
+    'Molokhia': 'molokhia',
+    'Dried Tomatoes': 'driedTomatoes',
+    'Raisins': 'raisins',
+    'Dried Figs': 'driedFigs',
+    'Family Breakfast Bundle': 'familyBreakfastBundle',
+    'Tradition & Taste Bundle': 'traditionTasteBundle',
+    'Dried Mouni Bundle': 'driedMouniBundle',
+    'Pure Honey': 'pureHoney',
+    'Strawberry Jam': 'strawberryJam',
+    'Pumpkin Jam': 'pumpkinJam',
+    'Dark Syrup': 'darkSyrup',
+    'Apricot Jam': 'apricotJam',
+    'Dried Herbs': 'driedHerbs',
+    'Dakka Kibbeh': 'dakkaKibbeh',
+    'Rose Jam': 'roseJam',
+    'Fig Jam': 'figJam',
+    'Apple Vinegar': 'appleVinegar',
+    'Dried Molokhia Leaves': 'driedMolokhiaLeaves',
+    'Dried Mint': 'driedMint',
+    'Grape Molasses': 'grapeMolasses',
+    'Lebanese Dakka Kibbeh': 'lebaneseDakkaKibbeh'
+  };
+  
+  return keyMap[baseName] || 'macdous'; // fallback to macdous if not found
+}
+
 function createProductTemplate(product, groupVariants) {
   const ratingStars = '★'.repeat(Math.floor(product.rating)) + '☆'.repeat(5 - Math.floor(product.rating));
   const isInStock = product.inStock !== false;
   const weights = Array.from(new Set(groupVariants.map(v => v.weight).filter(Boolean)));
   const packagings = Array.from(new Set(groupVariants.map(v => v.packaging).filter(Boolean)));
   
+  // Get product key for translation lookup
+  const productKey = getProductKey(product);
+  
+  // Get current language for product name and description using translation system
+  const currentLang = i18n ? i18n.currentLanguage : 'en';
+  
+  // Get translations safely
+  let productName, productDesc, categoryName;
+  if (i18n && i18n.translations && i18n.translations[currentLang] && i18n.translations[currentLang].productDetails && i18n.translations[currentLang].productDetails[productKey]) {
+    productName = i18n.translations[currentLang].productDetails[productKey].name;
+    productDesc = i18n.translations[currentLang].productDetails[productKey].description;
+  } else {
+    // Fallback to original data
+    productName = currentLang === 'ar' ? (product.nameAr || product.name) : (product.nameEn || product.name);
+    productDesc = currentLang === 'ar' ? (product.descriptionAr || product.description) : (product.description || product.descriptionAr);
+  }
+  
+  // Get category translation
+  if (i18n && i18n.translations && i18n.translations[currentLang] && i18n.translations[currentLang].categories && i18n.translations[currentLang].categories[product.category]) {
+    categoryName = i18n.translations[currentLang].categories[product.category];
+  } else {
+    categoryName = product.category;
+  }
+  
   return `
     <div class="space-y-6">
       <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
         <div class="h-96 bg-gray-50 flex items-center justify-center relative">
-          <img src="${resolveAsset(product.image)}" alt="${product.name}" class="max-h-96 object-contain">
-          ${!isInStock ? '<div class="absolute top-4 right-4 bg-red-500 text-white px-3 py-2 rounded-lg text-sm font-medium">Out of Stock</div>' : ''}
+          <img src="${resolveAsset(product.image)}" alt="${productName}" class="max-h-96 object-contain">
+          ${!isInStock ? `<div class="absolute top-4 right-4 bg-red-500 text-white px-3 py-2 rounded-lg text-sm font-medium" data-i18n="common.outOfStock">Out of Stock</div>` : ''}
         </div>
       </div>
       
       <!-- Product Gallery Placeholder -->
       <div class="grid grid-cols-4 gap-2">
         <div class="aspect-square bg-gray-100 rounded-lg flex items-center justify-center cursor-pointer border-2 border-[#556b2f]">
-          <img src="${resolveAsset(product.image)}" alt="${product.name}" class="w-full h-full object-contain rounded-lg">
+          <img src="${resolveAsset(product.image)}" alt="${productName}" class="w-full h-full object-contain rounded-lg">
         </div>
         <div class="aspect-square bg-gray-100 rounded-lg flex items-center justify-center cursor-pointer hover:border-[#556b2f] border-2 border-transparent transition-colors">
           <i class="fas fa-image text-gray-400"></i>
@@ -63,23 +190,23 @@ function createProductTemplate(product, groupVariants) {
     
     <div class="space-y-6">
       <div>
-        <h1 class="font-cormorant text-5xl text-[#556b2f] mb-4">${product.name}</h1>
+        <h1 class="font-cormorant text-5xl text-[#556b2f] mb-4 product-name">${productName}</h1>
         <div class="flex items-center gap-4 mb-4">
           <div class="flex items-center">
             <span class="text-yellow-400 text-lg mr-2">${ratingStars}</span>
-            <span class="text-gray-600">${product.rating} (${Math.floor(Math.random() * 50) + 10} reviews)</span>
+            <span class="text-gray-600">${product.rating} (${Math.floor(Math.random() * 50) + 10} <span data-i18n="common.reviews">reviews</span>)</span>
           </div>
-          <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">${product.category}</span>
+          <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">${categoryName}</span>
         </div>
       </div>
       
       <div class="prose max-w-none">
-        <p class="text-gray-700 text-lg leading-relaxed mb-6">${product.description}</p>
+        <p class="text-gray-700 text-lg leading-relaxed mb-6 product-description">${productDesc}</p>
         
         ${product.bundleContents ? `
         <!-- Bundle Contents -->
         <div class="border-t border-gray-200 pt-6 mb-6">
-          <h3 class="font-cormorant text-2xl text-[#556b2f] mb-4">Bundle Contents</h3>
+          <h3 class="font-cormorant text-2xl text-[#556b2f] mb-4" data-i18n="common.bundleContents">Bundle Contents</h3>
           <div class="bg-beige rounded-lg p-4">
             <ul class="space-y-2">
               ${product.bundleContents.map(item => `
@@ -96,22 +223,22 @@ function createProductTemplate(product, groupVariants) {
         
         <!-- Expandable Description -->
         <div class="border-t border-gray-200 pt-6">
-          <h3 class="font-cormorant text-2xl text-[#556b2f] mb-4">Product Details</h3>
+          <h3 class="font-cormorant text-2xl text-[#556b2f] mb-4" data-i18n="common.productDetails">Product Details</h3>
           <div class="grid grid-cols-2 gap-4 text-sm">
             <div class="flex justify-between">
-              <span class="text-gray-600">Category:</span>
-              <span class="font-medium capitalize">${product.category}</span>
+              <span class="text-gray-600" data-i18n="common.category">Category:</span>
+              <span class="font-medium capitalize">${categoryName}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-gray-600">Date Added:</span>
+              <span class="text-gray-600" data-i18n="common.dateAdded">Date Added:</span>
               <span class="font-medium">${formatDate(product.date)}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-gray-600">Availability:</span>
-              <span class="font-medium ${isInStock ? 'text-green-600' : 'text-red-600'}">${isInStock ? 'In Stock' : 'Out of Stock'}</span>
+              <span class="text-gray-600" data-i18n="common.availability">Availability:</span>
+              <span class="font-medium ${isInStock ? 'text-green-600' : 'text-red-600'}" data-i18n="${isInStock ? 'common.inStock' : 'common.outOfStock'}">${isInStock ? 'In Stock' : 'Out of Stock'}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-gray-600">Rating:</span>
+              <span class="text-gray-600" data-i18n="common.rating">Rating:</span>
               <span class="font-medium">${product.rating}/5</span>
             </div>
           </div>
@@ -124,7 +251,7 @@ function createProductTemplate(product, groupVariants) {
           ${weights.length > 1 ? `
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">
-              <i class="fas fa-weight mr-2 text-[#556b2f]"></i>Select Weight
+              <i class="fas fa-weight mr-2 text-[#556b2f]"></i><span data-i18n="common.weight">Select Weight</span>
             </label>
             <div class="grid grid-cols-3 gap-2">
               ${weights.map((w, idx) => `
@@ -138,7 +265,7 @@ function createProductTemplate(product, groupVariants) {
           ${packagings.length > 1 ? `
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">
-              <i class="fas fa-box mr-2 text-[#556b2f]"></i>Select Packaging
+              <i class="fas fa-box mr-2 text-[#556b2f]"></i><span data-i18n="common.packaging">Select Packaging</span>
             </label>
             <div class="grid grid-cols-2 gap-2">
               ${packagings.map((pkg, idx) => `
@@ -154,10 +281,10 @@ function createProductTemplate(product, groupVariants) {
         <div class="flex items-center justify-between mb-6">
           <div>
             <span id="productPrice" class="text-3xl text-[#c96a3d] font-bold">${formatPrice(product.price)}</span>
-            <p class="text-sm text-gray-600 mt-1">Free shipping for orders over $50</p>
+            <p class="text-sm text-gray-600 mt-1" data-i18n="common.freeShipping">Free shipping for orders over $50</p>
           </div>
           <div class="text-right">
-            <p class="text-sm text-gray-600">Quantity</p>
+            <p class="text-sm text-gray-600" data-i18n="common.quantity">Quantity</p>
             <div class="flex items-center border rounded-lg mt-2">
               <button id="decreaseQty" class="px-3 py-2 hover:bg-gray-100 transition-colors">
                 <i class="fas fa-minus"></i>
@@ -173,15 +300,15 @@ function createProductTemplate(product, groupVariants) {
         <div class="space-y-3">
           <button id="addToCart" class="w-full bg-[#c96a3d] text-white py-4 rounded-lg font-medium text-lg hover:bg-[#b55a2d] transition-colors flex items-center justify-center ${!isInStock ? 'opacity-50 cursor-not-allowed' : ''}" ${!isInStock ? 'disabled' : ''}>
             <i class="fas fa-cart-plus mr-3"></i>
-            ${isInStock ? 'Add to Cart' : 'Out of Stock'}
+            <span data-i18n="${isInStock ? 'common.addToCart' : 'common.outOfStock'}">${isInStock ? 'Add to Cart' : 'Out of Stock'}</span>
           </button>
           
           <div class="grid grid-cols-2 gap-3">
             <button class="bg-gray-100 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors">
-              <i class="fas fa-heart mr-2"></i>Wishlist
+              <i class="fas fa-heart mr-2"></i><span data-i18n="common.wishlist">Wishlist</span>
             </button>
             <button class="bg-gray-100 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors">
-              <i class="fas fa-share mr-2"></i>Share
+              <i class="fas fa-share mr-2"></i><span data-i18n="common.share">Share</span>
             </button>
           </div>
         </div>
@@ -189,10 +316,10 @@ function createProductTemplate(product, groupVariants) {
       
       <div class="flex items-center gap-4 pt-6 border-t">
         <a href="products.html" class="text-[#556b2f] hover:underline flex items-center">
-          <i class="fas fa-arrow-left mr-2"></i>Back to products
+          <i class="fas fa-arrow-left mr-2"></i><span data-i18n="common.backToProducts">Back to products</span>
         </a>
         <span class="text-gray-400">|</span>
-        <a href="../index.html" class="text-[#556b2f] hover:underline">Home</a>
+        <a href="../index.html" class="text-[#556b2f] hover:underline" data-i18n="common.home">Home</a>
       </div>
     </div>
   `;
@@ -397,7 +524,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Build group variants from products that share the same base name (ignoring trailing weight tokens)
         const groupKey = new URLSearchParams(location.search).get('group');
-        const weightRegex = /(\s|^)(250g|500g|1000g)\s*$/i;
+        const weightRegex = /(\s|^)(200g|250g|250ml|330g|500g|500ml|1000g)\s*$/i;
         const baseEn = (product.nameEn || product.name || '').replace(weightRegex, '').trim();
         const baseAr = (product.nameAr || '').replace(weightRegex, '').trim();
         const derivedGroupKey = (groupKey || baseEn || product.name).toLowerCase();
@@ -448,4 +575,45 @@ function setupBackToTop() {
             behavior: 'smooth'
         });
     });
-} 
+}
+
+// Initialize i18n and handle language changes
+document.addEventListener('DOMContentLoaded', async () => {
+    // Wait for i18n to be available
+    if (window.i18n) {
+        i18n = window.i18n;
+    } else {
+        // Wait for i18n to load
+        await new Promise(resolve => {
+            const checkI18n = () => {
+                if (window.i18n) {
+                    i18n = window.i18n;
+                    resolve();
+                } else {
+                    setTimeout(checkI18n, 100);
+                }
+            };
+            checkI18n();
+        });
+    }
+    
+    // Listen for language changes
+    document.addEventListener('languageChanged', () => {
+        // Re-render the product page with new language
+        const productId = getId();
+        if (productId && !isNaN(productId)) {
+            loadProduct(productId);
+        }
+    });
+});
+
+// Function to update product name and description when language changes
+function updateProductTranslations() {
+    const productId = getId();
+    if (productId && !isNaN(productId)) {
+        loadProduct(productId);
+    }
+}
+
+// Make function available globally
+window.updateProductTranslations = updateProductTranslations; 

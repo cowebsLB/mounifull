@@ -1,4 +1,4 @@
-import { fetchProducts, getCart, setCart, updateCartBadge, resolveAsset } from './common.js';
+import { fetchProducts, getCart, setCart, updateCartBadge, resolveAsset, showSkeletonLoader } from './common.js';
 import { setupMobileMenu } from './mobile-menu.js';
 
 let allProducts = [];
@@ -81,6 +81,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupHeaderMinimization();
 
     try {
+        // Show skeleton loader while loading
+        showSkeletonLoader(grid, 8, 'product');
+        
         allProducts = await fetchProducts();
         // Build grouped view by base name to reduce duplicates across weights/packaging
         groupedProducts = buildGroupedProducts(allProducts);
@@ -144,6 +147,10 @@ function setupEventListeners() {
         openFilterBtn.addEventListener('click', () => {
             filterModal.classList.remove('hidden');
             filterModal.classList.add('flex');
+            // Apply translations when filter modal opens
+            if (window.i18n) {
+                window.i18n.applyTranslations();
+            }
         });
     }
     
@@ -152,12 +159,20 @@ function setupEventListeners() {
         openFilterCompact.addEventListener('click', () => {
             filterModal.classList.remove('hidden');
             filterModal.classList.add('flex');
+            // Apply translations when filter modal opens
+            if (window.i18n) {
+                window.i18n.applyTranslations();
+            }
         });
     }
     if (openFilterCompactInline) {
         openFilterCompactInline.addEventListener('click', () => {
             filterModal.classList.remove('hidden');
             filterModal.classList.add('flex');
+            // Apply translations when filter modal opens
+            if (window.i18n) {
+                window.i18n.applyTranslations();
+            }
         });
     }
     
@@ -165,6 +180,10 @@ function setupEventListeners() {
         openFilterMobile.addEventListener('click', () => {
             filterModal.classList.remove('hidden');
             filterModal.classList.add('flex');
+            // Apply translations when filter modal opens
+            if (window.i18n) {
+                window.i18n.applyTranslations();
+            }
         });
     }
 
@@ -383,7 +402,7 @@ function renderProducts() {
                     <div class="flex justify-between items-center">
                         <span class="text-2xl text-terracotta font-semibold">${priceText}</span>
                         <a href="product.html?id=${primary.id}&group=${encodeURIComponent(group.key)}" class="btn bg-terracotta text-white px-4 py-2 rounded-full hover:bg-[#b55a2d] transition-colors">
-                            View options
+                            <span data-i18n="common.viewOptions">View options</span>
                         </a>
                     </div>
                 </div>
@@ -396,8 +415,8 @@ function renderProducts() {
 
 // Build grouped product entries by base name (e.g., "Kishik" with 250/500/1000 and jar/pouch)
 function buildGroupedProducts(products) {
-    // Heuristic: base name is everything before the weight token at the end (e.g., " 250g", " 500g", " 1000g").
-    const weightRegex = /(\s|^)(250g|500g|1000g)\s*$/i;
+    // Heuristic: base name is everything before the weight token at the end (e.g., " 250g", " 500g", " 1000g", " 200g", " 250ml", " 500ml", " 330g").
+    const weightRegex = /(\s|^)(200g|250g|250ml|330g|500g|500ml|1000g)\s*$/i;
     const normalize = (name) => (name || '').trim();
     const groups = new Map();
 
@@ -415,6 +434,7 @@ function buildGroupedProducts(products) {
                 baseNameAr: baseAr || (p.nameAr || ''),
                 description: p.description,
                 descriptionAr: p.descriptionAr,
+                category: p.category,
                 items: [],
                 primaryItem: null,
                 price: p.price
@@ -492,29 +512,43 @@ function closeFilterModal() {
 }
 
 function addToCart(productId) {
-    const product = allProducts.find(p => p.id === productId);
-    if (!product || !product.inStock) return;
+    try {
+        const product = allProducts.find(p => p.id === productId);
+        if (!product) {
+            console.error('Product not found:', productId);
+            showNotification('Product not found', 'error');
+            return;
+        }
+        
+        if (!product.inStock) {
+            showNotification('This product is currently out of stock', 'warning');
+            return;
+        }
 
-    const cart = getCart();
-    const existingItem = cart.find(item => item.id === productId);
-    
-    if (existingItem) {
-        existingItem.quantity += 1;
-    } else {
-        cart.push({
-            id: product.id,
-            name: product.name,
-            price: product.price,
-            image: product.image,
-            quantity: 1
-        });
+        const cart = getCart();
+        const existingItem = cart.find(item => item.id === productId);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+                quantity: 1
+            });
+        }
+        
+        setCart(cart);
+        updateCartBadge();
+        
+        // Show success message
+        showNotification(`${product.name} added to cart!`, 'success');
+    } catch (error) {
+        console.error('Error adding product to cart:', error);
+        showNotification('Error adding product to cart', 'error');
     }
-    
-    setCart(cart);
-    updateCartBadge();
-    
-    // Show success message
-    showNotification(`${product.name} added to cart!`, 'success');
 }
 
 function showNotification(message, type = 'info') {
@@ -631,6 +665,11 @@ function setupHeaderMinimization() {
             filterModal.classList.add('flex');
             // Prevent background scrolling
             document.body.style.overflow = 'hidden';
+            
+            // Apply translations to filter modal when it opens
+            if (window.i18n) {
+                window.i18n.applyTranslations();
+            }
         }
     }
     

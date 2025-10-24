@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mounifull - Share the Tradition</title>
-                    <meta name="description" content="Mounifull brings authentic Lebanese mouneh: preserves, spices, nuts, wax and more—handmade with love and tradition.">
+                    <meta name="description" content="Mounifull brings authentic Lebanese mouneh: preserves, spices, nuts, wax and more—handmade with love and tradition. Free shipping on orders over $50.">
+    <meta name="keywords" content="Lebanese mouneh, authentic preserves, traditional spices, handmade products, Lebanese food, Middle Eastern cuisine">
+    <meta name="author" content="Mounifull">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://mounifull.com/">
     <meta name="theme-color" content="#c96a3d">
     <link rel="manifest" href="site.webmanifest">
     <link rel="icon" href="favicon.ico" sizes="any">
@@ -14,13 +18,34 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Mounifull">
     <meta property="og:title" content="Mounifull – Share the Tradition">
-    <meta property="og:description" content="Authentic Lebanese mouneh made by local women: preserves, spices, nuts, wax and more.">
-    <meta property="og:image" content="assets/logos/logo full.png">
+    <meta property="og:description" content="Authentic Lebanese mouneh made by local women: preserves, spices, nuts, wax and more. Free shipping on orders over $50.">
+    <meta property="og:image" content="https://mounifull.com/assets/logos/logo full.png">
     <meta property="og:url" content="https://mounifull.com/">
+    <meta property="og:locale" content="en_US">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Mounifull – Share the Tradition">
-    <meta name="twitter:description" content="Authentic Lebanese mouneh—handmade preserves, spices, nuts, wax.">
-    <meta name="twitter:image" content="assets/logos/logo full.png">
+    <meta name="twitter:description" content="Authentic Lebanese mouneh made by local women: preserves, spices, nuts, wax and more.">
+    <meta name="twitter:image" content="https://mounifull.com/assets/logos/logo full.png">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Mounifull",
+      "description": "Authentic Lebanese mouneh made by local women: preserves, spices, nuts, wax and more.",
+      "url": "https://mounifull.com",
+      "logo": "https://mounifull.com/assets/logos/logo full.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "availableLanguage": ["English", "Arabic"]
+      },
+      "sameAs": [
+        "https://mounifull.com"
+      ]
+    }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/tailwind.css">
     <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
@@ -329,10 +354,10 @@
                 <div class="mt-8 pt-6 border-t border-gray-200">
                     <div class="flex items-center justify-between">
                          <span class="text-gray-600" data-i18n="common.shoppingCart">Shopping Cart</span>
-                        <button class="relative cart-icon" id="cartIconMobileMenu">
+                        <a href="pages/cart.html" class="relative cart-icon" id="cartIconMobileMenu">
                             <i class="fas fa-shopping-cart text-xl"></i>
                             <span id="cartBadgeMobileMenu" class="absolute -top-2 -right-2 bg-terracotta text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -407,8 +432,8 @@
                             </div>
                         </div>
                         <div class="p-8">
-                            <h3 class="font-cormorant text-2xl text-terracotta mb-3">Macdous 1000g</h3>
-                            <p class="font-lato text-olive mb-6 leading-relaxed">Eggplant, walnuts, pepper, garlic, salt, oil</p>
+                            <h3 class="font-cormorant text-2xl text-terracotta mb-3" data-i18n="products.macdous.name">Macdous</h3>
+                            <p class="font-lato text-olive mb-6 leading-relaxed" data-i18n="products.macdous.description">Eggplant, walnuts, pepper, garlic, salt, oil</p>
                             <div class="flex justify-between items-center mb-6">
                                 <div>
                                     <span class="font-lato text-3xl font-bold text-terracotta">$10.45</span>
@@ -418,7 +443,7 @@
                                     <span class="ml-1 font-lato font-semibold">4.8</span>
                                 </div>
                             </div>
-                            <button class="btn-primary w-full border-2 border-[#c96a3d] rounded-xl transition-all duration-300 hover:bg-terracotta hover:text-olive hover:scale-105 focus:outline-none focus:ring-2 focus:ring-terracotta transition-colors" data-product-id="1">Add to Cart</button>
+                            <button class="btn-primary w-full border-2 border-[#c96a3d] rounded-xl transition-all duration-300 hover:bg-terracotta hover:text-olive hover:scale-105 focus:outline-none focus:ring-2 focus:ring-terracotta" data-product-id="1" data-i18n="common.addToCart">Add to Cart</button>
                         </div>
                     </div>
 
@@ -431,8 +456,8 @@
                             </div>
                         </div>
                         <div class="p-8">
-                            <h3 class="font-cormorant text-2xl text-terracotta mb-3">Kishik 1000g (Jar)</h3>
-                            <p class="font-lato text-olive mb-6 leading-relaxed">Wheat, milk(laban), salt</p>
+                            <h3 class="font-cormorant text-2xl text-terracotta mb-3" data-i18n="products.kishik.name">Kishik</h3>
+                            <p class="font-lato text-olive mb-6 leading-relaxed" data-i18n="products.kishik.description">Wheat, milk(laban), salt</p>
                             <div class="flex justify-between items-center mb-6">
                                 <div>
                                     <span class="font-lato text-3xl font-bold text-terracotta">$20.41</span>
@@ -442,7 +467,7 @@
                                     <span class="ml-1 font-lato font-semibold">4.4</span>
                                 </div>
                             </div>
-                            <button class="btn-primary w-full border-2 border-[#c96a3d] rounded-xl transition-all duration-300 hover:bg-terracotta hover:text-olive hover:scale-105 focus:outline-none focus:ring-2 focus:ring-terracotta transition-colors" data-product-id="4">Add to Cart</button>
+                            <button class="btn-primary w-full border-2 border-[#c96a3d] rounded-xl transition-all duration-300 hover:bg-terracotta hover:text-olive hover:scale-105 focus:outline-none focus:ring-2 focus:ring-terracotta transition-colors" data-product-id="4" data-i18n="common.addToCart">Add to Cart</button>
                         </div>
                     </div>
 
@@ -455,8 +480,8 @@
                             </div>
                         </div>
                         <div class="p-8">
-                            <h3 class="font-cormorant text-2xl text-terracotta mb-3">Grape Leaves 500g</h3>
-                            <p class="font-lato text-olive mb-6 leading-relaxed">Grape leaves</p>
+                            <h3 class="font-cormorant text-2xl text-terracotta mb-3" data-i18n="products.grapeLeaves.name">Grape Leaves</h3>
+                            <p class="font-lato text-olive mb-6 leading-relaxed" data-i18n="products.grapeLeaves.description">Grape leaves</p>
                             <div class="flex justify-between items-center mb-6">
                                 <div>
                                     <span class="font-lato text-3xl font-bold text-terracotta">$4.15</span>
@@ -466,7 +491,7 @@
                                     <span class="ml-1 font-lato font-semibold">4.6</span>
                                 </div>
                             </div>
-                            <button class="btn-primary w-full border-2 border-[#c96a3d] rounded-xl transition-all duration-300 hover:bg-terracotta hover:text-olive hover:scale-105 focus:outline-none focus:ring-2 focus:ring-terracotta transition-colors" data-product-id="9">Add to Cart</button>
+                            <button class="btn-primary w-full border-2 border-[#c96a3d] rounded-xl transition-all duration-300 hover:bg-terracotta hover:text-olive hover:scale-105 focus:outline-none focus:ring-2 focus:ring-terracotta transition-colors" data-product-id="9" data-i18n="common.addToCart">Add to Cart</button>
                         </div>
                     </div>
 
@@ -479,8 +504,8 @@
                             </div>
                         </div>
                         <div class="p-8">
-                            <h3 class="font-cormorant text-2xl text-terracotta mb-3">Wax with Honeycomb 250g</h3>
-                            <p class="font-lato text-olive mb-6 leading-relaxed">Wax</p>
+                            <h3 class="font-cormorant text-2xl text-terracotta mb-3" data-i18n="products.waxHoneycomb.name">Wax with Honeycomb</h3>
+                            <p class="font-lato text-olive mb-6 leading-relaxed" data-i18n="products.waxHoneycomb.description">Wax</p>
                             <div class="flex justify-between items-center mb-6">
                                 <div>
                                     <span class="font-lato text-3xl font-bold text-terracotta">$5.00</span>
@@ -490,7 +515,7 @@
                                     <span class="ml-1 font-lato font-semibold">4.9</span>
                                 </div>
                             </div>
-                            <button class="btn-primary w-full border-2 border-[#c96a3d] rounded-xl transition-all duration-300 hover:bg-terracotta hover:text-olive hover:scale-105 focus:outline-none focus:ring-2 focus:ring-terracotta transition-colors" data-product-id="17">Add to Cart</button>
+                            <button class="btn-primary w-full border-2 border-[#c96a3d] rounded-xl transition-all duration-300 hover:bg-terracotta hover:text-olive hover:scale-105 focus:outline-none focus:ring-2 focus:ring-terracotta transition-colors" data-product-id="17" data-i18n="common.addToCart">Add to Cart</button>
                         </div>
                     </div>
 
@@ -503,8 +528,8 @@
                             </div>
                         </div>
                         <div class="p-8">
-                            <h3 class="font-cormorant text-2xl text-terracotta mb-3">Tomato Sauce 500g</h3>
-                            <p class="font-lato text-olive mb-6 leading-relaxed">Tomato, salt</p>
+                            <h3 class="font-cormorant text-2xl text-terracotta mb-3" data-i18n="products.tomatoSauce.name">Tomato Sauce</h3>
+                            <p class="font-lato text-olive mb-6 leading-relaxed" data-i18n="products.tomatoSauce.description">Tomato, salt</p>
                             <div class="flex justify-between items-center mb-6">
                                 <div>
                                     <span class="font-lato text-3xl font-bold text-terracotta">$6.59</span>
@@ -514,7 +539,7 @@
                                     <span class="ml-1 font-lato font-semibold">4.3</span>
                                 </div>
                             </div>
-                            <button class="btn-primary w-full border-2 border-[#c96a3d] rounded-xl transition-all duration-300 hover:bg-terracotta hover:text-olive hover:scale-105 focus:outline-none focus:ring-2 focus:ring-terracotta transition-colors" data-product-id="7">Add to Cart</button>
+                            <button class="btn-primary w-full border-2 border-[#c96a3d] rounded-xl transition-all duration-300 hover:bg-terracotta hover:text-olive hover:scale-105 focus:outline-none focus:ring-2 focus:ring-terracotta transition-colors" data-product-id="7" data-i18n="common.addToCart">Add to Cart</button>
                         </div>
                     </div>
 
@@ -527,8 +552,8 @@
                             </div>
                         </div>
                         <div class="p-8">
-                            <h3 class="font-cormorant text-2xl text-terracotta mb-3">Pure Thymes 1000g (Jar)</h3>
-                            <p class="font-lato text-olive mb-6 leading-relaxed">Thymes</p>
+                            <h3 class="font-cormorant text-2xl text-terracotta mb-3" data-i18n="products.pureThymes.name">Pure Thymes</h3>
+                            <p class="font-lato text-olive mb-6 leading-relaxed" data-i18n="products.pureThymes.description">Thymes</p>
                             <div class="flex justify-between items-center mb-6">
                                 <div>
                                     <span class="font-lato text-3xl font-bold text-terracotta">$14.00</span>
@@ -538,7 +563,7 @@
                                     <span class="ml-1 font-lato font-semibold">4.6</span>
                                 </div>
                             </div>
-                            <button class="btn-primary w-full border-2 border-[#c96a3d] rounded-xl transition-all duration-300 hover:bg-terracotta hover:text-olive hover:scale-105 focus:outline-none focus:ring-2 focus:ring-terracotta transition-colors" data-product-id="10">Add to Cart</button>
+                            <button class="btn-primary w-full border-2 border-[#c96a3d] rounded-xl transition-all duration-300 hover:bg-terracotta hover:text-olive hover:scale-105 focus:outline-none focus:ring-2 focus:ring-terracotta transition-colors" data-product-id="10" data-i18n="common.addToCart">Add to Cart</button>
                         </div>
                     </div>
                 </div>
@@ -639,7 +664,9 @@
                 </div>
             </div>
             <div class="border-t border-white/20 mt-8 pt-8 text-center font-lato text-white/80">
-                <p data-i18n="footer.rights">&copy; 2025 Mounifull. All rights reserved.</p>
+                <p data-i18n="footer.rights">&copy; 2025 Mounifull. All rights reserved. 
+                    <a href="https://cowebslb.com" target="_blank" rel="noopener" class="underline hover:text-white">Made by COWebs.lb</a>
+                </p>
             </div>
         </div>
     </footer>

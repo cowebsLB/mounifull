@@ -15,6 +15,11 @@ export function setupMobileMenu() {
     // Small delay to ensure the panel is visible before animating
     setTimeout(() => {
       mobileMenuPanel.classList.add('open');
+      
+      // Set up mobile language switcher when menu is opened
+      if (window.i18n && typeof window.i18n.setupMobileLanguageSwitcher === 'function') {
+        window.i18n.setupMobileLanguageSwitcher();
+      }
     }, 10);
   });
   

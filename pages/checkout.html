@@ -22,7 +22,6 @@
   <meta name="twitter:description" content="Complete your order for authentic Lebanese mouneh products.">
   <meta name="twitter:image" content="../assets/logos/logo full.png">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="../assets/tailwind.css">
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -33,6 +32,7 @@
     
     /* Mobile Menu Fixes */
     #mobileMenu {
+      -webkit-backdrop-filter: blur(4px);
       backdrop-filter: blur(4px);
     }
     
@@ -142,7 +142,7 @@
               </button>
           </div>
           
-          <button class="relative cart-icon" id="cartIcon">
+          <button class="relative cart-icon" id="cartIcon" aria-label="Shopping cart">
               <i class="fas fa-shopping-cart text-xl"></i>
               <span id="cartBadge" class="absolute -top-2 -right-2 bg-[#c96a3d] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
           </button>
@@ -152,20 +152,16 @@
       <div class="lg:hidden flex items-center gap-3">
           <!-- Language Switcher -->
           <div id="languageSwitcher" class="flex gap-1">
-              <button id="langEn" class="px-2 py-1 text-xs rounded transition-colors bg-terracotta text-white">
+              <button id="langEnMobile" class="px-2 py-1 text-xs rounded transition-colors bg-terracotta text-white">
                   EN
               </button>
-              <button id="langAr" class="px-2 py-1 text-xs rounded transition-colors text-gray-600 hover:bg-gray-100">
+              <button id="langArMobile" class="px-2 py-1 text-xs rounded transition-colors text-gray-600 hover:bg-gray-100">
                   AR
               </button>
           </div>
           
-          <button class="relative cart-icon" id="cartIconMobile">
-              <i class="fas fa-shopping-cart text-xl"></i>
-              <span id="cartBadgeMobile" class="absolute -top-2 -right-2 bg-[#c96a3d] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
-          </button>
           
-          <button id="mobileMenuBtn" class="text-[#556b2f] hover:text-terracotta transition-colors">
+          <button id="mobileMenuBtn" class="text-[#556b2f] hover:text-terracotta transition-colors" aria-label="Open mobile menu">
               <i class="fas fa-bars text-xl"></i>
           </button>
       </div>
@@ -181,7 +177,7 @@
                       <img src="../assets/logos/logo-removebg-preview.png" class="h-10" alt="logo">
                       <span class="font-cormorant text-xl text-terracotta">Mounifull</span>
                   </div>
-                  <button id="closeMobileMenu" class="text-gray-600 hover:text-gray-800">
+                  <button id="closeMobileMenu" class="text-gray-600 hover:text-gray-800" aria-label="Close mobile menu">
                       <i class="fas fa-times text-2xl"></i>
                   </button>
               </div>
@@ -203,21 +199,21 @@
               
               <div class="mt-8 pt-6 border-t border-gray-200">
                   <div class="flex items-center justify-between mb-4">
-                      <span class="text-gray-600">Shopping Cart</span>
-                      <button class="relative cart-icon" id="cartIconMobileMenu">
+                      <span class="text-gray-600" data-i18n="common.shoppingCart">Shopping Cart</span>
+                      <a href="cart.html" class="relative cart-icon" id="cartIconMobileMenu">
                           <i class="fas fa-shopping-cart text-xl"></i>
                           <span id="cartBadgeMobileMenu" class="absolute -top-2 -right-2 bg-terracotta text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
-                      </button>
+                      </a>
                   </div>
                   
                   <!-- Language Switcher -->
                   <div class="flex items-center justify-between">
-                      <span class="text-sm text-gray-600">Language</span>
+                      <span class="text-sm text-gray-600" data-i18n="common.language">Language</span>
                       <div class="flex gap-1">
-                          <button id="langEnMobile" class="px-2 py-1 text-xs rounded transition-colors bg-terracotta text-white">
+                          <button id="langEnForm" class="px-2 py-1 text-xs rounded transition-colors bg-terracotta text-white">
                               EN
                           </button>
-                          <button id="langArMobile" class="px-2 py-1 text-xs rounded transition-colors text-gray-600 hover:bg-gray-100">
+                          <button id="langArForm" class="px-2 py-1 text-xs rounded transition-colors text-gray-600 hover:bg-gray-100">
                               AR
                           </button>
                       </div>
@@ -233,46 +229,63 @@
 </button>
 
 <main class="container mx-auto px-6 py-10">
-  <h1 class="font-cormorant text-5xl text-terracotta mb-6" data-i18n="checkout.title">Checkout</h1>
+  <h1 class="font-cormorant text-4xl md:text-5xl text-terracotta mb-6" data-i18n="checkout.title">Checkout</h1>
+  
+  <!-- Cart Summary Section -->
+  <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="font-cormorant text-2xl text-terracotta" data-i18n="checkout.orderSummary">Order Summary</h2>
+      <a href="cart.html" class="text-terracotta hover:text-[#b55a2d] transition-colors text-sm font-medium" data-i18n="cart.editCart">
+        <i class="fas fa-edit mr-1"></i>Edit Cart
+      </a>
+    </div>
+    
+    <div id="checkoutCartSummary">
+      <!-- Cart items will be rendered here by JavaScript -->
+    </div>
+    
+    <div class="border-t pt-4 mt-4">
+      <div class="flex justify-between items-center text-lg font-semibold">
+        <span data-i18n="cart.total">Total:</span>
+        <span class="text-terracotta" id="checkoutTotal">$0.00</span>
+      </div>
+    </div>
+  </div>
+  
   <form id="checkoutForm" class="grid lg:grid-cols-2 gap-8">
     <div class="space-y-6">
       <div class="bg-white rounded-xl shadow-lg p-6">
-        <h2 class="font-cormorant text-3xl text-terracotta mb-6">Shipping Information</h2>
+        <h2 class="font-cormorant text-3xl text-terracotta mb-6" data-i18n="checkout.shippingInfo">Shipping Information</h2>
         
         <div class="space-y-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+            <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="checkout.fullName">Full Name *</label>
             <input id="fullName" name="fullName" required class="border border-gray-300 rounded-lg w-full px-4 py-3 focus:ring-2 focus:ring-[#556b2f] focus:border-transparent">
           </div>
           
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+            <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="checkout.phone">Phone Number *</label>
             <input id="phone" name="phone" type="tel" required class="border border-gray-300 rounded-lg w-full px-4 py-3 focus:ring-2 focus:ring-[#556b2f] focus:border-transparent">
           </div>
           
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">WhatsApp Number</label>
+            <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="checkout.whatsapp">WhatsApp Number</label>
             <input id="whatsapp" name="whatsapp" type="tel" class="border border-gray-300 rounded-lg w-full px-4 py-3 focus:ring-2 focus:ring-[#556b2f] focus:border-transparent">
           </div>
           
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+            <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="checkout.email">Email Address</label>
             <input id="email" name="email" type="email" class="border border-gray-300 rounded-lg w-full px-4 py-3 focus:ring-2 focus:ring-[#556b2f] focus:border-transparent">
           </div>
           
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Delivery Address *</label>
+            <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="checkout.address">Delivery Address *</label>
             <textarea id="address" name="address" required rows="4" class="border border-gray-300 rounded-lg w-full px-4 py-3 focus:ring-2 focus:ring-[#556b2f] focus:border-transparent" placeholder="Please provide your complete address including building, floor, and any landmarks..."></textarea>
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Location Tag (Map Link)</label>
-            <input id="locationTag" name="locationTag" type="url" class="border border-gray-300 rounded-lg w-full px-4 py-3 focus:ring-2 focus:ring-[#556b2f] focus:border-transparent" placeholder="https://maps.google.com/...">
           </div>
           
           <div class="flex items-center">
             <input id="saveAddress" name="saveAddress" type="checkbox" class="h-4 w-4 text-[#556b2f] focus:ring-[#556b2f] border-gray-300 rounded">
-            <label for="saveAddress" class="ml-2 block text-sm text-gray-700">
+            <label for="saveAddress" class="ml-2 block text-sm text-gray-700" data-i18n="checkout.saveAddress">
               Save this address for future orders
             </label>
           </div>
@@ -280,25 +293,25 @@
       </div>
       
       <div class="bg-white rounded-xl shadow-lg p-6">
-        <h3 class="font-cormorant text-2xl text-terracotta mb-4">Order Options</h3>
+        <h3 class="font-cormorant text-2xl text-terracotta mb-4" data-i18n="checkout.orderOptions">Order Options</h3>
         
         <div class="space-y-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Delivery Method</label>
+            <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="checkout.deliveryMethod">Delivery Method</label>
             <div class="space-y-2">
               <label class="flex items-center">
                 <input type="radio" name="delivery" value="standard" checked class="h-4 w-4 text-[#556b2f] focus:ring-[#556b2f] border-gray-300">
-                <span class="ml-2 text-sm text-gray-700">Standard Delivery (2-3 business days)</span>
+                <span class="ml-2 text-sm text-gray-700" data-i18n="checkout.standardDelivery">Standard Delivery (2-3 business days)</span>
               </label>
               <label class="flex items-center">
                 <input type="radio" name="delivery" value="express" class="h-4 w-4 text-[#556b2f] focus:ring-[#556b2f] border-gray-300">
-                <span class="ml-2 text-sm text-gray-700">Express Delivery (1 business day) - +$5.00</span>
+                <span class="ml-2 text-sm text-gray-700" data-i18n="checkout.expressDelivery">Express Delivery (1 business day) - +$5.00</span>
               </label>
             </div>
           </div>
           
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Special Instructions</label>
+            <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="checkout.specialInstructions">Special Instructions</label>
             <textarea name="instructions" rows="3" class="border border-gray-300 rounded-lg w-full px-4 py-3 focus:ring-2 focus:ring-[#556b2f] focus:border-transparent" placeholder="Any special delivery instructions or notes..."></textarea>
           </div>
         </div>
@@ -306,85 +319,35 @@
     </div>
     
     <div class="space-y-6">
-      <div id="cartSummary">
-        <!-- Cart summary will be rendered here by JavaScript -->
+      <div class="bg-white rounded-xl shadow-lg p-6">
+        <h3 class="font-cormorant text-2xl text-terracotta mb-4" data-i18n="checkout.orderProcess">Order Process</h3>
+        
+        <div class="p-4 bg-blue-50 rounded-lg">
+          <h4 class="font-medium text-blue-900 mb-2" data-i18n="checkout.howToComplete">How to Complete Your Order</h4>
+          <ol class="text-sm text-blue-800 space-y-1">
+            <li data-i18n="checkout.step1">1. Fill in your delivery information</li>
+            <li data-i18n="checkout.step2">2. Review your order summary</li>
+            <li data-i18n="checkout.step3">3. Send order via WhatsApp</li>
+            <li data-i18n="checkout.step4">4. We'll contact you to confirm</li>
+            <li data-i18n="checkout.step5">5. Payment upon delivery (Cash or Bank Transfer)</li>
+          </ol>
+        </div>
       </div>
       
       <div class="bg-white rounded-xl shadow-lg p-6">
-        <h3 class="font-cormorant text-2xl text-terracotta mb-4">Order Process</h3>
-        
-        <div class="p-4 bg-blue-50 rounded-lg">
-          <h4 class="font-medium text-blue-900 mb-2">How to Complete Your Order</h4>
-          <ol class="text-sm text-blue-800 space-y-1">
-            <li>1. Fill in your delivery information</li>
-            <li>2. Review your order summary</li>
-            <li>3. Send order via WhatsApp</li>
-            <li>4. We'll contact you to confirm</li>
-            <li>5. Payment upon delivery (Cash or Bank Transfer)</li>
-          </ol>
+        <div class="space-y-4">
+          <a href="cart.html" class="w-full btn-secondary text-center block" data-i18n="cart.backToCart">Back to Cart</a>
+          <button type="submit" class="w-full btn-primary" data-i18n="checkout.placeOrder">Place Order</button>
         </div>
       </div>
     </div>
   </form>
 </main>
 
-<!-- Footer -->
-<footer class="bg-olive text-white py-12 mt-20">
-    <div class="container mx-auto px-6">
-        <div class="grid md:grid-cols-4 gap-8">
-            <div>
-                <div class="flex items-center gap-3 mb-4">
-                    <img src="../assets/logos/logo-removebg-preview.png" class="h-10" alt="logo">
-                    <span class="font-cormorant text-xl">Mounifull</span>
-                </div>
-                <p class="font-lato text-white/80 mb-4">Authentic Lebanese mouneh, made with love and tradition.</p>
-                <div class="flex gap-4">
-                    <a href="#" class="text-white/80 hover:text-white transition-colors">
-                        <i class="fab fa-facebook text-xl"></i>
-                    </a>
-                    <a href="#" class="text-white/80 hover:text-white transition-colors">
-                        <i class="fab fa-instagram text-xl"></i>
-                    </a>
-                    <a href="#" class="text-white/80 hover:text-white transition-colors">
-                        <i class="fab fa-twitter text-xl"></i>
-                    </a>
-                </div>
-            </div>
-            <div>
-                <h4 class="font-cormorant text-xl font-semibold mb-4 text-terracotta" data-i18n="footer.quickLinks">Quick Links</h4>
-                <ul class="space-y-2">
-                    <li><a href="../index.html" class="font-lato text-white/80 hover:text-white transition-colors" data-i18n="nav.home">Home</a></li>
-                    <li><a href="products.html" class="font-lato text-white/80 hover:text-white transition-colors" data-i18n="nav.shop">Shop</a></li>
-                    <li><a href="story.html" class="font-lato text-white/80 hover:text-white transition-colors" data-i18n="nav.story">Our Story</a></li>
-                    <li><a href="contact.html" class="font-lato text-white/80 hover:text-white transition-colors" data-i18n="nav.contact">Contact</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-cormorant text-xl font-semibold mb-4 text-terracotta" data-i18n="footer.support">Support</h4>
-                <ul class="space-y-2">
-                    <li><a href="legal/faq.html" class="font-lato text-white/80 hover:text-white transition-colors">FAQ</a></li>
-                    <li><a href="legal/terms.html" class="font-lato text-white/80 hover:text-white transition-colors">Terms</a></li>
-                    <li><a href="legal/privacy.html" class="font-lato text-white/80 hover:text-white transition-colors">Privacy</a></li>
-                    <li><a href="legal/payment.html" class="font-lato text-white/80 hover:text-white transition-colors">Payment</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-cormorant text-xl font-semibold mb-4 text-terracotta" data-i18n="footer.contactInfo">Contact Info</h4>
-                <div class="space-y-2 font-lato text-white/80">
-                    <p><i class="fas fa-phone mr-2 text-terracotta"></i>+961 81 997 805</p>
-                    <p><i class="fas fa-envelope mr-2 text-terracotta"></i>mounifull81@gmail.com</p>
-                    <p><i class="fas fa-map-marker-alt mr-2 text-terracotta"></i>Lebanon</p>
-                </div>
-            </div>
-        </div>
-        <div class="border-t border-white/20 mt-8 pt-8 text-center font-lato text-white/80">
-            <p data-i18n="footer.rights">&copy; 2025 Mounifull. All rights reserved.</p>
-        </div>
-    </div>
-</footer>
 
 <script src="../js/i18n.js"></script>
 <script type="module" src="../js/checkout.js"></script>
 <script type="module" src="../js/cart.js"></script>
+<script type="module" src="../js/mobile-menu.js"></script>
 </body>
 </html>

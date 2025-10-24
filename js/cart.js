@@ -1,15 +1,16 @@
-import { getCart, setCart, updateCartBadge, resolveAsset } from './common.js';
+import { getCart, setCart, updateCartBadge, resolveAsset, getBasePath } from './common.js';
+
+// Global i18n instance
+let i18n = null;
 
 // Resolve checkout path based on current location
 function resolveCheckoutPath() {
-    const isPages = location.pathname.includes('/pages/');
-    return isPages ? 'checkout.html' : 'pages/checkout.html';
+    return `${getBasePath()}pages/checkout.html`;
 }
 
 // Resolve products path based on current location  
 function resolveProductsPath() {
-    const isPages = location.pathname.includes('/pages/');
-    return isPages ? 'products.html' : 'pages/products.html';
+    return `${getBasePath()}pages/products.html`;
 }
 
 class CartDrawer {
@@ -31,7 +32,7 @@ class CartDrawer {
                 <div class="flex flex-col h-full">
                     <!-- Header -->
                     <div class="flex items-center justify-between p-6 border-b border-gray-200">
-                        <h2 class="font-cormorant text-2xl text-[#556b2f]">Shopping Cart</h2>
+                        <h2 class="font-cormorant text-2xl text-[#556b2f]" data-i18n="common.shoppingCart">Shopping Cart</h2>
                         <button id="closeCartDrawer" class="text-gray-500 hover:text-gray-700">
                             <i class="fas fa-times text-xl"></i>
                         </button>
@@ -45,15 +46,15 @@ class CartDrawer {
                     <!-- Footer -->
                     <div class="border-t border-gray-200 p-6 bg-gray-50">
                         <div class="flex justify-between items-center mb-4">
-                            <span class="text-lg font-semibold">Total:</span>
+                            <span class="text-lg font-semibold" data-i18n="common.total">Total:</span>
                             <span id="cartTotal" class="text-xl font-bold text-[#c96a3d]">$0.00</span>
                         </div>
                         <div class="space-y-3">
                             <button id="viewCartBtn" class="w-full bg-[#556b2f] text-white py-3 rounded-lg font-medium hover:bg-[#4a5a2a] transition-colors">
-                                <i class="fas fa-shopping-cart mr-2"></i>View Cart
+                                <i class="fas fa-shopping-cart mr-2"></i><span data-i18n="common.viewCart">View Cart</span>
                             </button>
                             <button id="checkoutBtn" class="w-full bg-[#c96a3d] text-white py-3 rounded-lg font-medium hover:bg-[#b55a2d] transition-colors">
-                                <i class="fas fa-credit-card mr-2"></i>Checkout
+                                <i class="fas fa-credit-card mr-2"></i><span data-i18n="common.checkout">Checkout</span>
                             </button>
                         </div>
                     </div>
@@ -87,7 +88,10 @@ class CartDrawer {
 
         // View cart button
         document.getElementById('viewCartBtn').addEventListener('click', () => {
-            window.location.href = resolveCheckoutPath();
+            // Navigate to cart page instead of checkout
+            const isPages = window.location.pathname.includes('/pages/');
+            const cartPath = isPages ? 'cart.html' : 'pages/cart.html';
+            window.location.href = cartPath;
         });
 
         // Checkout button
@@ -151,10 +155,10 @@ class CartDrawer {
             cartItems.innerHTML = `
                 <div class="text-center py-12">
                     <i class="fas fa-shopping-cart text-4xl text-gray-300 mb-4"></i>
-                    <h3 class="text-lg text-gray-600 mb-2">Your cart is empty</h3>
-                    <p class="text-gray-500 mb-6">Add some products to get started!</p>
+                    <h3 class="text-lg text-gray-600 mb-2" data-i18n="common.yourCartEmpty">Your cart is empty</h3>
+                    <p class="text-gray-500 mb-6" data-i18n="common.addProductsStart">Add some products to get started!</p>
                     <button onclick="window.location.href='" + resolveProductsPath() + "'" class="bg-[#556b2f] text-white px-6 py-3 rounded-lg hover:bg-[#4a5a2a] transition-colors">
-                        <i class="fas fa-shopping-bag mr-2"></i>Browse Products
+                        <i class="fas fa-shopping-bag mr-2"></i><span data-i18n="common.browseProducts">Browse Products</span>
                     </button>
                 </div>
             `;
@@ -252,8 +256,53 @@ class CartDrawer {
 }
 
 // Initialize cart drawer when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    new CartDrawer();
+document.addEventListener('DOMContentLoaded', async () => {
+    // Wait for i18n to be available
+    if (window.i18n) {
+        i18n = window.i18n;
+    } else {
+        // Wait for i18n to load
+        await new Promise(resolve => {
+            const checkI18n = () => {
+                if (window.i18n) {
+                    i18n = window.i18n;
+                    resolve();
+                } else {
+                    setTimeout(checkI18n, 100);
+                }
+            };
+            checkI18n();
+        });
+    }
+    
+    const cartDrawer = new CartDrawer();
+    
+    // Store cart drawer instance globally for event listeners
+    window.cartDrawerInstance = cartDrawer;
+    
+    // Listen for language changes
+    document.addEventListener('languageChanged', () => {
+        // Re-create cart drawer with new translations
+        const existingDrawer = document.getElementById('cartDrawer');
+        const existingOverlay = document.getElementById('cartOverlay');
+        if (existingDrawer) existingDrawer.remove();
+        if (existingOverlay) existingOverlay.remove();
+        
+        new CartDrawer();
+    });
+    
+    // Listen for cart updates from other pages
+    document.addEventListener('cartUpdated', () => {
+        // Update cart display when cart changes
+        const cartDrawer = document.getElementById('cartDrawer');
+        if (cartDrawer) {
+            // Find the cart drawer instance and update it
+            const cartInstance = window.cartDrawerInstance;
+            if (cartInstance) {
+                cartInstance.updateCartDisplay();
+            }
+        }
+    });
 });
 
 // Export for use in other modules

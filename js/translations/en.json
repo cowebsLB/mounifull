@@ -5,9 +5,13 @@
     "story": "Our Story",
     "contact": "Contact"
   },
+  "categories": {
+    "main-mouni": "Main Mouni",
+    "sweet-mouni": "Sweet Mouni", 
+    "mounifull-box": "Mounifull Box"
+  },
   "common": {
     "search": "Search products...",
-    "filter": "Filter",
     "addToCart": "Add to Cart",
     "viewDetails": "View Details",
     "price": "Price",
@@ -21,7 +25,26 @@
     "showMore": "Show More",
     "showLess": "Show Less",
     "shoppingCart": "Shopping Cart",
-    "language": "Language"
+    "language": "Language",
+    "backToProducts": "Back to Products",
+    "reviews": "reviews",
+    "bundleContents": "Bundle Contents",
+    "productDetails": "Product Details",
+    "dateAdded": "Date Added",
+    "availability": "Availability",
+    "quantity": "Quantity",
+    "packaging": "Select Packaging",
+    "freeShipping": "Free shipping for orders over $50",
+    "wishlist": "Wishlist",
+    "share": "Share",
+    "home": "Home",
+    "yourCartEmpty": "Your cart is empty",
+    "addProductsStart": "Add some products to get started!",
+    "browseProducts": "Browse Products",
+    "total": "Total:",
+    "viewCart": "View Cart",
+    "checkout": "Checkout",
+    "viewOptions": "View options"
   },
   "home": {
     "hero": {
@@ -95,6 +118,14 @@
       "all": "All Products",
       "inStock": "In Stock Only",
       "newArrivals": "New Arrivals",
+      "dateAdded": "Date Added",
+      "dateFrom": "Date From",
+      "dateTo": "Date To",
+      "dateFormat": "mm/dd/yyyy",
+      "minimumRating": "Minimum Rating",
+      "allRatings": "All",
+      "fourStars": "4+ Stars",
+      "threeStars": "3+ Stars",
       "reset": "Reset All",
       "apply": "Apply Filters"
     },
@@ -218,10 +249,213 @@
     "subtitle": "Content to be provided by client."
   },
   "terms": {
-    "title": "Terms of Service",
-    "subtitle": "Content to be provided by client."
+    "title": "Terms & Conditions",
+    "lastUpdated": "Last updated: October 2025",
+    "welcome": "Welcome to MOUNIFULL.",
+    "welcomeSubtext": "By accessing or purchasing from our website, you agree to the following Terms & Conditions. Please read them carefully before using our services.",
+    "aboutUs": "About Us",
+    "aboutUsText1": "MOUNIFULL is a Lebanese brand dedicated to preserving the tradition of Lebanese mouneh, made by local women using organic ingredients and traditional methods.",
+    "aboutUsText2": "Our goal is to make healthy, authentic Lebanese food easily accessible across Lebanon and beyond.",
+    "definitions": "Definitions",
+    "definitionsText1": "\"We\", \"us\", \"our\" refers to MOUNIFULL.",
+    "definitionsText2": "\"You\" refers to any user, visitor, or customer of our website.",
+    "products": "Products",
+    "productsText1": "All MOUNIFULL products are handmade, preservative-free, and locally produced.",
+    "productsText2": "Because of the artisanal nature of our products, slight variations in taste, color, or texture may occur. These variations are part of the product's authenticity and not considered defects.",
+    "ordersPayments": "Orders and Payments",
+    "ordersPaymentsText1": "Orders are confirmed once payment is completed.",
+    "ordersPaymentsText2": "Prices are displayed in USD or LBP, depending on your selected payment method.",
+    "ordersPaymentsText3": "We accept Cash on Delivery and Online Payment (where available).",
+    "ordersPaymentsText4": "MOUNIFULL reserves the right to update product prices or discontinue products at any time.",
+    "shippingDelivery": "Shipping and Delivery",
+    "shippingDeliveryText1": "We deliver across Lebanon within 2 to 5 working days.",
+    "shippingDeliveryText2": "Delivery fees vary depending on location and will appear at checkout.",
+    "shippingDeliveryText3": "You must inspect your package upon delivery. If a product is damaged or incorrect, please notify us within 24 hours by email or WhatsApp with a photo.",
+    "returnsRefunds": "Returns and Refunds",
+    "returnsRefundsText1": "Due to the nature of food products, we cannot accept returns or exchanges once the packaging is opened.",
+    "returnsRefundsText2": "If a product arrives damaged or defective, please contact us within 24 hours of delivery, and we will offer a replacement or refund.",
+    "returnsRefundsText3": "Refunds are issued only in the case of verified product issues.",
+    "intellectualProperty": "Intellectual Property",
+    "intellectualPropertyText1": "All content on this website — including the logo, packaging, images, product descriptions, and design — are the property of MOUNIFULL.",
+    "intellectualPropertyText2": "You may not copy, reproduce, or distribute any part of this website without written permission.",
+    "privacyPolicy": "Privacy Policy",
+    "privacyPolicyText1": "Your personal information (such as name, address, phone, and email) is used only to process orders and improve our service.",
+    "privacyPolicyText2": "We never sell or share your data with third parties.",
+    "privacyPolicyText3": "You can request deletion or correction of your personal data at any time by contacting us.",
+    "liabilityDisclaimer": "Liability Disclaimer",
+    "liabilityDisclaimerText1": "MOUNIFULL is not responsible for delays or damages caused by delivery services or force majeure (e.g., road closures, weather conditions, strikes, or political events).",
+    "updatesToTerms": "Updates to Terms",
+    "updatesToTermsText1": "We may update these Terms & Conditions from time to time. The most recent version will always be available on our website.",
+    "updatesToTermsText2": "Your continued use of our website constitutes acceptance of the latest version.",
+    "contactUs": "Contact Us",
+    "contactUsText1": "For any inquiries or feedback, please contact us:",
+    "email": "Email:",
+    "phone": "Phone:",
+    "location": "Location:"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "itemsTitle": "Cart Items",
+    "orderSummary": "Order Summary",
+    "subtotal": "Subtotal:",
+    "delivery": "Delivery:",
+    "total": "Total:",
+    "continueShopping": "Continue Shopping",
+    "proceedToCheckout": "Proceed to Checkout",
+    "remove": "Remove",
+    "emptyTitle": "Your cart is empty",
+    "emptyMessage": "Add some products to get started!",
+    "backToCart": "Back to Cart"
   },
   "checkout": {
-    "title": "Checkout"
+    "title": "Checkout",
+    "orderSummary": "Order Summary",
+    "shippingInfo": "Shipping Information",
+    "fullName": "Full Name *",
+    "phone": "Phone Number *",
+    "whatsapp": "WhatsApp Number",
+    "email": "Email Address",
+    "address": "Delivery Address *",
+    "saveAddress": "Save this address for future orders",
+    "orderOptions": "Order Options",
+    "deliveryMethod": "Delivery Method",
+    "standardDelivery": "Standard Delivery (2-3 business days)",
+    "expressDelivery": "Express Delivery (1 business day) - +$5.00",
+    "specialInstructions": "Special Instructions",
+    "orderProcess": "Order Process",
+    "howToComplete": "How to Complete Your Order",
+    "step1": "1. Fill in your delivery information",
+    "step2": "2. Review your order summary",
+    "step3": "3. Send order via WhatsApp",
+    "step4": "4. We'll contact you to confirm",
+    "step5": "5. Payment upon delivery (Cash or Bank Transfer)",
+    "placeOrder": "Place Order",
+    "browseProducts": "Browse Products"
+  },
+  "productDetails": {
+    "macdous": {
+      "name": "Macdous",
+      "description": "Eggplant, walnuts, pepper, garlic, salt, oil"
+    },
+    "kishik": {
+      "name": "Kishik",
+      "description": "Wheat, milk(laban), salt"
+    },
+    "tomatoSauce": {
+      "name": "Tomato Sauce",
+      "description": "Tomato, salt"
+    },
+    "grapeLeaves": {
+      "name": "Grape Leaves",
+      "description": "Grape leaves"
+    },
+    "pureThymes": {
+      "name": "Pure Thymes",
+      "description": "Thymes"
+    },
+    "sumac": {
+      "name": "Sumac",
+      "description": "Sumac"
+    },
+    "labnehOliveOil": {
+      "name": "Labneh with Olive Oil",
+      "description": "Milk, salt"
+    },
+    "waxHoneycomb": {
+      "name": "Wax with Honeycomb",
+      "description": "Wax"
+    },
+    "almonds": {
+      "name": "Almonds",
+      "description": "Almonds"
+    },
+    "walnuts": {
+      "name": "Walnuts",
+      "description": "Walnuts"
+    },
+    "molokhia": {
+      "name": "Molokhia",
+      "description": "Dried molokhia"
+    },
+    "driedTomatoes": {
+      "name": "Dried Tomatoes",
+      "description": "Tomato, salt"
+    },
+    "raisins": {
+      "name": "Raisins",
+      "description": "Grape"
+    },
+    "driedFigs": {
+      "name": "Dried Figs",
+      "description": "Figs"
+    },
+    "familyBreakfastBundle": {
+      "name": "Family Breakfast Bundle",
+      "description": "Perfect breakfast collection with traditional Lebanese morning essentials."
+    },
+    "traditionTasteBundle": {
+      "name": "Tradition & Taste Bundle",
+      "description": "A comprehensive collection showcasing the best of Lebanese mouneh traditions."
+    },
+    "driedMouniBundle": {
+      "name": "Dried Mouni Bundle",
+      "description": "Complete dried pantry essentials in convenient 250g portions."
+    },
+    "pureHoney": {
+      "name": "Pure Honey",
+      "description": "Pure natural honey"
+    },
+    "strawberryJam": {
+      "name": "Strawberry Jam",
+      "description": "Traditional strawberry jam"
+    },
+    "pumpkinJam": {
+      "name": "Pumpkin Jam",
+      "description": "Traditional pumpkin jam"
+    },
+    "darkSyrup": {
+      "name": "Dark Syrup",
+      "description": "Traditional dark syrup"
+    },
+    "apricotJam": {
+      "name": "Apricot Jam",
+      "description": "Traditional apricot jam"
+    },
+    "driedHerbs": {
+      "name": "Dried Herbs",
+      "description": "Mixed dried herbs"
+    },
+    "dakkaKibbeh": {
+      "name": "Dakka Kibbeh",
+      "description": "Traditional Lebanese dakka kibbeh mix in jar"
+    },
+    "roseJam": {
+      "name": "Rose Jam",
+      "description": "Traditional rose jam"
+    },
+    "figJam": {
+      "name": "Fig Jam",
+      "description": "Traditional fig jam"
+    },
+    "appleVinegar": {
+      "name": "Apple Vinegar",
+      "description": "Natural apple vinegar"
+    },
+    "driedMolokhiaLeaves": {
+      "name": "Dried Molokhia Leaves",
+      "description": "Dried molokhia leaves"
+    },
+    "driedMint": {
+      "name": "Dried Mint",
+      "description": "Dried mint leaves"
+    },
+    "grapeMolasses": {
+      "name": "Grape Molasses",
+      "description": "Traditional grape molasses"
+    },
+    "lebaneseDakkaKibbeh": {
+      "name": "Lebanese Dakka Kibbeh",
+      "description": "Traditional Lebanese dakka kibbeh mix"
+    }
   }
 }

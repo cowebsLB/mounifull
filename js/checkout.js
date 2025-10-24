@@ -1,5 +1,6 @@
-import { getCart, setCart, getAddress, setAddress, formatPrice, validateEmail, validatePhone, validateRequired, showNotification, resolveAsset } from './common.js';
+import { getCart, setCart, getAddress, setAddress, formatPrice, validateEmail, validatePhone, validateRequired, showNotification, resolveAsset, calculateShippingFee, calculateTotalWithShipping, updateCartBadge } from './common.js';
 import { setupMobileMenu } from './mobile-menu.js';
+import { createOrder } from './supabase-client.js';
 
 class CheckoutManager {
     constructor() {
@@ -9,6 +10,14 @@ class CheckoutManager {
     }
 
     init() {
+        // Refresh cart data to ensure it's up to date
+        this.cart = getCart();
+        // Validate cart data
+        if (!Array.isArray(this.cart)) {
+            this.cart = [];
+            setCart([]);
+        }
+        
         this.renderCartSummary();
         this.setupFormValidation();
         this.loadSavedAddress();
@@ -16,90 +25,78 @@ class CheckoutManager {
     }
 
     renderCartSummary() {
-        const cartSummary = document.getElementById('cartSummary');
-        if (!cartSummary) return;
+        const cartSummary = document.getElementById('checkoutCartSummary');
+        const checkoutTotal = document.getElementById('checkoutTotal');
+        
+        if (!cartSummary) {
+            return;
+        }
 
-        if (this.cart.length === 0) {
+        // Check if cart is empty or invalid
+        if (!this.cart || !Array.isArray(this.cart) || this.cart.length === 0) {
             cartSummary.innerHTML = `
                 <div class="text-center py-8">
                     <i class="fas fa-shopping-cart text-4xl text-gray-300 mb-4"></i>
-                    <h3 class="text-lg text-gray-600 mb-2">Your cart is empty</h3>
-                    <p class="text-gray-500 mb-6">Add some products to get started!</p>
-                    <a href="products.html" class="bg-[#556b2f] text-white px-6 py-3 rounded-lg hover:bg-[#4a5a2a] transition-colors">
+                    <h3 class="text-lg text-gray-600 mb-2" data-i18n="cart.emptyTitle">Your cart is empty</h3>
+                    <p class="text-gray-500 mb-6" data-i18n="cart.emptyMessage">Add some products to get started!</p>
+                    <a href="products.html" class="bg-[#556b2f] text-white px-6 py-3 rounded-lg hover:bg-[#4a5a2a] transition-colors" data-i18n="cart.browseProducts">
                         <i class="fas fa-shopping-bag mr-2"></i>Browse Products
                     </a>
                 </div>
             `;
+            if (checkoutTotal) checkoutTotal.textContent = '$0.00';
             return;
         }
 
         let total = 0;
         const cartItems = this.cart.map(item => {
-            const itemTotal = item.price * item.quantity;
+            // Ensure all required properties exist
+            const itemName = item.name || 'Unknown Product';
+            const itemPrice = item.price || 0;
+            const itemQuantity = item.quantity || 1;
+            const itemImage = item.image || 'assets/logos/logo-removebg-preview.png';
+            
+            const itemTotal = itemPrice * itemQuantity;
             total += itemTotal;
             
             return `
-                <div class="flex items-center space-x-4 py-4 border-b border-gray-100 last:border-b-0">
-                    <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <img src="${resolveAsset(item.image)}" alt="${item.name}" class="max-w-full max-h-full object-contain">
+                <div class="flex items-center space-x-4 py-3 border-b border-gray-100 last:border-b-0">
+                    <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <img src="${resolveAsset(itemImage)}" alt="${itemName}" class="max-w-full max-h-full object-contain">
                     </div>
                     <div class="flex-1 min-w-0">
-                        <h4 class="font-medium text-gray-900 truncate">${item.name}</h4>
-                        <p class="text-sm text-gray-500">$${item.price.toFixed(2)} each</p>
-                        <p class="text-sm text-gray-600">Quantity: ${item.quantity}</p>
+                        <h4 class="font-medium text-gray-900 truncate text-sm">${itemName}</h4>
+                        <p class="text-xs text-gray-500">${formatPrice(itemPrice)} × ${itemQuantity}</p>
                     </div>
                     <div class="text-right flex-shrink-0">
-                        <p class="font-semibold text-[#c96a3d]">$${itemTotal.toFixed(2)}</p>
+                        <p class="font-semibold text-terracotta text-sm">${formatPrice(itemTotal)}</p>
                     </div>
                 </div>
             `;
         }).join('');
 
-        const shipping = total > 50 ? 0 : 9.99;
-        const finalTotal = total + shipping;
+        const shipping = calculateShippingFee(total);
+        const finalTotal = calculateTotalWithShipping(total);
 
         cartSummary.innerHTML = `
-            <div class="bg-white rounded-xl shadow-lg p-6">
-                <h3 class="font-cormorant text-2xl text-[#556b2f] mb-6">Order Summary</h3>
-                
-                <div class="space-y-4">
-                    ${cartItems}
+            <div class="space-y-2">
+                ${cartItems}
+            </div>
+            <div class="border-t pt-3 mt-3 space-y-2">
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600" data-i18n="cart.subtotal">Subtotal:</span>
+                    <span class="font-medium">${formatPrice(total)}</span>
                 </div>
-                
-                <div class="border-t border-gray-200 pt-4 mt-6 space-y-3">
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Subtotal:</span>
-                        <span class="font-medium">${formatPrice(total)}</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Shipping:</span>
-                        <span class="font-medium">${shipping === 0 ? 'Free' : formatPrice(shipping)}</span>
-                    </div>
-                    ${shipping > 0 ? `
-                        <div class="text-sm text-green-600 bg-green-50 p-2 rounded">
-                            <i class="fas fa-truck mr-1"></i>Add $${(50 - total).toFixed(2)} more for free shipping!
-                        </div>
-                    ` : `
-                        <div class="text-sm text-green-600 bg-green-50 p-2 rounded">
-                            <i class="fas fa-check mr-1"></i>You qualify for free shipping!
-                        </div>
-                    `}
-                    <div class="flex justify-between text-lg font-bold border-t border-gray-200 pt-3">
-                        <span>Total:</span>
-                        <span class="text-[#c96a3d]">${formatPrice(finalTotal)}</span>
-                    </div>
-                </div>
-                
-                <div class="mt-6 space-y-3">
-                    <button id="sendWhatsAppOrder" class="w-full bg-green-500 text-white py-3 rounded-lg font-medium hover:bg-green-600 transition-colors">
-                        <i class="fab fa-whatsapp mr-2"></i>Send Order via WhatsApp
-                    </button>
-                    <button id="saveForLater" class="w-full bg-gray-100 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors">
-                        <i class="fas fa-save mr-2"></i>Save Order for Later
-                    </button>
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600" data-i18n="cart.delivery">Delivery:</span>
+                    <span class="font-medium">${shipping === 0 ? 'Free' : formatPrice(shipping)}</span>
                 </div>
             </div>
         `;
+        
+        if (checkoutTotal) {
+            checkoutTotal.textContent = formatPrice(finalTotal);
+        }
     }
 
     setupFormValidation() {
@@ -209,6 +206,12 @@ class CheckoutManager {
             });
         }
 
+        // Listen for cart changes from other pages
+        document.addEventListener('cartUpdated', () => {
+            this.cart = getCart();
+            this.renderCartSummary();
+        });
+
         // Save for later button
         const saveBtn = document.getElementById('saveForLater');
         if (saveBtn) {
@@ -250,15 +253,8 @@ class CheckoutManager {
             setAddress(addressData);
         }
 
-        // Show success message
-        showNotification('Order information saved successfully!', 'success');
-        
-        // In a real application, you would proceed to payment processing here
-        console.log('Order data:', {
-            address: addressData,
-            cart: this.cart,
-            total: this.calculateTotal()
-        });
+        // Send order via WhatsApp
+        this.sendWhatsAppOrder();
     }
 
     saveAddressToStorage() {
@@ -266,7 +262,7 @@ class CheckoutManager {
         if (!form) return;
 
         const addressData = {};
-        const fields = ['fullName', 'address', 'phone', 'whatsapp', 'email', 'locationTag'];
+        const fields = ['fullName', 'address', 'phone', 'whatsapp', 'email'];
         
         fields.forEach(fieldName => {
             const field = document.getElementById(fieldName);
@@ -292,39 +288,157 @@ class CheckoutManager {
 
     calculateTotal() {
         const subtotal = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const shipping = subtotal > 50 ? 0 : 9.99;
-        return subtotal + shipping;
+        return calculateTotalWithShipping(subtotal);
     }
 
-    sendWhatsAppOrder() {
+    async sendWhatsAppOrder() {
         if (this.cart.length === 0) {
             showNotification('Your cart is empty!', 'warning');
             return;
         }
 
         const form = document.getElementById('checkoutForm');
+        if (!form) {
+            console.error('Checkout form not found!');
+            showNotification('Checkout form not found!', 'error');
+            return;
+        }
+
         const formData = new FormData(form);
         
-        let message = '🛒 *New Order from Mounifull Website*\n\n';
-        message += '*Customer Information:*\n';
-        message += `Name: ${formData.get('fullName') || 'Not provided'}\n`;
-        message += `Phone: ${formData.get('phone') || 'Not provided'}\n`;
-        message += `Address: ${formData.get('address') || 'Not provided'}\n\n`;
+        // Create a formatted message for WhatsApp
+        let message = '🛒 *NEW ORDER FROM MOUNIFULL WEBSITE*\n\n';
         
-        message += '*Order Items:*\n';
+        // Customer info section
+        message += '👤 *CUSTOMER DETAILS:*\n';
+        message += `📝 Name: ${formData.get('fullName') || 'Not provided'}\n`;
+        message += `📞 Phone: ${formData.get('phone') || 'Not provided'}\n`;
+        message += `📍 Address: ${formData.get('address') || 'Not provided'}\n\n`;
+        
+        // Order items section
+        message += '🛍️ *ORDER ITEMS:*\n';
+        let subtotal = 0;
         this.cart.forEach((item, index) => {
-            message += `${index + 1}. ${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}\n`;
+            const itemTotal = item.price * item.quantity;
+            subtotal += itemTotal;
+            message += `${index + 1}. ${item.name} x${item.quantity} = $${itemTotal.toFixed(2)}\n`;
         });
         
-        message += `\n*Total: $${this.calculateTotal().toFixed(2)}*\n\n`;
-        message += 'Please confirm this order. Thank you! 🙏';
+        const shipping = calculateShippingFee(subtotal);
+        const total = calculateTotalWithShipping(subtotal);
+        
+        // Order summary section
+        message += '\n💰 *ORDER SUMMARY:*\n';
+        message += `Subtotal: $${subtotal.toFixed(2)}\n`;
+        message += `Delivery: ${shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}\n`;
+        message += `*TOTAL: $${total.toFixed(2)}*\n\n`;
+        message += '✅ Please confirm this order. Thank you!';
 
-        const whatsappNumber = '81796383';
+        const whatsappNumber = '96181796383';
+        
+        // Ensure proper URL encoding for WhatsApp
         const encodedMessage = encodeURIComponent(message);
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
         
-        window.open(whatsappUrl, '_blank');
+        // Check if URL is too long for WhatsApp (limit is around 2000 characters)
+        if (whatsappUrl.length > 2000) {
+            // Truncate message if too long
+            const maxMessageLength = 1500; // Leave room for URL structure
+            const truncatedMessage = message.substring(0, maxMessageLength) + '\n\n... (message truncated)';
+            const truncatedEncoded = encodeURIComponent(truncatedMessage);
+            const truncatedUrl = `https://wa.me/${whatsappNumber}?text=${truncatedEncoded}`;
+            
+            try {
+                window.open(truncatedUrl, '_blank');
+            } catch (error) {
+                console.error('Error opening WhatsApp:', error);
+                showNotification('Error opening WhatsApp. Please try again.', 'error');
+                return;
+            }
+        } else {
+            try {
+                // Open WhatsApp with the formatted message
+                window.open(whatsappUrl, '_blank');
+            } catch (error) {
+                console.error('Error opening WhatsApp:', error);
+                showNotification('Error opening WhatsApp. Please try again.', 'error');
+                return;
+            }
+        }
+        
+        // Save order to Supabase
+        await this.saveOrderToSupabase(formData, subtotal, shipping, total);
+        
+        // Clear the cart after successful order
+        this.cart = [];
+        setCart([]);
+        updateCartBadge();
+        
+        // Dispatch cart updated event for other components
+        document.dispatchEvent(new CustomEvent('cartUpdated'));
+        
+        // Refresh the cart summary to show empty state
+        this.renderCartSummary();
+        
+        // Show success notification
+        showNotification('Order sent to WhatsApp! We will contact you soon.', 'success');
     }
+
+    async saveOrderToSupabase(formData, subtotal, shipping, total) {
+        try {
+            // Prepare order items
+            const orderItems = this.cart.map(item => ({
+                product_id: item.id,
+                product_name: item.name,
+                quantity: item.quantity,
+                price: item.price
+            }));
+
+            // Prepare order data
+            const orderData = {
+                customer_name: formData.get('fullName') || 'Not provided',
+                customer_phone: formData.get('phone') || 'Not provided',
+                customer_address: formData.get('address') || 'Not provided',
+                order_items: orderItems,
+                subtotal: subtotal,
+                shipping_fee: shipping,
+                total: total,
+                status: 'pending',
+                order_date: new Date().toISOString(),
+                created_at: new Date().toISOString()
+            };
+
+            // Save to Supabase using the new client
+            await createOrder(orderData);
+            console.log('✅ Order saved to Supabase successfully');
+            
+        } catch (error) {
+            console.error('❌ Error saving order to Supabase:', error);
+            // Don't throw error - order should still proceed even if database save fails
+        }
+    }
+}
+
+function setupBackToTop() {
+    const backToTopBtn = document.getElementById('backToTop');
+    if (!backToTopBtn) return;
+    
+    // Show/hide button based on scroll position
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            backToTopBtn.classList.add('visible');
+        } else {
+            backToTopBtn.classList.remove('visible');
+        }
+    });
+    
+    // Smooth scroll to top when clicked
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
 }
 
 // Initialize checkout manager when DOM is loaded
@@ -348,85 +462,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     requestAnimationFrame(raf);
 
-    new CheckoutManager();
+    // Small delay to ensure all modules are loaded
+    setTimeout(() => {
+        new CheckoutManager();
+    }, 100);
     setupMobileMenu();
     setupBackToTop();
 });
-
-// Mobile menu functionality
-function setupMobileMenu() {
-  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const closeMobileMenu = document.getElementById('closeMobileMenu');
-  const mobileMenuPanel = document.getElementById('mobileMenuPanel');
-  
-  if (!mobileMenuBtn || !mobileMenu || !closeMobileMenu || !mobileMenuPanel) return;
-  
-  // Open mobile menu
-  mobileMenuBtn.addEventListener('click', () => {
-    mobileMenu.classList.remove('hidden');
-    // Prevent background scrolling
-    document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.width = '100%';
-    
-    setTimeout(() => {
-      mobileMenuPanel.classList.remove('-translate-x-full');
-    }, 50); // Increased delay for slower animation
-  });
-  
-  // Close mobile menu
-  const closeMenu = () => {
-    mobileMenuPanel.classList.add('-translate-x-full');
-    setTimeout(() => {
-      mobileMenu.classList.add('hidden');
-      // Restore background scrolling
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-    }, 500); // Increased delay for slower animation
-  };
-  
-  closeMobileMenu.addEventListener('click', closeMenu);
-  
-  // Close on backdrop click
-  mobileMenu.addEventListener('click', (e) => {
-    if (e.target === mobileMenu) {
-      closeMenu();
-    }
-  });
-  
-  // Close on navigation link click
-  mobileMenu.querySelectorAll('nav a').forEach(link => {
-    link.addEventListener('click', closeMenu);
-  });
-  
-  // Close on escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
-      closeMenu();
-    }
-  });
-}
-
-function setupBackToTop() {
-  const backToTopBtn = document.getElementById('backToTop');
-  if (!backToTopBtn) return;
-  
-  // Show/hide button based on scroll position
-  window.addEventListener('scroll', () => {
-    if (window.pageYOffset > 300) {
-      backToTopBtn.classList.add('visible');
-    } else {
-      backToTopBtn.classList.remove('visible');
-    }
-  });
-  
-  // Smooth scroll to top when clicked
-  backToTopBtn.addEventListener('click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
-}
