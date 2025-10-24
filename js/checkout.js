@@ -334,7 +334,7 @@ class CheckoutManager {
         message += `*TOTAL: $${total.toFixed(2)}*\n\n`;
         message += '✅ Please confirm this order. Thank you!';
 
-        const whatsappNumber = '96181796383';
+        const whatsappNumber = '9613771326';
         
         // Ensure proper URL encoding for WhatsApp
         const encodedMessage = encodeURIComponent(message);
