@@ -509,13 +509,41 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         const productId = getId();
+        const groupKey = new URLSearchParams(location.search).get('group');
+        
         if (isNaN(productId)) {
             document.getElementById('content').innerHTML = '<p class="text-center text-red-500">Product not found</p>';
             return;
         }
 
         const products = await fetchProducts();
-        const product = products.find(p => p.id === productId);
+        let product = products.find(p => p.id === productId);
+        
+        // If we have a group parameter and the found product doesn't match the group,
+        // try to find a product from the correct group instead
+        if (groupKey && product) {
+            const weightRegex = /(\s|^)(200g|250g|250ml|330g|500g|500ml|1000g)\s*$/i;
+            const productBaseName = (product.nameEn || product.name || '').replace(weightRegex, '').trim().toLowerCase();
+            const requestedGroup = groupKey.toLowerCase();
+            
+            // Check if the found product matches the requested group
+            if (productBaseName !== requestedGroup) {
+                console.log(`🔍 Product ID ${productId} (${productBaseName}) doesn't match requested group (${requestedGroup}), searching for correct product...`);
+                
+                // Find a product that matches the requested group
+                const groupProduct = products.find(p => {
+                    const baseName = (p.nameEn || p.name || '').replace(weightRegex, '').trim().toLowerCase();
+                    return baseName === requestedGroup;
+                });
+                
+                if (groupProduct) {
+                    console.log(`✅ Found matching product for group "${requestedGroup}": ID ${groupProduct.id} (${groupProduct.nameEn || groupProduct.name})`);
+                    product = groupProduct;
+                } else {
+                    console.log(`⚠️ No product found for group "${requestedGroup}", using original product ID ${productId}`);
+                }
+            }
+        }
         
         if (!product) {
             document.getElementById('content').innerHTML = '<p class="text-center text-red-500">Product not found</p>';
@@ -523,7 +551,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // Build group variants from products that share the same base name (ignoring trailing weight tokens)
-        const groupKey = new URLSearchParams(location.search).get('group');
         const weightRegex = /(\s|^)(200g|250g|250ml|330g|500g|500ml|1000g)\s*$/i;
         const baseEn = (product.nameEn || product.name || '').replace(weightRegex, '').trim();
         const baseAr = (product.nameAr || '').replace(weightRegex, '').trim();
@@ -534,6 +561,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           return bEn === derivedGroupKey || (baseAr && bAr === baseAr.toLowerCase());
         });
 
+        console.log(`🔍 Displaying product: ID ${product.id}, Name: "${product.nameEn || product.name}", Group: "${derivedGroupKey}", Variants: ${groupVariants.length}`);
         document.getElementById('content').innerHTML = createProductTemplate(product, groupVariants);
         // Basic dynamic SEO for product page
         try {
