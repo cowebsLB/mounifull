@@ -651,7 +651,19 @@ class DashboardController {
 
     populateProductForm(product) {
         // Debug: Log the product data being used to populate the form
-        console.log('🔍 Populating form with product data:', product);
+        console.log('🔍 Populating form with product data:', {
+            id: product.id,
+            nameEn: product.nameEn,
+            nameAr: product.nameAr,
+            description: product.description,
+            descriptionAr: product.descriptionAr,
+            price: product.price,
+            weight: product.weight,
+            category: product.category,
+            packaging: product.packaging,
+            rating: product.rating,
+            inStock: product.inStock
+        });
         
         // Populate form fields with correct property names
         document.getElementById('productNameEn').value = product.nameEn || product.name || '';
