@@ -44,7 +44,10 @@ function transformProductFromSupabase(supabaseProduct) {
         category: supabaseProduct.category || '',
         rating: Number(supabaseProduct.rating) || 4.5,
         inStock: inStock,
-        packaging: supabaseProduct.packaging || 'jar'
+        packaging: supabaseProduct.packaging || 'jar',
+        baseName: supabaseProduct.base_name || '',
+        baseNameAr: supabaseProduct.base_name_ar || '',
+        variantGroup: supabaseProduct.variant_group || ''
     };
     
     // Debug: Log transformed data for Arabic fields
@@ -76,8 +79,11 @@ function transformProductToSupabase(product) {
         rating: Number(product.rating) || 4.5,
         in_stock: Boolean(product.in_stock || product.inStock),
         packaging: product.packaging || 'jar',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        base_name: product.base_name || '',
+        base_name_ar: product.base_name_ar || '',
+        variant_group: product.variant_group || '',
+        created_at: product.created_at || new Date().toISOString(),
+        updated_at: product.updated_at || new Date().toISOString()
     };
 }
 

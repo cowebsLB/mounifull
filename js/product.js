@@ -550,18 +550,35 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        // Build group variants from products that share the same base name (ignoring trailing weight tokens)
+        // Build group variants from products that share the same base name or variant group
         const weightRegex = /(\s|^)(200g|250g|250ml|330g|500g|500ml|1000g)\s*$/i;
-        const baseEn = (product.nameEn || product.name || '').replace(weightRegex, '').trim();
-        const baseAr = (product.nameAr || '').replace(weightRegex, '').trim();
-        const derivedGroupKey = (groupKey || baseEn || product.name).toLowerCase();
-        const groupVariants = products.filter(p => {
-          const bEn = (p.nameEn || p.name || '').replace(weightRegex, '').trim().toLowerCase();
-          const bAr = (p.nameAr || '').replace(weightRegex, '').trim().toLowerCase();
-          return bEn === derivedGroupKey || (baseAr && bAr === baseAr.toLowerCase());
-        });
-
-        console.log(`🔍 Displaying product: ID ${product.id}, Name: "${product.nameEn || product.name}", Group: "${derivedGroupKey}", Variants: ${groupVariants.length}`);
+        
+        let groupVariants = [];
+        
+        // First try to find variants by variant_group
+        if (product.variantGroup) {
+            groupVariants = products.filter(p => p.variantGroup === product.variantGroup);
+        }
+        
+        // If no variant group found, try base name matching
+        if (groupVariants.length === 0 && product.baseName) {
+            groupVariants = products.filter(p => p.baseName === product.baseName);
+        }
+        
+        // Fallback to old method if no base name
+        if (groupVariants.length === 0) {
+            const baseEn = (product.nameEn || product.name || '').replace(weightRegex, '').trim();
+            const baseAr = (product.nameAr || '').replace(weightRegex, '').trim();
+            const derivedGroupKey = (groupKey || baseEn || product.name).toLowerCase();
+            groupVariants = products.filter(p => {
+              const bEn = (p.nameEn || p.name || '').replace(weightRegex, '').trim().toLowerCase();
+              const bAr = (p.nameAr || '').replace(weightRegex, '').trim().toLowerCase();
+              return bEn === derivedGroupKey || (baseAr && bAr === baseAr.toLowerCase());
+            });
+        }
+        
+        console.log(`🔍 Found ${groupVariants.length} variants for product ID ${product.id}`);
+        console.log(`🔍 Displaying product: ID ${product.id}, Name: "${product.nameEn || product.name}", Variants: ${groupVariants.length}`);
         document.getElementById('content').innerHTML = createProductTemplate(product, groupVariants);
         // Basic dynamic SEO for product page
         try {

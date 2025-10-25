@@ -879,29 +879,41 @@ class DashboardController {
                 category: category || '',
                 rating: parseFloat(rating) || 4.5,
                 in_stock: inStock,
-                variants: variants, // Store all variants for reference
+                base_name: nameEn || '', // Store base name for grouping
+                base_name_ar: nameAr || '', // Store Arabic base name
+                variant_group: `${nameEn || ''}_${Date.now()}`, // Unique group identifier
                 date_added: new Date().toISOString(),
                 created_at: new Date().toISOString(),
                 updated_at: new Date().toISOString()
             }));
 
-            // For now, create/update the first variant as the main product
-            const productData = productsToCreate[0];
+            // Debug: Log all products being created
+            console.log('🔍 Creating products for variants:', JSON.stringify(productsToCreate, null, 2));
             
-            // Debug: Log the product data being sent to Supabase
-            console.log('🔍 Product data being sent to Supabase:', JSON.stringify(productData, null, 2));
-            
-            
-            if (imageUrl) {
-                productData.image_url = imageUrl;
-            }
+            // Add image URL to all products
+            productsToCreate.forEach(product => {
+                if (imageUrl) {
+                    product.image_url = imageUrl;
+                }
+            });
             
             if (this.currentProductId) {
-                await updateProduct(this.currentProductId, productData);
-                this.showNotification('Product updated successfully', 'success');
+                // For editing, update the first product and create new ones for additional variants
+                await updateProduct(this.currentProductId, productsToCreate[0]);
+                
+                // Create additional variants if there are more than one
+                for (let i = 1; i < productsToCreate.length; i++) {
+                    await createProduct(productsToCreate[i]);
+                }
+                
+                this.showNotification(`Product updated with ${productsToCreate.length} variants`, 'success');
             } else {
-                await createProduct(productData);
-                this.showNotification('Product created successfully', 'success');
+                // Create all variants as new products
+                for (const productData of productsToCreate) {
+                    await createProduct(productData);
+                }
+                
+                this.showNotification(`Product created with ${productsToCreate.length} variants`, 'success');
             }
             
             this.closeProductModal();
