@@ -651,19 +651,7 @@ class DashboardController {
 
     populateProductForm(product) {
         // Debug: Log the product data being used to populate the form
-        console.log('🔍 Populating form with product data:', {
-            id: product.id,
-            nameEn: product.nameEn,
-            nameAr: product.nameAr,
-            description: product.description,
-            descriptionAr: product.descriptionAr,
-            price: product.price,
-            weight: product.weight,
-            category: product.category,
-            packaging: product.packaging,
-            rating: product.rating,
-            inStock: product.inStock
-        });
+        console.log('🔍 Populating form with product data:', JSON.stringify(product, null, 2));
         
         // Populate form fields with correct property names
         document.getElementById('productNameEn').value = product.nameEn || product.name || '';
@@ -678,7 +666,7 @@ class DashboardController {
         document.getElementById('productInStock').checked = product.inStock !== false;
         
         // Debug: Log the populated values
-        console.log('🔍 Form populated with values:', {
+        const populatedValues = {
             nameEn: document.getElementById('productNameEn').value,
             nameAr: document.getElementById('productNameAr').value,
             descEn: document.getElementById('productDescEn').value,
@@ -689,7 +677,8 @@ class DashboardController {
             category: document.getElementById('productCategory').value,
             rating: document.getElementById('productRating').value,
             inStock: document.getElementById('productInStock').checked
-        });
+        };
+        console.log('🔍 Form populated with values:', JSON.stringify(populatedValues, null, 2));
     }
 
     previewImage(file) {
@@ -721,7 +710,7 @@ class DashboardController {
         const rating = document.getElementById('productRating').value;
         
         // Debug: Log all captured form values
-        console.log('🔍 Captured form values:', {
+        const capturedValues = {
             nameEn: nameEn,
             nameAr: nameAr,
             descEn: descEn,
@@ -732,7 +721,8 @@ class DashboardController {
             packaging: packaging,
             rating: rating,
             inStock: inStock
-        });
+        };
+        console.log('🔍 Captured form values:', JSON.stringify(capturedValues, null, 2));
         
         const formData = new FormData(document.getElementById('productForm'));
         const imageFile = document.getElementById('productImage').files[0];
@@ -770,7 +760,7 @@ class DashboardController {
             };
             
             // Debug: Log the product data being sent to Supabase
-            console.log('🔍 Product data being sent to Supabase:', productData);
+            console.log('🔍 Product data being sent to Supabase:', JSON.stringify(productData, null, 2));
             
             
             if (imageUrl) {

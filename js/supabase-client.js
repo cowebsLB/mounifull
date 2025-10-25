@@ -20,13 +20,14 @@ function transformProductFromSupabase(supabaseProduct) {
     // If undefined/null, keep default true
     
     // Debug: Log raw Supabase data for Arabic fields
-    if (supabaseProduct.id >= 60) { // Only log for newer products
-        console.log(`🔍 Raw Supabase data for product ID ${supabaseProduct.id}:`, {
+    if (supabaseProduct.id >= 25) { // Log for products we're testing
+        const rawData = {
             name_ar: supabaseProduct.name_ar,
             description_ar: supabaseProduct.description_ar,
             name_en: supabaseProduct.name_en,
             description: supabaseProduct.description
-        });
+        };
+        console.log(`🔍 Raw Supabase data for product ID ${supabaseProduct.id}:`, JSON.stringify(rawData, null, 2));
     }
     
     const transformedProduct = {
@@ -47,13 +48,14 @@ function transformProductFromSupabase(supabaseProduct) {
     };
     
     // Debug: Log transformed data for Arabic fields
-    if (supabaseProduct.id >= 60) {
-        console.log(`🔍 Transformed data for product ID ${supabaseProduct.id}:`, {
+    if (supabaseProduct.id >= 25) {
+        const transformedData = {
             nameAr: transformedProduct.nameAr,
             descriptionAr: transformedProduct.descriptionAr,
             nameEn: transformedProduct.nameEn,
             description: transformedProduct.description
-        });
+        };
+        console.log(`🔍 Transformed data for product ID ${supabaseProduct.id}:`, JSON.stringify(transformedData, null, 2));
     }
     
     return transformedProduct;
