@@ -98,6 +98,18 @@ class DashboardController {
             this.previewImage(e.target.files[0]);
         });
 
+        // Variants management
+        document.getElementById('addVariantBtn')?.addEventListener('click', () => {
+            this.addVariant();
+        });
+
+        // Handle remove variant buttons (delegated event listener)
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.remove-variant')) {
+                this.removeVariant(e.target.closest('.variant-item'));
+            }
+        });
+
         // Order management
         document.getElementById('closeOrderModal')?.addEventListener('click', () => {
             this.closeOrderModal();
@@ -633,6 +645,9 @@ class DashboardController {
             // Ensure checkbox is checked for new products
             document.getElementById('productInStock').checked = true;
             
+            // Reset variants to single empty variant
+            this.populateVariants([{ weight: '', price: 0 }]);
+            
             // Debug: Check checkbox state after reset and setting
             const checkboxAfter = document.getElementById('productInStock');
             console.log('🔍 Checkbox state after reset and setting:', {
@@ -658,12 +673,22 @@ class DashboardController {
         document.getElementById('productNameAr').value = product.nameAr || '';
         document.getElementById('productDescEn').value = product.description || '';
         document.getElementById('productDescAr').value = product.descriptionAr || '';
-        document.getElementById('productPrice').value = product.price || '';
-        document.getElementById('productWeight').value = product.weight || '';
         document.getElementById('productPackaging').value = product.packaging || 'jar';
         document.getElementById('productCategory').value = product.category || '';
         document.getElementById('productRating').value = product.rating || 4.5;
         document.getElementById('productInStock').checked = product.inStock !== false;
+        
+        // Handle variants - if product has variants, populate them, otherwise create from single weight/price
+        if (product.variants && product.variants.length > 0) {
+            this.populateVariants(product.variants);
+        } else {
+            // Create single variant from existing weight/price
+            const variants = [{
+                weight: product.weight || '',
+                price: product.price || 0
+            }];
+            this.populateVariants(variants);
+        }
         
         // Debug: Log the populated values
         const populatedValues = {
@@ -671,12 +696,11 @@ class DashboardController {
             nameAr: document.getElementById('productNameAr').value,
             descEn: document.getElementById('productDescEn').value,
             descAr: document.getElementById('productDescAr').value,
-            price: document.getElementById('productPrice').value,
-            weight: document.getElementById('productWeight').value,
             packaging: document.getElementById('productPackaging').value,
             category: document.getElementById('productCategory').value,
             rating: document.getElementById('productRating').value,
-            inStock: document.getElementById('productInStock').checked
+            inStock: document.getElementById('productInStock').checked,
+            variants: this.getVariants()
         };
         console.log('🔍 Form populated with values:', JSON.stringify(populatedValues, null, 2));
     }
@@ -694,6 +718,106 @@ class DashboardController {
         reader.readAsDataURL(file);
     }
 
+    addVariant() {
+        const container = document.getElementById('variantsContainer');
+        const variantCount = container.children.length + 1;
+        
+        const variantHTML = `
+            <div class="variant-item border border-gray-200 rounded-lg p-4 bg-gray-50">
+                <div class="flex items-center justify-between mb-3">
+                    <h4 class="font-medium text-gray-900">Variant ${variantCount}</h4>
+                    <button type="button" class="remove-variant text-red-600 hover:text-red-800">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Weight *</label>
+                        <input type="text" name="variantWeight" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#556b2f]" placeholder="e.g., 500g">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Price ($) *</label>
+                        <input type="number" name="variantPrice" step="0.01" min="0" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#556b2f]" placeholder="e.g., 8.50">
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        container.insertAdjacentHTML('beforeend', variantHTML);
+        this.updateVariantNumbers();
+    }
+
+    removeVariant(variantElement) {
+        const container = document.getElementById('variantsContainer');
+        if (container.children.length > 1) {
+            variantElement.remove();
+            this.updateVariantNumbers();
+        }
+    }
+
+    updateVariantNumbers() {
+        const variants = document.querySelectorAll('.variant-item');
+        variants.forEach((variant, index) => {
+            const title = variant.querySelector('h4');
+            title.textContent = `Variant ${index + 1}`;
+            
+            // Show/hide remove button based on variant count
+            const removeBtn = variant.querySelector('.remove-variant');
+            removeBtn.style.display = variants.length > 1 ? 'block' : 'none';
+        });
+    }
+
+    getVariants() {
+        const variants = [];
+        const variantItems = document.querySelectorAll('.variant-item');
+        
+        variantItems.forEach(item => {
+            const weight = item.querySelector('input[name="variantWeight"]').value.trim();
+            const price = parseFloat(item.querySelector('input[name="variantPrice"]').value) || 0;
+            
+            if (weight && price > 0) {
+                variants.push({ weight, price });
+            }
+        });
+        
+        return variants;
+    }
+
+    populateVariants(variants) {
+        const container = document.getElementById('variantsContainer');
+        container.innerHTML = '';
+        
+        if (!variants || variants.length === 0) {
+            // Add default empty variant
+            this.addVariant();
+            return;
+        }
+        
+        variants.forEach((variant, index) => {
+            const variantHTML = `
+                <div class="variant-item border border-gray-200 rounded-lg p-4 bg-gray-50">
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="font-medium text-gray-900">Variant ${index + 1}</h4>
+                        <button type="button" class="remove-variant text-red-600 hover:text-red-800" ${variants.length === 1 ? 'style="display: none;"' : ''}>
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Weight *</label>
+                            <input type="text" name="variantWeight" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#556b2f]" value="${variant.weight || ''}" placeholder="e.g., 250g">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Price ($) *</label>
+                            <input type="number" name="variantPrice" step="0.01" min="0" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#556b2f]" value="${variant.price || ''}" placeholder="e.g., 5.00">
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', variantHTML);
+        });
+    }
+
     async saveProduct() {
         // Capture checkbox value IMMEDIATELY before any other operations
         const inStock = document.getElementById('productInStock').checked;
@@ -703,11 +827,12 @@ class DashboardController {
         const nameAr = document.getElementById('productNameAr').value;
         const descEn = document.getElementById('productDescEn').value;
         const descAr = document.getElementById('productDescAr').value;
-        const price = document.getElementById('productPrice').value;
-        const weight = document.getElementById('productWeight').value;
         const category = document.getElementById('productCategory').value;
         const packaging = document.getElementById('productPackaging').value;
         const rating = document.getElementById('productRating').value;
+        
+        // Get variants
+        const variants = this.getVariants();
         
         // Debug: Log all captured form values
         const capturedValues = {
@@ -715,12 +840,11 @@ class DashboardController {
             nameAr: nameAr,
             descEn: descEn,
             descAr: descAr,
-            price: price,
-            weight: weight,
             category: category,
             packaging: packaging,
             rating: rating,
-            inStock: inStock
+            inStock: inStock,
+            variants: variants
         };
         console.log('🔍 Captured form values:', JSON.stringify(capturedValues, null, 2));
         
@@ -742,22 +866,27 @@ class DashboardController {
                 }
             }
             
-            const productData = {
-                name: nameEn || '',
-                name_en: nameEn || '',
-                name_ar: nameAr || '',
+            // Create products for each variant
+            const productsToCreate = variants.map((variant, index) => ({
+                name: `${nameEn || ''} ${variant.weight}`.trim(),
+                name_en: `${nameEn || ''} ${variant.weight}`.trim(),
+                name_ar: nameAr ? `${nameAr} ${variant.weight}`.trim() : '',
                 description: descEn || '',
                 description_ar: descAr || '',
-                price: parseFloat(price) || 0,
-                weight: weight || '',
+                price: variant.price,
+                weight: variant.weight,
                 packaging: packaging || 'jar',
                 category: category || '',
                 rating: parseFloat(rating) || 4.5,
-                in_stock: inStock, // Use the captured value
+                in_stock: inStock,
+                variants: variants, // Store all variants for reference
                 date_added: new Date().toISOString(),
                 created_at: new Date().toISOString(),
                 updated_at: new Date().toISOString()
-            };
+            }));
+
+            // For now, create/update the first variant as the main product
+            const productData = productsToCreate[0];
             
             // Debug: Log the product data being sent to Supabase
             console.log('🔍 Product data being sent to Supabase:', JSON.stringify(productData, null, 2));
