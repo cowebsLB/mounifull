@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Mounifull</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="icon" href="../favicon.ico">
+</head>
+<body class="bg-gray-100">
+    <!-- Mobile Menu Button -->
+    <button id="mobileMenuBtn" class="md:hidden fixed top-4 left-4 z-50 bg-[#556b2f] text-white p-2 rounded-lg">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay" class="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-[#556b2f] text-white transform -translate-x-full transition-transform duration-300 ease-in-out md:translate-x-0">
+        <div class="flex items-center justify-center h-16 px-4 bg-[#4a5a2a]">
+            <h1 class="text-xl font-bold">Admin Dashboard</h1>
+        </div>
+        
+        <nav class="mt-8">
+            <div class="px-4 space-y-2">
+                <a href="#" class="nav-item flex items-center px-4 py-2 text-gray-300 hover:bg-[#4a5a2a] rounded-lg transition-colors" data-section="dashboard">
+                    <i class="fas fa-tachometer-alt mr-3"></i>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item flex items-center px-4 py-2 text-gray-300 hover:bg-[#4a5a2a] rounded-lg transition-colors" data-section="products">
+                    <i class="fas fa-box mr-3"></i>
+                    Products
+                </a>
+                <a href="#" class="nav-item flex items-center px-4 py-2 text-gray-300 hover:bg-[#4a5a2a] rounded-lg transition-colors" data-section="orders">
+                    <i class="fas fa-shopping-cart mr-3"></i>
+                    Orders
+                </a>
+                <a href="#" class="nav-item flex items-center px-4 py-2 text-gray-300 hover:bg-[#4a5a2a] rounded-lg transition-colors" data-section="settings">
+                    <i class="fas fa-cog mr-3"></i>
+                    Settings
+                </a>
+            </div>
+        </nav>
+
+        <!-- Database Status -->
+        <div class="absolute bottom-4 left-4 right-4">
+            <div id="dbStatus" class="bg-[#4a5a2a] rounded-lg p-3">
+                <p class="text-sm text-gray-300">Database Status</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="md:ml-64 min-h-screen">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b border-gray-200">
+            <div class="px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 id="pageTitle" class="text-2xl font-bold text-gray-900">Dashboard</h1>
+                        <p id="pageSubtitle" class="text-gray-600">Welcome to Mounifull Admin Dashboard</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span id="currentTime" class="text-sm text-gray-500"></span>
+                        <div class="w-8 h-8 bg-[#556b2f] rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-white text-sm"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="fixed top-0 left-0 w-full h-1 bg-[#556b2f] z-50 hidden">
+            <div class="h-full bg-gradient-to-r from-[#556b2f] to-[#4a5a2a] animate-pulse"></div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboardSection" class="content-section p-6">
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center">
+                        <div class="p-2 bg-blue-100 rounded-lg">
+                            <i class="fas fa-box text-blue-600"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Total Products</p>
+                            <p id="totalProducts" class="text-2xl font-bold text-gray-900">0</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center">
+                        <div class="p-2 bg-green-100 rounded-lg">
+                            <i class="fas fa-shopping-cart text-green-600"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Active Orders</p>
+                            <p id="activeOrders" class="text-2xl font-bold text-gray-900">0</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center">
+                        <div class="p-2 bg-yellow-100 rounded-lg">
+                            <i class="fas fa-dollar-sign text-yellow-600"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Total Revenue</p>
+                            <p id="totalRevenue" class="text-2xl font-bold text-gray-900">$0.00</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center">
+                        <div class="p-2 bg-purple-100 rounded-lg">
+                            <i class="fas fa-chart-line text-purple-600"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Monthly Revenue</p>
+                            <p id="monthlyRevenue" class="text-2xl font-bold text-gray-900">$0.00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Sales Overview</h3>
+                    <div class="h-64">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Order Status</h3>
+                    <div class="h-64">
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Orders and Low Stock -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Orders</h3>
+                    <div id="recentOrdersList" class="space-y-3">
+                        <!-- Recent orders will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Low Stock Products</h3>
+                    <div id="lowStockList" class="space-y-3">
+                        <!-- Low stock products will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Section -->
+        <div id="productsSection" class="content-section hidden p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">Products Management</h2>
+                <button id="addProductBtn" class="bg-[#556b2f] text-white px-4 py-2 rounded-lg hover:bg-[#4a5a2a] transition-colors">
+                    <i class="fas fa-plus mr-2"></i>Add Product
+                </button>
+            </div>
+
+            <!-- Search and Filters -->
+            <div class="bg-white rounded-lg shadow p-6 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Search Products</label>
+                        <input type="text" id="productSearch" placeholder="Search by name..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#556b2f]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                        <select id="categoryFilter" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#556b2f]">
+                            <option value="">All Categories</option>
+                            <option value="main-mouni">Main Mouni</option>
+                            <option value="sweet-mouni">Sweet Mouni</option>
+                            <option value="spices">Spices</option>
+                            <option value="oils">Oils</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Table -->
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTableBody" class="bg-white divide-y divide-gray-200">
+                        <!-- Products will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Orders Section -->
+        <div id="ordersSection" class="content-section hidden p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">Orders Management</h2>
+            </div>
+
+            <!-- Search and Filters -->
+            <div class="bg-white rounded-lg shadow p-6 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Search Orders</label>
+                        <input type="text" id="orderSearch" placeholder="Search by customer..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#556b2f]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                        <select id="orderStatusFilter" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#556b2f]">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody" class="bg-white divide-y divide-gray-200">
+                        <!-- Orders will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="settingsSection" class="content-section hidden p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">Settings</h2>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Data Migration</h3>
+                <p class="text-gray-600 mb-4">Migrate products from JSON to Supabase database.</p>
+                <button id="migrateProductsBtn" class="bg-[#556b2f] text-white px-4 py-2 rounded-lg hover:bg-[#4a5a2a] transition-colors">
+                    <i class="fas fa-database mr-2"></i>Migrate Products
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                    <h3 id="productModalTitle" class="text-lg font-semibold text-gray-900">Add Product</h3>
+                    <button id="closeProductModal" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <form id="productForm" class="p-6 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="productNameEn" class="block text-sm font-medium text-gray-700 mb-2">Product Name (EN) *</label>
+                            <input type="text" id="productNameEn" name="productNameEn" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#556b2f]">
+                        </div>
+                        <div>
+                            <label for="productNameAr" class="block text-sm font-medium text-gray-700 mb-2">Product Name (AR)</label>
+                            <input type="text" id="productNameAr" name="productNameAr" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#556b2f]">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="productDescEn" class="block text-sm font-medium text-gray-700 mb-2">Description (EN) *</label>
+                            <textarea id="productDescEn" name="productDescEn" required rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#556b2f]"></textarea>
+                        </div>
+                        <div>
+                            <label for="productDescAr" class="block text-sm font-medium text-gray-700 mb-2">Description (AR)</label>
+                            <textarea id="productDescAr" name="productDescAr" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#556b2f]"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="productPrice" class="block text-sm font-medium text-gray-700 mb-2">Price ($) *</label>
+                            <input type="number" id="productPrice" name="productPrice" step="0.01" min="0" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#556b2f]">
+                        </div>
+                        <div>
+                            <label for="productWeight" class="block text-sm font-medium text-gray-700 mb-2">Weight *</label>
+                            <input type="text" id="productWeight" name="productWeight" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#556b2f]">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="productPackaging" class="block text-sm font-medium text-gray-700 mb-2">Packaging *</label>
+                            <select id="productPackaging" name="productPackaging" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#556b2f]">
+                                <option value="jar">Jar</option>
+                                <option value="bag">Bag</option>
+                                <option value="bottle">Bottle</option>
+                                <option value="box">Box</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="productCategory" class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
+                            <select id="productCategory" name="productCategory" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#556b2f]">
+                                <option value="main-mouni">Main Mouni</option>
+                                <option value="sweet-mouni">Sweet Mouni</option>
+                                <option value="spices">Spices</option>
+                                <option value="oils">Oils</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="productRating" class="block text-sm font-medium text-gray-700 mb-2">Rating</label>
+                            <input type="number" id="productRating" name="productRating" step="0.1" min="0" max="5" value="4.5" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#556b2f]">
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="productInStock" name="productInStock" checked class="h-4 w-4 text-[#556b2f] focus:ring-[#556b2f] border-gray-300 rounded">
+                            <label for="productInStock" class="ml-2 block text-sm font-medium text-gray-700">In Stock</label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="productImage" class="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
+                        <input type="file" id="productImage" name="productImage" accept="image/*" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#556b2f]">
+                        <div id="imagePreview" class="mt-4 hidden">
+                            <img id="previewImg" class="h-32 w-32 object-cover rounded-lg" alt="Preview">
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200">
+                        <button type="button" id="cancelProductBtn" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors">Cancel</button>
+                        <button type="submit" id="productSubmitText" class="px-4 py-2 bg-[#556b2f] text-white rounded-lg hover:bg-[#4a5a2a] transition-colors">Add Product</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+                <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900">Order Details</h3>
+                    <button id="closeOrderModal" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="orderDetailsContent" class="p-6">
+                    <!-- Order details will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="fixed top-4 right-4 z-50 px-6 py-3 rounded-lg text-white font-medium transform transition-all duration-300 hidden">
+        <div class="flex items-center">
+            <i id="notificationIcon" class="fas fa-info-circle mr-2"></i>
+            <span id="notificationMessage"></span>
+        </div>
+    </div>
+
+    <script type="module" src="../js/dashboard.js"></script>
+</body>
+</html>
