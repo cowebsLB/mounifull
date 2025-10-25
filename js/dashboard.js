@@ -708,6 +708,20 @@ class DashboardController {
         const packaging = document.getElementById('productPackaging').value;
         const rating = document.getElementById('productRating').value;
         
+        // Debug: Log all captured form values
+        console.log('🔍 Captured form values:', {
+            nameEn: nameEn,
+            nameAr: nameAr,
+            descEn: descEn,
+            descAr: descAr,
+            price: price,
+            weight: weight,
+            category: category,
+            packaging: packaging,
+            rating: rating,
+            inStock: inStock
+        });
+        
         const formData = new FormData(document.getElementById('productForm'));
         const imageFile = document.getElementById('productImage').files[0];
         
@@ -742,6 +756,9 @@ class DashboardController {
                 created_at: new Date().toISOString(),
                 updated_at: new Date().toISOString()
             };
+            
+            // Debug: Log the product data being sent to Supabase
+            console.log('🔍 Product data being sent to Supabase:', productData);
             
             
             if (imageUrl) {

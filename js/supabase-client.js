@@ -19,6 +19,16 @@ function transformProductFromSupabase(supabaseProduct) {
     }
     // If undefined/null, keep default true
     
+    // Debug: Log raw Supabase data for Arabic fields
+    if (supabaseProduct.id >= 60) { // Only log for newer products
+        console.log(`🔍 Raw Supabase data for product ID ${supabaseProduct.id}:`, {
+            name_ar: supabaseProduct.name_ar,
+            description_ar: supabaseProduct.description_ar,
+            name_en: supabaseProduct.name_en,
+            description: supabaseProduct.description
+        });
+    }
+    
     const transformedProduct = {
         id: supabaseProduct.id,
         name: supabaseProduct.name_en || supabaseProduct.name || 'Unnamed Product',
@@ -35,6 +45,16 @@ function transformProductFromSupabase(supabaseProduct) {
         inStock: inStock,
         packaging: supabaseProduct.packaging || 'jar'
     };
+    
+    // Debug: Log transformed data for Arabic fields
+    if (supabaseProduct.id >= 60) {
+        console.log(`🔍 Transformed data for product ID ${supabaseProduct.id}:`, {
+            nameAr: transformedProduct.nameAr,
+            descriptionAr: transformedProduct.descriptionAr,
+            nameEn: transformedProduct.nameEn,
+            description: transformedProduct.description
+        });
+    }
     
     return transformedProduct;
 }
